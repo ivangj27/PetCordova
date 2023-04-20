@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <!--
+        Customize this policy to fit your own app's needs. For more guidance, please refer to the docs:
+            https://cordova.apache.org/docs/en/latest/
+        Some notes:
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+  <link rel="stylesheet" href="css/main.css">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="css/index.css">
+
+
+  <title>Mascotas App</title>
+</head>
+
+<body>
+  <!--Toast para algo correcto-->
+  <div id="correcto" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        Esto se inserta desde el js
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+        aria-label="Close"></button>
+    </div>
+  </div>
+  <!--Toast para algo fallido-->
+  <div id="fallido" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        Esto se inserta desde el js
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+        aria-label="Close"></button>
+    </div>
+  </div>
+
+  <section class="app text-center" id="contenido">
+    <div>
+      <div class="input-group mb-3">
+        <input type="text" id="email" class="form-control" placeholder="Usuario" aria-label="Username">
+      </div>
+      <div>
+        <input type="text" id="contrasena" class="form-control" placeholder="Contraseña" aria-label="Server">
+      </div>
+      <button id="resetPass" class="btn btn-light">¿Has olvidado tu contraseña?</button>
+      <br>
+      <div>
+        <label id="remember">Recordar usuario</label>
+        <!-- Rounded switch -->
+        <label class="switch">
+          <input id="recordar" type="checkbox">
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <br>
+      <button id="registro" type="button" class="btn btn-secondary">Registrarse</button>
+
+      <button id="inicio" type="button" class="btn btn-primary">Iniciar sesión</button>
+    </div>
+  </section>
+  <script src="cordova.js"></script>
+
+  <!--Importante importar esto antes de todo lo demás para que funcione el bootstrap-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script type="module" src="js/listaInteractiva.js"></script>
+  <script type="module" src="js/CRUD.js"></script>
+  <script type="module" src="js/index.js"></script>
+
+</body>
+
+</html>
