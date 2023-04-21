@@ -12,7 +12,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
 import { listaDOM } from "./listaInteractiva.js";
 
-export function actualizarDOM(role) {
+export function actualizarDOM(role,email) {
   console.log("INTENTANDO ACTUALIZAR EL DOM");
 
   const seccion = document.getElementById("contenido");
@@ -101,7 +101,7 @@ export function actualizarDOM(role) {
   }
   const bAnadir = document.getElementById("alta");
   bAnadir.addEventListener("click", function () {
-    anadir();
+    anadir(email);
   });
   document.getElementById("modifica").addEventListener("click", () => {
     modificar();
@@ -113,7 +113,7 @@ export function actualizarDOM(role) {
     listaDOM(role);
   });
 }
-function anadir() {
+function anadir(email) {
   console.log("SE EJECUTA ANADIR");
   const database = getDatabase();
 
@@ -137,7 +137,7 @@ function anadir() {
   set(ref(database, "Mascotas/" + cod), Mascota);
 
   // Limpiar los campos después de insertar los datos.
-  subirImagen();
+  subirImagen(email);
   limpiaCampos();
 }
 
@@ -215,15 +215,15 @@ function limpiaCampos() {
   document.getElementById("nacimiento").value = null;
   document.getElementById("imagen").value = null;
 }
-function subirImagen() {
+function subirImagen(email) {
   // Selecciona el archivo a subir
   const file = document.getElementById("imagen").files[0];
 
   // Crea una referencia al archivo en Firebase Storage
-  const storageRef = ref2(getStorage(), `perrito1.jpg`);
+  const storageRef = ref2(getStorage(), `${email}/perrito1.jpg`);
 
   // Sube el archivo a Firebase Storage
   uploadBytes(storageRef, file).then((snapshot) => {
-    console.log("Uploaded a blob or file!");
+    console.log("Imagen subida correctamente");
   });
 }
