@@ -5,7 +5,11 @@ import {
   set,
   get,
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-database.js";
-import {getStorage, ref as ref2} from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
+import {
+  getStorage,
+  ref as ref2,
+  uploadBytes
+} from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
 import { listaDOM } from "./listaInteractiva.js";
 
 export function actualizarDOM(role) {
@@ -13,7 +17,7 @@ export function actualizarDOM(role) {
 
   const seccion = document.getElementById("contenido");
   const divs = seccion.querySelectorAll("div");
-  const storage = getStorage()
+  const storage = getStorage();
   // Me cargo todos los divs de la section
   divs.forEach((div) => {
     div.remove();
@@ -64,7 +68,7 @@ export function actualizarDOM(role) {
       '<div class="form-group">' +
       '<label for="imagen">Imagen</label>' +
       '<input type="file" class="form-control" id="imagen">' +
-      "</div>"+
+      "</div>" +
       "</div>" +
       "</div>" +
       "</form>" +
@@ -99,10 +103,15 @@ export function actualizarDOM(role) {
   bAnadir.addEventListener("click", function () {
     anadir();
   });
-  document.getElementById("modifica").addEventListener("click", () => {modificar()});
-  document.getElementById("borra").addEventListener("click", () => {eliminar()});
-  document.getElementById("consulta").addEventListener("click", () => {listaDOM(role);});
-  document.getElementById("imagen").addEventListener("click", () => {subirImagen()})
+  document.getElementById("modifica").addEventListener("click", () => {
+    modificar();
+  });
+  document.getElementById("borra").addEventListener("click", () => {
+    eliminar();
+  });
+  document.getElementById("consulta").addEventListener("click", () => {
+    listaDOM(role);
+  });
 }
 function anadir() {
   console.log("SE EJECUTA ANADIR");
@@ -128,6 +137,7 @@ function anadir() {
   set(ref(database, "Mascotas/" + cod), Mascota);
 
   // Limpiar los campos después de insertar los datos.
+  subirImagen();
   limpiaCampos();
 }
 
@@ -203,19 +213,17 @@ function limpiaCampos() {
   document.getElementById("sexo").value = null;
   document.getElementById("dni").value = null;
   document.getElementById("nacimiento").value = null;
+  document.getElementById("imagen").value = null;
 }
-function subirImagen(){
-// Selecciona el archivo a subir
-const input = document.querySelector('input[type="file"]');
-const file = input.files[0];
+function subirImagen() {
+  // Selecciona el archivo a subir
+  const file = document.getElementById("imagen").files[0];
 
-// Crea una referencia al archivo en Firebase Storage
-const storageRef = ref2(getStorage(),`images/`);
+  // Crea una referencia al archivo en Firebase Storage
+  const storageRef = ref2(getStorage(), `perrito1.jpg`);
 
-// Sube el archivo a Firebase Storage
-storageRef.put(file).then((snapshot) => {
-  console.log('Imagen subida correctamente!');
-}).catch((error) => {
-  console.error('Error al subir la imagen:', error);
-});
+  // Sube el archivo a Firebase Storage
+  uploadBytes(storageRef, file).then((snapshot) => {
+    console.log("Uploaded a blob or file!");
+  });
 }

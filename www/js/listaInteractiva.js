@@ -17,7 +17,7 @@ export function listaDOM(role) {
   divs.forEach((div) => {
     div.remove();
   });
-
+  
   //Inserto el contenido nuevo de la section
   seccion.insertAdjacentHTML(
     "afterbegin",
