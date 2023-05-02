@@ -153,14 +153,19 @@ function recordarDatos() {
   }
 }
 function cambiarContrasena(){
-  console.log("cambiando la contrasena")
-  sendPasswordResetEmail(auth,document.getElementById("email").value)
-  .then(() => {
-    mostrarToast("Email de cambio de contraseña enviado", false);
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    mostrarToast("Fallo al enviar el email: " + errorMessage, true);
-  });
+  console.log(document.getElementById("email").value)
+  if (document.getElementById("email").value == "") {
+    mostrarToast("El campo de 'email' está vacío", true)
+  }else {
+    console.log("cambiando la contrasena")
+    sendPasswordResetEmail(auth,document.getElementById("email").value)
+    .then(() => {
+      mostrarToast("Email de cambio de contraseña enviado", false);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      mostrarToast("Fallo al enviar el email: " + errorMessage, true);
+    });
+  }
 }
