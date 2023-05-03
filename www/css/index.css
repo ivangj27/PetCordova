@@ -23,11 +23,15 @@
 /* The switch - the box around the slider */
 .switch {
   position: relative;
-  display: inline-block;
+  align-content: center;
+  display:inline-flex;
   width: 50px;
-  height: 24px;
+  height: 30px;
 }
 #remember{
+  text-align: center;
+  align-content: center;
+  float:inherit;
   padding: 10px 12px 12px 2px;
 }
 /* Hide default HTML checkbox */
@@ -89,8 +93,8 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#E4E4E4;
-    background-image:linear-gradient(to bottom, #A7A7A7 0%, #E4E4E4 51%);
+    background-color:#F2EFCE;
+    background-image:linear-gradient(to bottom, white 0%, #F2EFCE 51%);
     font-family: system-ui, -apple-system, -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
     font-size:12px;
     height:100vh;
