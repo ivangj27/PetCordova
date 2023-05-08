@@ -18,6 +18,8 @@ import {
 
 import { actualizarDOM } from "./CRUD.js";
 
+import { paginaRegistro } from "./registro.js";
+
 window.onload = function () {
   console.log("toy probando el remember me");
   var username = window.localStorage.getItem("username");
@@ -55,7 +57,7 @@ const botonPass = document.getElementById("resetPass")
 console.log("iniciado");
 
 // Listeners de los botones de inicio y registro
-botonRegistro.addEventListener("click", registro);
+botonRegistro.addEventListener("click", paginaRegistro);
 botonInicio.addEventListener("click", iniciarSesion);
 botonPass.addEventListener("click",cambiarContrasena)
 

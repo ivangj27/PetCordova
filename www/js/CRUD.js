@@ -8,16 +8,15 @@ import {
 import {
   getStorage,
   ref as ref2,
-  uploadBytes
+  uploadBytes,
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
 import { listaDOM } from "./listaInteractiva.js";
 
-export function actualizarDOM(role,email) {
+export function actualizarDOM(role, email) {
   console.log("INTENTANDO ACTUALIZAR EL DOM");
 
   const seccion = document.getElementById("contenido");
   const divs = seccion.querySelectorAll("div");
-  const storage = getStorage();
   // Me cargo todos los divs de la section
   divs.forEach((div) => {
     div.remove();
@@ -90,6 +89,31 @@ export function actualizarDOM(role,email) {
       "</div>" +
       "</div>"
   );
+
+  /*
+  **
+    //Código para insertar la barra de navegación donde queramos para cuando nos haga falta
+  **  
+  /
+  seccion.insertAdjacentHTML(
+    "afterend",
+    '  <footer id="navegacion">' +
+      '<nav class="navbar fixed-bottom navbar-light bg-light justify-content-center">' +
+      '<div class="container">' +
+      '<a class="navbar-brand" href="#">' +
+      '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
+      "</a>" +
+      '<a class="navbar-brand" href="#">' +
+      '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
+      "</a>" +
+      '<a class="navbar-brand" href="#">' +
+      '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
+      "</a>" +
+      "</div>" +
+      "</nav>" +
+      "</footer>"
+  );
+  */
   if (role != "admin") {
     // Obtener una lista de elementos con la clase "admButton"
     const buttons = document.querySelectorAll(".admButton");
