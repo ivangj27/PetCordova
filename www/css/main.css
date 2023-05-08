@@ -19,7 +19,7 @@
   --bs-white: #fff;
   --bs-gray: #6c757d;
   --bs-gray-dark: #343a40;
-  --bs-primary: orange;
+  --bs-primary: #38A8AC;
   --bs-secondary: #6c757d;
   --bs-success: #198754;
   --bs-info: #0dcaf0;
@@ -2903,6 +2903,36 @@ textarea.form-control-lg {
   background-color: #38A8AC;
   border-color: #38A8AC;
   border-radius: 25px;
+}
+.btn-ripple {
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+	transition: all ease-in-out .5s;
+}
+
+.btn-ripple::after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 25%;
+	height: 100%;
+	width: 50%;
+	background-color: #000;
+	border-radius: 50%;
+	opacity: 0;
+	pointer-events: none;
+	transition: all ease-in-out 1s;
+	transform: scale(5, 5);
+}
+
+.btn-ripple:active::after {
+	padding: 0;
+	margin: 0;
+	opacity: .2;
+	transition: 0s;
+	transform: scale(0, 0);
 }
 .btn-primary:hover {
   color: #fff;
@@ -7313,7 +7343,7 @@ textarea.form-control-lg {
 }
 
 .bg-primary {
-  background-color: orange !important;
+  background-color: #38A8AC !important;
 }
 
 .bg-secondary {

@@ -82,6 +82,7 @@ function registro() {
 }
 
 function iniciarSesion() {
+  
   // Obtener los valores de los campos de email y contraseña
   var email = document.getElementById("email").value;
   var contrasena = document.getElementById("contrasena").value;

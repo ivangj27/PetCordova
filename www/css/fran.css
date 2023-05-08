@@ -1,16 +1,21 @@
 #email{
+    margin-top: 100px;
     margin-left: 60px;
     margin-right: 60px;
-    margin-top: 200px;
+
 }
 #contrasena{
     margin-left: 60px;
     margin-right: 60px;
-    margin-top: -5px;
+    margin-top: 10px
 }
 #divRecordarUsuario{
     margin-top: -15px;
 }
 #resetPass{
     margin-bottom: 10px;
+}
+#cod , #nombre, #raza{
+    margin-left: 60px;
+    margin-right: 60px;
 }
