@@ -90,30 +90,7 @@ export function actualizarDOM(role, email) {
       "</div>"
   );
 
-  /*
-  **
-    //Código para insertar la barra de navegación donde queramos para cuando nos haga falta
-  **  
-  /
-  seccion.insertAdjacentHTML(
-    "afterend",
-    '  <footer id="navegacion">' +
-      '<nav class="navbar fixed-bottom navbar-light bg-light justify-content-center">' +
-      '<div class="container">' +
-      '<a class="navbar-brand" href="#">' +
-      '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
-      "</a>" +
-      '<a class="navbar-brand" href="#">' +
-      '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
-      "</a>" +
-      '<a class="navbar-brand" href="#">' +
-      '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
-      "</a>" +
-      "</div>" +
-      "</nav>" +
-      "</footer>"
-  );
-  */
+
   if (role != "admin") {
     // Obtener una lista de elementos con la clase "admButton"
     const buttons = document.querySelectorAll(".admButton");

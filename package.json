@@ -14,8 +14,10 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "cordova-android": "^10.1.2",
+    "cordova-plugin-dialogs": "^2.0.2",
     "cordova-plugin-firebase-authentication": "^7.0.1",
     "cordova-plugin-inappbrowser": "^5.0.0",
+    "cordova-plugin-x-toast": "^2.7.3",
     "cordova-support-android-plugin": "~2.0.4"
   },
   "cordova": {
@@ -24,7 +26,9 @@
     ],
     "plugins": {
       "cordova-plugin-firebase-authentication": {},
-      "cordova-plugin-inappbrowser": {}
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-dialogs": {},
+      "cordova-plugin-x-toast": {}
     }
   }
 }

@@ -18,7 +18,7 @@ export function paginaRegistro() {
   //Inserto el contenido nuevo de la section
   seccion.insertAdjacentHTML(
     "afterbegin",
-    "<form>" +
+    "<div>" +
       "<h2>Registro</h2>" +
       '<div class="mb-3">' +
       '<label for="nombre" class="form-label">Nombre:</label>' +
@@ -30,6 +30,7 @@ export function paginaRegistro() {
       "</div>" +
       '<div class="input-group mb-3">' +
       ' <select class="form-select" id="inputGroupSelect02" placeholder="Sexo">' +
+      ' <option value="" disabled selected hidden>Seleccione su sexo</option>'+
       ' <option value="1">Hombre</option>' +
       ' <option value="2">Mujer</option>' +
       " </select>" +
@@ -41,12 +42,12 @@ export function paginaRegistro() {
       "</div>" +
       '<div class="mb-3">' +
       '<label for="exampleInputEmail1" class="form-label">Email address</label>' +
-      '<input type="email" class="form-control" id="email" aria-describedby="emailHelp">' +
+      '<input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">' +
       '<div id="emailHelp" class="form-text"></div>' +
       "</div>" +
       '<div class="mb-3">' +
       '<label for="exampleInputPassword1" class="form-label">Contraseña</label>' +
-      '<input type="password" class="form-control" id="contrasena">' +
+      '<input type="password" class="form-control" id="contrasena" placeholder="Contraseña">' +
       "</div>" +
       '<div class="mb-3">' +
       '<label for="exampleInputPassword1" class="form-label">Confirmar contraseña</label>' +
@@ -56,8 +57,8 @@ export function paginaRegistro() {
       '<input class="form-check-input" type="checkbox" id="exampleCheck1">' +
       '<label class="form-check-label" for="exampleCheck1">Acepto los términos y condiciones</label>' +
       "</div>" +
-      '<button id="registro" type="submit" class="btn btn-primary">Registrarse</button>' +
-      "</form>"
+      '<button id="registro" class="btn btn-primary">Registrarse</button>' +
+      "</div>"
   );
   const registro = document.getElementById("registro");
   registro.addEventListener("click", registrar);
@@ -72,7 +73,7 @@ function registrar() {
   const confirmarContrasena = document.getElementById(
     "confirmarContrasena"
   ).value;
-  const sexo = document.getElementById("inputGroupSelect02").value;
+  const sexo = document.getElementById("inputGroupSelect02").textContent; //ACABO DE AÑADIR ESTO SI NO VA NO SE COMO ES
   const aceptoTerminos = document.getElementById("exampleCheck1");
 
   //Validaciones
@@ -122,7 +123,7 @@ function registrar() {
   }
 }
 function comprobarDNI(dni) {
-  dni.toUpperCase();
+  dni = dni.toUpperCase();
   const formatoDNI = /^[0-9]{8}[a-zA-Z]$/;
 
   if (!dni.match(formatoDNI)) {
@@ -135,13 +136,15 @@ function comprobarDNI(dni) {
 
   // Obtenemos el número del DNI
   const numeroDNI = dni.substr(0, 8);
-
+  console.log("EL NUMERO DEL DNI ES: ", numeroDNI)
   // Obtenemos la letra correspondiente al número del DNI
   const letrasDNI = "TRWAGMYFPDXBNJZSQVHLCKE";
   const letraDNI = letrasDNI.charAt(numeroDNI % 23);
+  console.log("LA LETRA DEL DNI ES: ",letraDNI)
 
   // Comprobamos si la letra introducida por el usuario coincide con la letra calculada
-  if (dni.charAt(8) !== letraDNI) {
+  console.log(dni.charAt(8))
+  if (dni.charAt(8) != letraDNI) {
     // Si la letra no coincide, se muestra un mensaje de error
     alert("La letra del DNI no es correcta.");
     return false;
