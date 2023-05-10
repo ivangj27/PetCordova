@@ -93,8 +93,8 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#F2EFCE;
-    background-image:linear-gradient(to bottom, white 0%, #F2EFCE 51%);
+    background-color:#9AE2D4;
+    background-image:linear-gradient(to bottom, #CAF3EB 0%, #9AE2D4 51%);
     font-family: system-ui, -apple-system, -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
     font-size:12px;
     height:100vh;
@@ -122,7 +122,7 @@ body {
     .app {
         background-position:left center;
         padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
-        margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
+        margin:-100px 0px 0px -198px;  /* offset vertical: half of image height */
                                       /* offset horizontal: half of image width and text area width */
     }
 }
@@ -197,6 +197,9 @@ h1 {
   /* Estilos para el contenedor principal */
   .container {
     margin-top: 4rem;
+    background-color: #38A8AC;
+    border-radius: 10px;
+    padding: 15px;
   }
 
   @media (max-width: 767px) {
@@ -212,7 +215,14 @@ h1 {
   
     /* Elimina el margen inferior de los campos de entrada */
     .form-group {
-      margin-bottom: 0;
+      background-color: #0F6B90;
+      color: #fff;
+      font-weight: 500px;
+      border-radius: 10px;
+      padding-bottom: 0.1px;
+      padding-top: 5px;
+      margin-left: 30px;
+      margin-right: 30px;
     }
   
     /* Añade un poco de espacio entre los botones */

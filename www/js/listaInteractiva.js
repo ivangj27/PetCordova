@@ -32,6 +32,7 @@ export function listaDOM(role) {
 }
 
 function cargarLista() {
+  console.log("Prueba Fran")
   const database = getDatabase();
 
   var mascotasRef = ref(database, "Mascotas");

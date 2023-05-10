@@ -15,7 +15,19 @@
 #resetPass{
     margin-bottom: 10px;
 }
-#cod , #nombre, #raza{
+#cod , #nombre, #raza, #sexo, #nacimiento, #dni, #imagen{
+    margin-top: 10px;
     margin-left: 60px;
     margin-right: 60px;
+    margin-bottom: 0px;
+}
+#tituloDatos{
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500px;
+    margin-top: -3px;
+    margin-bottom: 12px;
+}
+#contenido{
+    margin-top: -20px;
 }

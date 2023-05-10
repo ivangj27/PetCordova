@@ -17,9 +17,11 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
 
 import { actualizarDOM } from "./CRUD.js";
+import { listaDOM } from "./listaInteractiva.js";
 
 window.onload = function () {
   console.log("toy probando el remember me");
+  document.getElementById("consultar").addEventListener("click",listaDOM('admin'));
   var username = window.localStorage.getItem("username");
   var password = window.localStorage.getItem("password");
   var rememberMe = document.getElementById("recordar");
@@ -57,7 +59,7 @@ console.log("iniciado");
 // Listeners de los botones de inicio y registro
 botonRegistro.addEventListener("click", registro);
 botonInicio.addEventListener("click", iniciarSesion);
-botonPass.addEventListener("click",cambiarContrasena)
+botonPass.addEventListener("click",cambiarContrasena);
 
 function registro() {
   console.log("REGISTRANDO...");

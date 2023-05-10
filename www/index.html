@@ -66,6 +66,7 @@
   </div>
 
   <section class="app text-center" id="contenido">
+    <!-- PANTALLA REGISTRO -->
   <!--
     <div>
       <div class="input-group mb-3">
@@ -90,7 +91,11 @@
     </div>
   -->
 
+    <!-- PANTALLA ALTA/MODIFICAR ANIMALES -->
+
+    <!--
     <div class="container mt-4">
+      <label for="tituloDatos" id="tituloDatos">DATOS DE LA MASCOTA</label>
       <form>
         <div class="row col-campos">
           <div class="col-md-2">
@@ -127,26 +132,41 @@
           </div>
           <div class="col-md-2">
             <div class="form-group">
-              <label for="nombre">Nombre: </label>
+              <label for="nacimiento">Fecha Nacimiento: </label>
               <div class="input-group mb-3">
-                <input type="text" class="form-control" id="nombre">
+                <input type="text" class="form-control" id="nacimiento">
               </div>
             </div>
           </div>
           <div class="col-md-2">
             <div class="form-group">
-              <label for="nombre">Nombre: </label>
+              <label for="dni">DNI: </label>
               <div class="input-group mb-3">
-                <input type="text" class="form-control" id="nombre">
+                <input type="text" class="form-control" id="dni">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="imagen">Imagen: </label>
+              <div class="input-group mb-3">
+                <input type="file" class="form-control" id="imagen">
               </div>
             </div>
           </div>
         </div>
+        <div class="row col-botones">
+          <div class="row-cols-2">
+            <button type="button" class="btn btn-danger w-100 admButton" id="cancelar">CANCELAR</button>
+            <button type="button" class="btn btn-success w-100 admButton" id="aceptar">ACEPTAR</button>
+          </div>
+        </div>
       </form>
     </div>  
-
-
-
+    -->
+    <div>
+      <button type="button" class="btn btn-primary w-100" id="consultar">CONSULTA TODOS</button>
+    </div>
 
 
 

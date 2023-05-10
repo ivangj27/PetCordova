@@ -603,7 +603,8 @@ progress {
 
 @media (min-width: 576px) {
   .container-sm, .container {
-    max-width: 540px;
+    max-width: 400px;
+    margin-right: 20px;
   }
 }
 @media (min-width: 768px) {
@@ -6526,7 +6527,8 @@ textarea.form-control-lg {
 }
 
 .w-100 {
-  width: 100% !important;
+  margin-top: 1px;
+  width: 30% !important;
 }
 
 .w-auto {
