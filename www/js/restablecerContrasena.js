@@ -3,6 +3,7 @@ import {
     sendPasswordResetEmail,
   } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
 import { restablecerDOM } from "./index.js"
+import { mostrarToast } from "./index.js";
 
 export function recuperacion(){
     const seccion = document.getElementById("contenido");
@@ -33,22 +34,12 @@ function enviar(){
     console.log("Cambiando la contrasena");
     sendPasswordResetEmail(auth, document.getElementById("correo").value)
       .then(() => {
-        showBottom("Email de cambio de contraseña enviado");
+        mostrarToast("Email de cambio de contraseña enviado");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        showBottom("Fallo al enviar el email: " + errorMessage);
+        mostrarToast("Fallo al enviar el email: " + errorMessage);
       });
     document.getElementById("correo").value = null
 }
-
-function showBottom(mensaje) {
-    window.plugins.toast.showWithOptions(
-      {
-        message: mensaje,
-        duration: "short", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
-        position: "bottom",
-      },
-    );
-  }

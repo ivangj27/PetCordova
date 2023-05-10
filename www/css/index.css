@@ -216,4 +216,26 @@ h1 {
       margin-bottom: 0.5rem;
     }
   }
-  
+
+  .navbar-custom {
+    height: 60px;
+  }
+
+/* Estilo de los campos de contraseña, el ojo y eso */
+  .contrasena-container{
+    width: 400px;
+    position: relative;
+  }
+  .contrasena-container input[type="password"],
+  .contrasena-container input[type="text"]{
+    width: 100%;
+    padding: 12px 36px 12px 12px;
+    box-sizing: border-box;
+  }
+  .fa-eye{
+    position: absolute;
+    top: 28%;
+    right: 4%;
+    cursor: pointer;
+    color: lightgray;
+  }

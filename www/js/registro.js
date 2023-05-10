@@ -7,6 +7,9 @@ import {
   set,
   ref,
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-database.js";
+
+import { restablecerDOM } from "./index.js";
+
 export function paginaRegistro() {
   const seccion = document.getElementById("contenido");
   const divs = seccion.querySelectorAll("div");
@@ -62,6 +65,8 @@ export function paginaRegistro() {
   );
   const registro = document.getElementById("registro");
   registro.addEventListener("click", registrar);
+  document.addEventListener("backbutton", function(){restablecerDOM()}, false);
+
 }
 
 function registrar() {
