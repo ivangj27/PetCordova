@@ -88,6 +88,7 @@ function cargarLista() {
     });
   }
   */
+  var mascotas = [];
   function cargarLista() {
     console.log("Prueba Fran")
     const database = getDatabase();
@@ -95,7 +96,6 @@ function cargarLista() {
     var mascotasRef = ref(database, "Mascotas");
   
     // lista de objetos de JavaScript
-    var mascotas = [];
   
     const mascotasList = document.getElementById("mascotasList");
     // obtener todos los objetos de la lista "mascotas"
@@ -117,7 +117,7 @@ function cargarLista() {
           const petPhotoFrame = document.createElement("button");
           petPhotoFrame.id = "fotoListaAnimales"
           petPhotoFrame.classList.add("fotoListaAnimales");
-          petPhotoFrame.addEventListener('click', informacionMascota(pet));
+          petPhotoFrame.addEventListener('click', informacionMascota);
           listItem.appendChild(petPhotoFrame);
           const petPhoto = document.createElement("img");
           petPhoto.src = "img/logo.png" // pet.imagen
@@ -144,8 +144,18 @@ function cargarLista() {
       });
     }
 
-    function informacionMascota(pet) {
-        console.log("INFORMACION MASCOTA: "+pet.nombre);
-        cargarDatosMascota(pet);
-        console.log("adios")
+    function informacionMascota() {
+
+      const listaMascotas = document.getElementsByClassName("elementosListaAnimales");
+      for (let index = 0; index < listaMascotas.length; index++) {
+          if (listaMascotas.item(index).childNodes.item(0)) {
+            console.log("prueba mascota")
+          }
+          console.log(listaMascotas.item(index).childNodes.item(0));
+      }
+      console.log(listaMascotas);
+      
+      console.log("INFORMACION MASCOTA: ");
+      //cargarDatosMascota(pet);
+      console.log("adios")
     }
