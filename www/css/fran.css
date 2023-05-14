@@ -31,3 +31,67 @@
 #contenido{
     margin-top: -20px;
 }
+
+#mascotasList{
+    margin: 1rem auto;
+    width:100%;
+    max-width:960px;
+    padding:0 20px 20px;
+    box-sizing: border-box;
+    column-count: 3;
+
+    /* Espacio entre columnas */
+    -moz-column-gap: 20px;
+    -webkit-column-gap: 20px;
+    column-gap: 20px;
+    
+    /* Filete entre columnas */
+    -moz-column-rule: 1px solid #bbb;
+    -webkit-column-rule: 1px solid #bbb;
+    column-rule: 1px solid #bbb;
+}
+
+#tituloListaAnimales{
+    color:#003366;
+    font-size: 30px;
+    font-size:3rem;
+    -webkit-column-span:all;
+    -moz-column-span:all;
+    column-span:all;
+    margin-bottom: 10px;
+}
+
+.elementosListaAnimales{
+    background:#fff;
+    border-radius:5px;
+    border:1px solid #ccc;
+    margin:0 0 20px 0;
+    text-align: center;
+    max-width: 100%;
+    filter: opacity(70%);
+
+    /*Evitamos que se corte al cambiar de columna*/
+    break-inside: avoid;
+    page-break-inside: avoid; 
+}
+
+.fotoListaAnimales {
+    margin-left: -1px;
+    display: inline-block;
+    padding: 5px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+
+@media (max-width: 480px) {
+    #mascotasList{
+        columns: 1;
+    }
+}
+@media(max-width: 767px) {
+    #mascotasList{
+        columns:2;
+    }
+}
