@@ -51,23 +51,37 @@ import {
 
     const divDatosMascota = document.createElement("div");
     divDatosMascota.classList.add("divDatosMascota");
-    const nombreEdadLabel = document.createElement("Label");
-    nombreEdadLabel.id = "nombreEdad";
+    const divContenedorNombre = document.createElement("div");
+    divContenedorNombre.classList.add("inputContainer");
+    const divContenedorEdad = document.createElement("div");
+    divContenedorEdad.classList.add("inputContainer");
     const nombreInput = document.createElement("input");
+    const nombreLabel = document.createElement("label")
+    nombreLabel.classList.add("labelTituloCampos");
+    nombreLabel.setAttribute("for", "");
+    nombreLabel.textContent = "Nombre Mascota";
     const edadInput = document.createElement("input");
+    const edadLabel = document.createElement("label")
+    edadLabel.classList.add("labelTituloCampos");
+    edadLabel.setAttribute("for", "");
+    edadLabel.textContent = "Edad";
     edadInput.setAttribute("type", "text");
-    edadInput.setAttribute("style", "width:40px; margin-left:0px;")
     edadInput.classList.add("camposTextoDatosMascota");
-    edadInput.setAttribute("readonly","");
+    //edadInput.setAttribute("readonly","");
     nombreInput.setAttribute("type", "text");
     nombreInput.classList.add("camposTextoDatosMascota");
-    nombreInput.setAttribute("readonly","");
-    nombreInput.value = pet.nombre;
-    nombreEdadLabel.appendChild(nombreInput);
-    nombreEdadLabel.appendChild(edadInput);
-    divDatosMascota.appendChild(nombreEdadLabel);
+    //nombreInput.setAttribute("readonly","");
+    nombreInput.setAttribute("placeholder", "a")
+    //nombreInput.value = pet.nombre;
+    divContenedorNombre.appendChild(nombreInput);
+    divContenedorNombre.appendChild(nombreLabel);
+    divDatosMascota.appendChild(divContenedorNombre);
+    divContenedorEdad.appendChild(edadInput);
+    divContenedorEdad.appendChild(edadLabel);
+    divDatosMascota.appendChild(divContenedorEdad);
     ventanaPrincipal.appendChild(divDatosMascota);
 
+    //
 
 
     appWindow.appendChild(ventanaPrincipal);
