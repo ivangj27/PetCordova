@@ -5149,6 +5149,8 @@ textarea.form-control-lg {
 }
 
 .toast {
+  position: absolute;
+  margin: -50px 0 20px 0;
   width: 350px;
   max-width: 100%;
   font-size: 0.875rem;

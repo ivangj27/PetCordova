@@ -8,7 +8,11 @@ import {
 import { actualizarDOM } from "./CRUD.js";
 import{cargarDatosMascota} from "./informacionMascota.js";
 
+var rol = "";
+
 export function listaDOM(role) {
+  rol = role;
+  console.log(rol)
   console.log("INTENTANDO ACTUALIZAR EL DOM");
 
   const seccion = document.getElementById("contenido");
@@ -89,7 +93,7 @@ function cargarLista() {
   }
   */
   var mascotas = [];
-  function cargarLista() {
+  export function cargarLista() {
     console.log("Prueba Fran")
     const database = getDatabase();
   
@@ -112,12 +116,12 @@ function cargarLista() {
           // Create a new list item element
           console.log("estoy dentro del for");
           const listItem = document.createElement("article");
-          listItem.classList.add("elementosListaAnimales");
+          listItem.classList.add("elementoListaAnimales");
           
           const petPhotoFrame = document.createElement("button");
           petPhotoFrame.id = "fotoListaAnimales"
           petPhotoFrame.classList.add("fotoListaAnimales");
-          petPhotoFrame.addEventListener('click', informacionMascota);
+          //petPhotoFrame.addEventListener('click', informacionMascota);
           listItem.appendChild(petPhotoFrame);
           const petPhoto = document.createElement("img");
           petPhoto.src = "img/logo.png" // pet.imagen
@@ -138,24 +142,22 @@ function cargarLista() {
           mascotasList.appendChild(listItem);
 
         });
+        const botones = document.querySelectorAll(".fotoListaAnimales");
+        const secciones = document.querySelectorAll(".elementoListaAnimales");
+        botones.forEach((boton) => {
+        boton.addEventListener('click', (event) => {
+          const botonPulsado = event.target;
+          const nombreMascotaBoton = boton.parentElement.querySelector("h3").textContent;
+          mascotas.forEach((mascota) => {
+            if (mascota.nombre == nombreMascotaBoton) {
+              console.log("animal encontrado")
+              cargarDatosMascota(mascota, rol);
+            }
+          })
+        });
+      });
       })
       .catch(function (error) {
         console.error(error);
       });
-    }
-
-    function informacionMascota() {
-
-      const listaMascotas = document.getElementsByClassName("elementosListaAnimales");
-      for (let index = 0; index < listaMascotas.length; index++) {
-          if (listaMascotas.item(index).childNodes.item(0)) {
-            console.log("prueba mascota")
-          }
-          console.log(listaMascotas.item(index).childNodes.item(0));
-      }
-      console.log(listaMascotas);
-      
-      console.log("INFORMACION MASCOTA: ");
-      //cargarDatosMascota(pet);
-      console.log("adios")
     }
