@@ -37,6 +37,7 @@ const auth = getAuth();
 
 window.onload = function () {
   console.log("toy probando el remember me");
+  document.getElementById("consultar").addEventListener("click",listaDOM('admin'));
   var username = window.localStorage.getItem("username");
   var password = window.localStorage.getItem("password");
   var rememberMe = document.getElementById("recordar");
@@ -75,6 +76,7 @@ function restablecerVariables() {
 }
 restablecerVariables();
 function iniciarSesion() {
+  
   // Obtener los valores de los campos de email y contraseña
   var email = document.getElementById("email").value;
   var contrasena = document.getElementById("contrasena").value;

@@ -6,6 +6,8 @@
   <meta charset="utf-8">
 
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/fran.css">
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
   <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
@@ -18,7 +20,8 @@
 
 <body>
   <section class="app text-center" id="contenido">
-
+    <!-- PANTALLA REGISTRO -->
+  <!--
     <div>
       <div class="input-group mb-3">
         <input type="text" id="email" class="form-control" placeholder="Usuario" aria-label="Username">
@@ -27,21 +30,101 @@
         <input type="password" id="contrasena" class="form-control" placeholder="Contraseña" aria-label="Server">
         <i class="fa-solid fa-eye" id="eye"></i>
       </div>
-      <button id="resetPass" class="btn btn-light">¿Has olvidado tu contraseña?</button>
       <br>
-      <div>
-        <label id="remember">Recordar usuario</label>
-        <!-- Rounded switch -->
-        <label class="switch">
-          <input id="recordar" type="checkbox">
-          <span class="slider round"></span>
-        </label>
+      <div id="divRecordarUsuario">
+        <label id="remember">Recordar usuario</label> 
+          <label class="switch">
+            <input id="recordar" type="checkbox">
+            <span class="slider round"></span>
+          </label>
       </div>
+      <button id="resetPass" class="btn btn-light btn-ripple">¿Has olvidado tu contraseña?</button>
       <br>
-      <button id="registro" type="button" class="btn btn-secondary">Registrarse</button>
+      <button id="registro" type="button" class="btn btn-secondary btn-ripple">Registrarse</button>
 
-      <button id="inicio" type="button" class="btn btn-primary">Iniciar sesión</button>
+      <button id="inicio" type="button" class="btn btn-primary btn-ripple">Iniciar sesión</button>
     </div>
+  -->
+
+    <!-- PANTALLA ALTA/MODIFICAR ANIMALES -->
+
+    <!--
+    <div class="container mt-4">
+      <label for="tituloDatos" id="tituloDatos">DATOS DE LA MASCOTA</label>
+      <form>
+        <div class="row col-campos">
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="cod">Código identificación:</label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" id="cod">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="nombre">Nombre: </label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" id="nombre">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="raza">Raza: </label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" id="raza">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="sexo">Sexo: </label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" id="sexo">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="nacimiento">Fecha Nacimiento: </label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" id="nacimiento">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="dni">DNI: </label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" id="dni">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="imagen">Imagen: </label>
+              <div class="input-group mb-3">
+                <input type="file" class="form-control" id="imagen">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row col-botones">
+          <div class="row-cols-2">
+            <button type="button" class="btn btn-danger w-100 admButton" id="cancelar">CANCELAR</button>
+            <button type="button" class="btn btn-success w-100 admButton" id="aceptar">ACEPTAR</button>
+          </div>
+        </div>
+      </form>
+    </div>  
+    -->
+    <div>
+      <button type="button" class="btn btn-primary w-100" id="consultar">CONSULTA TODOS</button>
+    </div>
+
+
+
   </section>
 
   <script src="cordova.js"></script>
@@ -53,6 +136,8 @@
   <script type="module" src="js/listaInteractiva.js"></script>
   <script type="module" src="js/CRUD.js"></script>
   <script type="module" src="js/index.js"></script>
+  <script type="module" src="js/informacionMascota.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 </body>
 

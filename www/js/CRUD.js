@@ -111,7 +111,8 @@ export function actualizarDOM(role, email) {
     eliminar();
   });
   document.getElementById("consulta").addEventListener("click", () => {
-    listaDOM(role);
+    //listaDOM(role);
+    listaDOM('admin');
   });
 }
 function anadir(email) {
