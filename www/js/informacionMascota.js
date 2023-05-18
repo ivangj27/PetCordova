@@ -47,8 +47,12 @@ import {
     divBotonAdoptar.appendChild(botonAdoptar);
     ventanaPrincipal.appendChild(divBotonAdoptar);
     //Nombre + edad
-    //const edadMascota = Date.UTC() -> Queremos coger bien la fecha de nacimiento para calcular la edad de la mascota
-
+    console.log(pet.nacimiento);
+    var cumple_array = pet.nacimiento.split("/");
+    var cumple_date = new Date(cumple_array[2], cumple_array[1] - 1, cumple_array[0]);
+    var edadDiff = Date.now() - cumple_date.getTime();
+    var edadDate = new Date(edadDiff);
+    const edadMascota = Math.abs(edadDate.getUTCFullYear() - 1970);
     const divDatosMascota = document.createElement("div");
     divDatosMascota.classList.add("divDatosMascota");
     const divContenedorNombre = document.createElement("div");
@@ -66,13 +70,15 @@ import {
     edadLabel.setAttribute("for", "");
     edadLabel.textContent = "Edad";
     edadInput.setAttribute("type", "text");
+    edadInput.setAttribute("placeholder", "a");
     edadInput.classList.add("camposTextoDatosMascota");
     //edadInput.setAttribute("readonly","");
     nombreInput.setAttribute("type", "text");
     nombreInput.classList.add("camposTextoDatosMascota");
     //nombreInput.setAttribute("readonly","");
-    nombreInput.setAttribute("placeholder", "a")
-    //nombreInput.value = pet.nombre;
+    nombreInput.setAttribute("placeholder", "a");
+    nombreInput.value = pet.nombre;
+    edadInput.value = edadMascota;
     divContenedorNombre.appendChild(nombreInput);
     divContenedorNombre.appendChild(nombreLabel);
     divDatosMascota.appendChild(divContenedorNombre);
