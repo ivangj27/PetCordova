@@ -36,7 +36,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth();
-
+var uid ="";
 window.onload = function () {
   console.log("toy probando el remember me");
   document.getElementById("consultar").addEventListener("click",listaDOM('admin'));
@@ -90,6 +90,7 @@ function iniciarSesion() {
         if (user) {
           // User logged in already or has just logged in.
           var id = user.uid;
+          setUID(id)
           get(ref(database, `users/${id}`)).then((snapshot) => {
             // Obtiene el objeto de datos del usuario
             const userData = snapshot.val();
@@ -220,4 +221,10 @@ function insertarNavBar() {
   botonLista.addEventListener("click", function(e){
     cargarLista();
   })
+}
+function setUID(id){
+  uid = id;
+}
+export function getUID(){
+  return uid;
 }

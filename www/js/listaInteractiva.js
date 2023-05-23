@@ -161,5 +161,5 @@ function cargarLista() {
         console.error(error);
       });
       document.addEventListener("backbutton", function(){actualizarDOM(role)}, false);
-
+      
     }

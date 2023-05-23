@@ -78,7 +78,7 @@ function registrar() {
   const confirmarContrasena = document.getElementById(
     "confirmarContrasena"
   ).value;
-  const sexo = document.getElementById("inputGroupSelect02").textContent; //ACABO DE AÑADIR ESTO SI NO VA NO SE COMO ES
+  var sexo = document.getElementById("inputGroupSelect02").value; //ACABO DE AÑADIR ESTO SI NO VA NO SE COMO ES
   const aceptoTerminos = document.getElementById("exampleCheck1");
 
   //Validaciones
@@ -102,6 +102,11 @@ function registrar() {
     if (comprobarDNI(dni)) {
       //registro del usuario en firebase
       const auth = getAuth();
+      if(sexo == 1){
+        sexo = "Hombre"
+      }else if(sexo == 2){
+        sexo = "Mujer"
+      }
 
       createUserWithEmailAndPassword(auth, email, contrasena)
         .then((userCredential) => {

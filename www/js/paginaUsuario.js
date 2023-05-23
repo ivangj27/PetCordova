@@ -1,3 +1,5 @@
+import { generarDatosCuenta } from "./datosCuenta.js";
+
 export function generarPaginaUs() {
   const seccion = document.getElementById("contenido");
   const divs = seccion.querySelectorAll("div");
@@ -18,7 +20,7 @@ export function generarPaginaUs() {
       '<button type="button" class="list-group-item list-group-item-action" aria-current="true">' +
       "Mis mascotas" +
       "</button>" +
-      '<button type="button" class="list-group-item list-group-item-action">' +
+      '<button type="button" class="list-group-item list-group-item-action" id="botonDatos">' +
       "Datos de mi cuenta" +
       "</button>" +
       '<button type="button" class="list-group-item list-group-item-action" id="cerrarSesion">' +
@@ -27,4 +29,7 @@ export function generarPaginaUs() {
       "</div>"
   );
   const imagenUs = document.getElementById("imagenUs");
+  const botonDatos = document.getElementById("botonDatos");
+
+  botonDatos.addEventListener("click", () => {generarDatosCuenta()});
 }
