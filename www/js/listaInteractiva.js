@@ -124,7 +124,7 @@ function cargarLista() {
           //petPhotoFrame.addEventListener('click', informacionMascota);
           listItem.appendChild(petPhotoFrame);
           const petPhoto = document.createElement("img");
-          petPhoto.src = "img/logo.png" // pet.imagen
+          petPhoto.src = "assets/images/rottweiler-ejemplo.jpg" // pet.imagen
           
           petPhotoFrame.appendChild(petPhoto);
   
@@ -160,4 +160,6 @@ function cargarLista() {
       .catch(function (error) {
         console.error(error);
       });
+      document.addEventListener("backbutton", function(){actualizarDOM(role)}, false);
+
     }

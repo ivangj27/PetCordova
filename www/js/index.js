@@ -19,6 +19,8 @@ import {
 import { actualizarDOM } from "./CRUD.js";
 import { paginaRegistro } from "./registro.js";
 import { recuperacion } from "./restablecerContrasena.js";
+import { generarPaginaUs } from "./paginaUsuario.js";
+import { cargarLista } from "./listaInteractiva.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCBXo6m6nAiY8r3Oo35MT-Tp3rLrJpN0nA",
@@ -193,20 +195,29 @@ function insertarNavBar() {
   const seccion = document.getElementById("contenido");
   seccion.insertAdjacentHTML(
     "afterend",
-    '  <footer id="navegacion">' +
-      '<nav class="navbar fixed-bottom navbar-light bg-light justify-content-center navbar-custom">' +
-      '<div class="container">' +
-      '<a class="navbar-brand" href="#">' +
-      '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
-      "</a>" +
-      '<a class="navbar-brand" href="#">' +
-      '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
-      "</a>" +
-      '<a class="navbar-brand" href="#">' +
-      '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
-      "</a>" +
-      "</div>" +
-      "</nav>" +
-      "</footer>"
+    '<footer id="navegacion">' +
+    '<nav class="navbar fixed-bottom navbar-light justify-content-center navbar-custom ">' +
+        '<div class="container" id="barraNavContent">' +
+            '<a class="navbar-brand" id="botonLista">' +
+                '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
+            '</a>' +
+            '<a class="navbar-brand" href="#">' +
+                '<img src="./assets/images/rottweiler-ejemplo.jpg" alt="Usuario" width="30" height="24">' +
+            '</a>' +
+            '<a class="navbar-brand" id="botonUsuario">' +
+                '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
+            '</a>' +
+        '</div>' +
+    '</nav>' +
+'</footer>'
   );
+  const botonLista = document.getElementById("botonLista");
+  const botonUsuario = document.getElementById("botonUsuario");
+
+  botonUsuario.addEventListener("click", function(e){
+    generarPaginaUs();
+  })
+  botonLista.addEventListener("click", function(e){
+    cargarLista();
+  })
 }
