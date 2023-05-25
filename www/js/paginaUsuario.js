@@ -1,4 +1,9 @@
 import { generarDatosCuenta } from "./datosCuenta.js";
+import {
+  getAuth,
+  signOut,
+} from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
+import { getUID, mostrarToast, restablecerDOM } from "./index.js";
 
 export function generarPaginaUs() {
   const seccion = document.getElementById("contenido");
@@ -30,6 +35,36 @@ export function generarPaginaUs() {
   );
   const imagenUs = document.getElementById("imagenUs");
   const botonDatos = document.getElementById("botonDatos");
+  const botonCerrarSesion = document.getElementById("cerrarSesion");
+  const nombreUsuario = document.getElementById("nombreUsuario");
 
-  botonDatos.addEventListener("click", () => {generarDatosCuenta()});
+  get(ref(database, `users/${getUID()}`)).then((snapshot) => {
+    // Obtiene el objeto de datos del usuario
+    const userData = snapshot.val();
+
+    // Obtiene el valor del nombre del usuario
+    const userName = userData.nombre;
+    nombreUsuario.innerHTML = userName;
+  });
+
+  botonCerrarSesion.addEventListener("click", () => {
+    cerrarSesion();
+  });
+
+  botonDatos.addEventListener("click", () => {
+    generarDatosCuenta();
+  });
+}
+
+function cerrarSesion() {
+  const auth = getAuth();
+  signOut(auth)
+    .then(() => {
+      // Sign-out successful.
+      restablecerDOM();
+    })
+    .catch((error) => {
+      // An error happened.
+      mostrarToast(error);
+    });
 }

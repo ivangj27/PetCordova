@@ -20,7 +20,7 @@ import { actualizarDOM } from "./CRUD.js";
 import { paginaRegistro } from "./registro.js";
 import { recuperacion } from "./restablecerContrasena.js";
 import { generarPaginaUs } from "./paginaUsuario.js";
-import { cargarLista } from "./listaInteractiva.js";
+import { cargarLista, listaDOM } from "./listaInteractiva.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCBXo6m6nAiY8r3Oo35MT-Tp3rLrJpN0nA",
@@ -91,28 +91,15 @@ function iniciarSesion() {
           // User logged in already or has just logged in.
           var id = user.uid;
           setUID(id)
-          get(ref(database, `users/${id}`)).then((snapshot) => {
-            // Obtiene el objeto de datos del usuario
-            const userData = snapshot.val();
-
-            // Obtiene el valor del rol del usuario
-            const userRole = userData.role;
-
-            // Hace algo con el valor del rol (por ejemplo, lo muestra en la consola)
-            recordarDatos();
-            insertarNavBar();
-            actualizarDOM(userRole, email);
-
-            // Si el inicio de sesión es exitoso, puedes redirigir a la página que desees o realizar otras acciones
-
-            mostrarToast("Inicio de sesión correcto");
-          });
+          recordarDatos();
+          insertarNavBar();
+          actualizarDOM();
+          mostrarToast("Inicio de sesión correcto");
         }
       });
     })
     .catch((error) => {
       // Si hay un error en el inicio de sesión, puedes mostrar un mensaje de error o realizar otras acciones
-      const errorCode = error.code;
       const errorMessage = error.message;
 
       mostrarToast("Error al iniciar sesión" + errorMessage);
@@ -202,7 +189,7 @@ function insertarNavBar() {
             '<a class="navbar-brand" id="botonLista">' +
                 '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
             '</a>' +
-            '<a class="navbar-brand" href="#">' +
+            '<a class="navbar-brand" id="botonCRUD">' +
                 '<img src="./assets/images/rottweiler-ejemplo.jpg" alt="Usuario" width="30" height="24">' +
             '</a>' +
             '<a class="navbar-brand" id="botonUsuario">' +
@@ -214,12 +201,16 @@ function insertarNavBar() {
   );
   const botonLista = document.getElementById("botonLista");
   const botonUsuario = document.getElementById("botonUsuario");
+  const botonCRUD = document.getElementById("botonCRUD");
 
   botonUsuario.addEventListener("click", function(e){
     generarPaginaUs();
   })
   botonLista.addEventListener("click", function(e){
-    cargarLista();
+    listaDOM();
+  })
+  botonCRUD.addEventListener("click", function(e){
+    actualizarDOM();
   })
 }
 function setUID(id){

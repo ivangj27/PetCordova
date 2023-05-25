@@ -87,9 +87,6 @@ export function generarDatosCuenta() {
     contrasena.value = usuario.contrasena;
     sexo.value = usuario.sexo;
       
- 
-
-  
     buttonConfirmar.addEventListener("click", function(){confirmar(usuario,db,nombre,apellidos,dni,email,contrasena,sexo)});
 })
 }
@@ -111,8 +108,9 @@ function confirmar(user, db, nombre, apellidos, dni, email, contrasena, sexo) {
       sexo: sexo.value,
     });
     mostrarToast("Cambios realizados correctamente")
+    generarPaginaUs();
+
   }else{
     mostrarToast("Por favor, rellena todos los campos");
   }
-  
 }

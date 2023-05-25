@@ -17,10 +17,14 @@ export function listaDOM(role) {
 
   const seccion = document.getElementById("contenido");
   const divs = seccion.querySelectorAll("div");
+  const articles = seccion.querySelectorAll("article");
 
-  // Me cargo todos los divs de la section
+  // Me cargo todos los divs y los articles de la section
   divs.forEach((div) => {
     div.remove();
+  });
+  articles.forEach((article) => {
+    article.remove();
   });
   
   //Inserto el contenido nuevo de la section
@@ -93,6 +97,13 @@ function cargarLista() {
   }
   */
   var mascotas = [];
+
+  /*
+  IMPORTANTE PARA LAS IMAGENES: 
+  Si no les vamos a decir un tamaño fijo en el CSS tenemos que añadir una función de recortarla 
+  (igual que insta o cualquier otra cuando subes algo), si no no podemos redimensionarlas sin distorsionar la imagen.
+  */
+ 
   export function cargarLista() {
     console.log("Prueba Fran")
     const database = getDatabase();
@@ -124,7 +135,7 @@ function cargarLista() {
           //petPhotoFrame.addEventListener('click', informacionMascota);
           listItem.appendChild(petPhotoFrame);
           const petPhoto = document.createElement("img");
-          petPhoto.src = "assets/images/rottweiler-ejemplo.jpg" // pet.imagen
+          petPhoto.src = "img/logo.png"; // pet.imagen
           
           petPhotoFrame.appendChild(petPhoto);
   
