@@ -9,7 +9,6 @@ import {
   getStorage,
   ref as ref2,
   uploadBytes,
-  put,
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
 import { listaDOM } from "./listaInteractiva.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";

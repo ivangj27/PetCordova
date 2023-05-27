@@ -4,6 +4,12 @@ import {
   signOut,
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
 import { getUID, mostrarToast, restablecerDOM } from "./index.js";
+import {
+  getDatabase,
+  set,
+  ref,
+  get,
+} from "https://www.gstatic.com/firebasejs/9.19.0/firebase-database.js";
 
 export function generarPaginaUs() {
   const seccion = document.getElementById("contenido");
@@ -37,7 +43,7 @@ export function generarPaginaUs() {
   const botonDatos = document.getElementById("botonDatos");
   const botonCerrarSesion = document.getElementById("cerrarSesion");
   const nombreUsuario = document.getElementById("nombreUsuario");
-
+  const database = getDatabase();
   get(ref(database, `users/${getUID()}`)).then((snapshot) => {
     // Obtiene el objeto de datos del usuario
     const userData = snapshot.val();
@@ -67,4 +73,8 @@ function cerrarSesion() {
       // An error happened.
       mostrarToast(error);
     });
+    const footers = document.querySelectorAll("footer")
+    footers.forEach((footer) => {
+     footer.remove(); 
+    })
 }

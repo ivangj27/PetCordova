@@ -10,14 +10,13 @@ import{cargarDatosMascota} from "./informacionMascota.js";
 
 var rol = "";
 
-export function listaDOM(role) {
-  rol = role;
+export function listaDOM() {
   console.log(rol)
   console.log("INTENTANDO ACTUALIZAR EL DOM");
 
   const seccion = document.getElementById("contenido");
   const divs = seccion.querySelectorAll("div");
-  const articles = seccion.querySelectorAll("article");
+  const articles = document.querySelectorAll("article");
 
   // Me cargo todos los divs y los articles de la section
   divs.forEach((div) => {
@@ -25,6 +24,7 @@ export function listaDOM(role) {
   });
   articles.forEach((article) => {
     article.remove();
+    console.log("borro el article");
   });
   
   //Inserto el contenido nuevo de la section
@@ -37,64 +37,11 @@ export function listaDOM(role) {
       "</div>"
   );
   cargarLista();
-  document.addEventListener("backbutton", function(){actualizarDOM(role)}, false);
+  document.addEventListener("backbutton", function(){actualizarDOM()}, false);
 
 }
 /*
-function cargarLista() {
-  const database = getDatabase();
 
-  var mascotasRef = ref(database, "Mascotas");
-
-  // lista de objetos de JavaScript
-  var mascotas = [];
-
-  const mascotasList = document.getElementById("mascotasList");
-  // obtener todos los objetos de la lista "mascotas"
-  get(mascotasRef)
-    .then(function (snapshot) {
-      // para cada objeto en la lista, crear un objeto de JavaScript y agregarlo a la lista
-      snapshot.forEach(function (childSnapshot) {
-        var mascota = childSnapshot.val();
-        mascotas.push(mascota);
-      });
-      console.log(mascotas); // lista de objetos de JavaScript
-      // Add pet items to the list
-      mascotas.forEach((pet) => {
-        // Create a new list item element
-        console.log("estoy dentro del for");
-        const listItem = document.createElement("li");
-        listItem.classList.add("list-group-item");
-
-        // Create the pet image element
-        /*const petImage = document.createElement("img");
-        petImage.src = pet.image;
-        listItem.appendChild(petImage);
-        
-
-        // Create the pet info element
-        const petInfo = document.createElement("div");
-        listItem.appendChild(petInfo);
-
-        // Create the pet name element
-        const petName = document.createElement("h3");
-        petName.textContent = pet.nombre;
-        petInfo.appendChild(petName);
-
-        // Create the pet species and age element
-        const petSpeciesAge = document.createElement("p");
-        petSpeciesAge.textContent = `${pet.raza} - ${pet.sexo}`;
-        petInfo.appendChild(petSpeciesAge);
-
-        // Add the new list item to the pet list
-        mascotasList.appendChild(listItem);
-
-      });
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
-  }
   */
   var mascotas = [];
 
@@ -109,9 +56,12 @@ function cargarLista() {
     const database = getDatabase();
   
     var mascotasRef = ref(database, "Mascotas");
-  
+    const seccion = document.getElementById("contenido");
+
     // lista de objetos de JavaScript
-  
+    if (mascotas.length > 0) {
+      mascotas.splice(0, mascotas.length);
+    }
     const mascotasList = document.getElementById("mascotasList");
     // obtener todos los objetos de la lista "mascotas"
     get(mascotasRef)
@@ -134,20 +84,26 @@ function cargarLista() {
           petPhotoFrame.classList.add("fotoListaAnimales");
           //petPhotoFrame.addEventListener('click', informacionMascota);
           listItem.appendChild(petPhotoFrame);
+
           const petPhoto = document.createElement("img");
           petPhoto.src = "img/logo.png"; // pet.imagen
           
+
           petPhotoFrame.appendChild(petPhoto);
+
+           // Create the pet info element
+          const petInfo = document.createElement("div");
+          listItem.appendChild(petInfo);
   
           // Create the pet name element
           const petName = document.createElement("h3");
           petName.textContent = pet.nombre;
-          listItem.appendChild(petName);
+          petInfo.appendChild(petName);
   
           // Create the pet species and age element
           const petSpeciesAge = document.createElement("p");
           petSpeciesAge.textContent = `${pet.raza} - ${pet.sexo}`;
-          listItem.appendChild(petSpeciesAge);
+          petInfo.appendChild(petSpeciesAge);
   
           // Add the new list item to the pet list
           mascotasList.appendChild(listItem);
