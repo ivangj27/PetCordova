@@ -106,7 +106,7 @@ function iniciarSesion() {
 
             // Hace algo con el valor del rol (por ejemplo, lo muestra en la consola)
             recordarDatos();
-            actualizarDOM(userRole,email);
+            listaDOM(userRole);
 
             // Si el inicio de sesión es exitoso, puedes redirigir a la página que desees o realizar otras acciones
 

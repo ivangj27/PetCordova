@@ -26,15 +26,13 @@ export function listaDOM(role) {
   //Inserto el contenido nuevo de la section
   seccion.insertAdjacentHTML(
     "afterbegin",
-    "<div>" +
-      '<section id="mascotasList">' +
-      '<header style="text-align: center"><h1 id="tituloListaAnimales">Mascotas</h1></header>'+
-      "</section>" +
-      "</div>"
+    `<div><section id="mascotasList"><header style="text-align: center"><h1 id="tituloListaAnimales">Mascotas</h1><button class="botonAnadirMascota" id="BtnAM">Añadir Mascota</button></header>`+
+    '</section></div>'
   );
   cargarLista();
   document.addEventListener("backbutton", function(){actualizarDOM(role)}, false);
-
+  const botonAnadir = document.querySelector(".botonAnadirMascota");
+  botonAnadir.addEventListener('click', function(){cargarDatosMascota(null,role), false})
 }
 /*
 function cargarLista() {

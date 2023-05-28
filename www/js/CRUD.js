@@ -26,69 +26,75 @@ export function actualizarDOM(role,email) {
   //Inserto el contenido nuevo de la section
   seccion.insertAdjacentHTML(
     "afterbegin",
-    '<div class="container mt-4">' +
-      "<form>" +
-      '<div class="row col-campos">' +
-      '<div class="col-md-2">' +
-      '<div class="form-group">' +
-      '<label for="cod">COD. IDENTIFICACIÓN</label>' +
-      '<input type="text" class="form-control" id="cod">' +
-      "</div>" +
-      "</div>" +
-      '<div class="col-md-2">' +
-      '<div class="form-group">' +
-      '<label for="nombre">NOMBRE</label>' +
-      '<input type="text" class="form-control" id="nombre" placeholder="Nombre de su mascota">' +
-      "</div>" +
-      "</div>" +
-      '<div class="col-md-2">' +
-      '<div class="form-group">' +
-      '<label for="raza">RAZA</label>' +
-      '<input type="text" class="form-control" id="raza" placeholder="Raza de su mascota">' +
-      "</div>" +
-      "</div>" +
-      '<div class="col-md-2">' +
-      '<div class="form-group">' +
-      '<label for="sexo">SEXO</label>' +
-      '<input type="text" class="form-control" id="sexo" placeholder="Sexo de su mascota">' +
-      "</div>" +
-      "</div>" +
-      '<div class="col-md-2">' +
-      '<div class="form-group">' +
-      '<label for="nacimiento">F. NACIMIENTO</label>' +
-      '<input type="text" class="form-control" id="nacimiento" placeholder="Fecha de Nacimiento de su mascota">' +
-      "</div>" +
-      "</div>" +
-      '<div class="col-md-2">' +
-      '<div class="form-group">' +
-      '<label for="dni">DNI</label>' +
-      '<input type="text" class="form-control" id="dni" placeholder="Inserte el DNI del dueño">' +
-      "</div>" +
-      '<div class="col-md-2">' +
-      '<div class="form-group">' +
-      '<label for="imagen">Imagen</label>' +
-      '<input type="file" class="form-control" id="imagen">' +
-      "</div>" +
-      "</div>" +
-      "</div>" +
-      "</form>" +
-      "</div>" +
-      '<div class="container mt-4">' +
-      '<div class="row col-botones">' +
-      '<div class="col-md-3">' +
-      '<button type="button" class="btn btn-success w-100 admButton" id="alta">ALTA</button>' +
-      "</div>" +
-      '<div class="col-md-3">' +
-      '<button type="button" class="btn btn-warning w-100 admButton" id="modifica">MODIFICA</button>' +
-      "</div>" +
-      '<div class="col-md-3">' +
-      '<button type="button" class="btn btn-danger w-100 admButton" id="borra" >BORRA</button>' +
-      "</div>" +
-      '<div class="col-md-3">' +
-      '<button type="button" class="btn btn-primary w-100" id="consulta">CONSULTA TODOS</button>' +
-      "</div>" +
-      "</div>" +
-      "</div>"
+    '<div class="container mt-4">'+
+      '<label for="tituloDatos" id="tituloDatos">DATOS DE LA MASCOTA</label>'+
+      '<form>'+
+        '<div class="row col-campos">'+
+          '<div class="col-md-2">'+
+            '<div class="form-group">'+
+              '<label for="cod">Código identificación:</label>'+
+              '<div class="input-group mb-3">'+
+                '<input type="text" class="form-control" id="cod">'+
+              '</div>'+
+            '</div>'+
+          '</div>'+
+          '<div class="col-md-2">'+
+            '<div class="form-group">'+
+              '<label for="nombre">Nombre: </label>'+
+              '<div class="input-group mb-3">'+
+                '<input type="text" class="form-control" id="nombre">'+
+              '</div>'+
+            '</div>'+
+          '</div>'+
+          '<div class="col-md-2">'+
+            '<div class="form-group">'+
+              '<label for="raza">Raza: </label>'+
+              '<div class="input-group mb-3">'+
+                '<input type="text" class="form-control" id="raza">'+
+              '</div>'+
+            '</div>'+
+          '</div>'+
+          '<div class="col-md-2">'+
+            '<div class="form-group">'+
+              '<label for="sexo">Sexo: </label>'+
+              '<div class="input-group mb-3">'+
+                '<input type="text" class="form-control" id="sexo">'+
+              '</div>'+
+            '</div>'+
+          '</div>'+
+          '<div class="col-md-2">'+
+            '<div class="form-group">'+
+              '<label for="nacimiento">Fecha Nacimiento: </label>'+
+              '<div class="input-group mb-3">'+
+                '<input type="text" class="form-control" id="nacimiento">'+
+              '</div>'+
+            '</div>'+
+          '</div>'+
+          '<div class="col-md-2">'+
+            '<div class="form-group">'+
+              '<label for="dni">DNI: </label>'+
+              '<div class="input-group mb-3">'+
+                '<input type="text" class="form-control" id="dni">'+
+              '</div>'+
+            '</div>'+
+          '</div>'+
+          '<div class="col-md-2">'+
+            '<div class="form-group">'+
+              '<label for="imagen">Imagen: </label>'+
+              '<div class="input-group mb-3">'+
+                '<input type="file" class="form-control" id="imagen">'+
+              '</div>'+
+            '</div>'+
+         ' </div>'+
+       ' </div>'+
+        '<div class="row col-botones">'+
+         ' <div class="row-cols-2">'+
+            '<button type="button" class="btn btn-danger w-100 admButton" id="cancelar">CANCELAR</button>'+
+            '<button type="button" class="btn btn-success w-100 admButton" id="aceptar">ACEPTAR</button>'+
+          '</div>'+
+        '</div>'+
+      '</form>'+
+    '</div> '
   );
   if (role != "admin") {
     // Obtener una lista de elementos con la clase "admButton"
