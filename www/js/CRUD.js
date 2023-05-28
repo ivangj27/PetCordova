@@ -72,7 +72,7 @@ export function actualizarDOM() {
       '<div class="col-md-2">' +
       '<div class="form-group">' +
       '<label for="imagen">Imagen</label>' +
-      '<input type="image" class="form-control" id="imagen">' +
+      '<input type="file" class="form-control" id="imagen">' +
       "</div>" +
       "</div>" +
       "</div>" +
@@ -220,10 +220,11 @@ function limpiaCampos() {
   document.getElementById("nacimiento").value = null;
   document.getElementById("imagen").value = null;
 }
+
 function subirImagen() {
   const database = getDatabase();
 
-  get(ref(database, `users/${getUID()}`)).then((snapshot) => {
+  get(ref(database, `users/${getUID()}`)).then((snapshot) => { 
     // Obtiene el objeto de datos del usuario
     const userData = snapshot.val();
 
@@ -234,9 +235,10 @@ function subirImagen() {
 
     // Crea una referencia al archivo en Firebase Storage
     const storageRef = ref2(getStorage(), `${email}/perrito1.jpg`);
-
     // Sube el archivo a Firebase Storage
-    uploadBytes(storageRef, file).then((snapshot) => {
+    console.log(convertImageToBlob("img/logo.png"));
+
+    uploadBytes(storageRef,file ).then((snapshot) => {
       console.log("Imagen subida correctamente");
     });
 
@@ -245,3 +247,7 @@ function subirImagen() {
     // Si el inicio de sesión es exitoso, puedes redirigir a la página que desees o realizar otras acciones
   });
 }
+
+
+
+
