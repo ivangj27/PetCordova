@@ -14,12 +14,19 @@ import {
 export function generarPaginaUs() {
   const seccion = document.getElementById("contenido");
   const divs = seccion.querySelectorAll("div");
+  const articles = document.querySelectorAll("article");
 
   // Me cargo todos los divs de la section
   divs.forEach((div) => {
     div.remove();
   });
-
+  articles.forEach((article) => {
+    article.remove();
+  });
+  if(document.getElementById("bloqueBusqueda")){
+    const busqueda = document.getElementById("bloqueBusqueda");
+    busqueda.remove();
+  }
   //Inserto el contenido nuevo de la section
   seccion.insertAdjacentHTML(
     "afterbegin",

@@ -88,6 +88,8 @@ export function generarDatosCuenta() {
     sexo.value = usuario.sexo;
       
     buttonConfirmar.addEventListener("click", function(){confirmar(usuario,db,nombre,apellidos,dni,email,contrasena,sexo)});
+    document.addEventListener("backbutton", function(){generarPaginaUs()}, false);
+
 })
 }
 

@@ -140,7 +140,7 @@ export function cargarLista() {
   document.addEventListener(
     "backbutton",
     function () {
-      actualizarDOM(role);
+      actualizarDOM();
     },
     false
   );

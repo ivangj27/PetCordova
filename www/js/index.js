@@ -187,7 +187,7 @@ function insertarNavBar() {
     '<nav class="navbar fixed-bottom navbar-light justify-content-center navbar-custom ">' +
         '<div class="container" id="barraNavContent">' +
             '<a class="navbar-brand" id="botonLista">' +
-                '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
+                '<i class="fas fa-search"></i>' +
             '</a>' +
             '<a class="navbar-brand" id="botonCRUD">' +
                 '<img src="./assets/images/rottweiler-ejemplo.jpg" alt="Usuario" width="30" height="24">' +
