@@ -97,7 +97,7 @@ body {
     background-image:linear-gradient(to bottom, #CAF3EB 0%, #9AE2D4 51%);
     font-family: system-ui, -apple-system, -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
     font-size:12px;
-    height:100vh;
+    height:150vh;
     margin:0px;
     padding:0px;
     /* Padding to avoid the "unsafe" areas behind notches in the screen */
@@ -225,10 +225,6 @@ h1 {
   }
 
 /* Estilo de los campos de contraseña, el ojo y eso */
-  .contrasena-container{
-    width: 700px;
-    position: relative;
-  }
   .contrasena-container input[type="password"],
   .contrasena-container input[type="text"]{
     width: 100%;
@@ -238,7 +234,7 @@ h1 {
   .fa-eye{
     position: absolute;
     top: 35%;
-    right: 12%;
+    right: 18%;
     cursor: pointer;
     color: rgb(181, 181, 181);
   }
@@ -266,5 +262,5 @@ h1 {
     padding-left: 6px;
   }
   #barraNavContent{
-    margin-top: 0rem;
+    margin: 0 10px 0 10px;
   }

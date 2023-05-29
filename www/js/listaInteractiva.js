@@ -11,7 +11,6 @@ import { cargarDatosMascota } from "./informacionMascota.js";
 var rol = "";
 var mascotas = [];
 export function listaDOM() {
-  console.log(rol);
   console.log("INTENTANDO ACTUALIZAR EL DOM");
 
   const seccion = document.getElementById("contenido");
@@ -38,7 +37,7 @@ export function listaDOM() {
       '<i class="fas fa-search"></i>' +
       "</span>" +
       "</div>" +
-      "<div>" +
+      '<div id="divMascotasList">' +
       '<section id="mascotasList"><header style="text-align: center"><h1 id="tituloListaAnimales">Mascotas</h1><button class="botonAnadirMascota" id="BtnAM">Añadir Mascota</button></header>'+
     '</section>'+
       "</div>"
@@ -53,7 +52,7 @@ export function listaDOM() {
   );
   var inputBuscar = document.getElementById("inputBuscar");
   const botonAnadir = document.querySelector(".botonAnadirMascota");
-  botonAnadir.addEventListener('click', function(){cargarDatosMascota(null,role), false})
+  botonAnadir.addEventListener('click', function(){cargarDatosMascota(null), false})
   inputBuscar.addEventListener("input", function (event) {
     var busqueda = event.target.value.toLowerCase();
     buscarMascotas(busqueda);

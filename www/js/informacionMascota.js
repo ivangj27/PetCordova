@@ -6,7 +6,7 @@ import {
     get,
   } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-database.js";
   import { listaDOM } from "./listaInteractiva.js";
-  export function cargarDatosMascota(pet, role){
+  export function cargarDatosMascota(pet){
     if (pet != null){
       console.log("acceso datos mascota");
       const seccion = document.getElementById("contenido");
@@ -31,10 +31,14 @@ import {
     console.log("Alta Nueva Mascota");
       const seccion = document.getElementById("contenido");
       const divs = seccion.querySelectorAll("div");
+      const articles = seccion.querySelectorAll("article");
     
       // Me cargo todos los divs de la section
       divs.forEach((div) => {
         div.remove();
+      });
+      articles.forEach((article) => {
+        article.remove();
       });
       seccion.insertAdjacentHTML("afterbegin",
       "<div>" +
@@ -42,7 +46,7 @@ import {
         '<header style="text-align: center"><h1 id="tituloInfoMascota">NUEVA MASCOTA</h1></header>'+
         "</section>" +
       "</div>");
-      nuevaMascota(role);
+      nuevaMascota();
       document.addEventListener("backbutton", function(){listaDOM(role)}, false);
   }
   }
@@ -218,9 +222,14 @@ import {
     // hacer accion registrar y eliminar
   }
 
-  function nuevaMascota(role) {
+  function nuevaMascota() {
     console.log("GENERACION CAMPOS NUEVA MASCOTA")
     const database = getDatabase();
+
+    const divBusqueda = document.querySelector("#bloqueBusqueda");
+    divBusqueda.remove();
+    const divLista = document.querySelector("#divMascotasList");
+    divLista.remove();
 
     // Parent Node
     const appWindow = document.getElementById("infoMascota");

@@ -23,10 +23,10 @@ export function paginaRegistro() {
     "afterbegin",
     "<div>" +
       "<h2>Registro</h2>" +
-      '<div class="mb-3">' +
-      '<label for="nombre" class="form-label">Nombre:</label>' +
-      '<input type="text" id="nombre" name="nombre" class="form-control" placeholder="Escribe tu nombre">' +
-      "</div>" +
+      '<div class="inputContainer">'+
+        '<input class="camposTextoRegistro" type="text" placeholder="a"></input>'+
+        '<label class="labelTituloCampos" for="">NOMBRE</label>'+
+     '</div>'+
       '<div class="mb-3">' +
       '<label for="apellidos" class="form-label">Apellidos:</label>' +
       '<input type="text" id="apellidos" name="apellidos" class="form-control" placeholder="Escribe tus apellidos">' +
@@ -56,7 +56,7 @@ export function paginaRegistro() {
       '<label for="exampleInputPassword1" class="form-label">Confirmar contraseña</label>' +
       '<input type="password" class="form-control" id="confirmarContrasena">' +
       "</div>" +
-      '<div class="form-check">' +
+      '<div class="mb-3 form-check">' +
       '<input class="form-check-input" type="checkbox" id="exampleCheck1">' +
       '<label class="form-check-label" for="exampleCheck1">Acepto los términos y condiciones</label>' +
       "</div>" +
