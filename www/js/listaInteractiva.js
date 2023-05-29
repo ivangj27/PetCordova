@@ -24,7 +24,6 @@ export function listaDOM() {
   });
   articles.forEach((article) => {
     article.remove();
-    console.log("borro el article");
   });
   if(document.getElementById("bloqueBusqueda")){
     const busqueda = document.getElementById("bloqueBusqueda");
@@ -54,11 +53,10 @@ export function listaDOM() {
   );
   var inputBuscar = document.getElementById("inputBuscar");
 
-  inputBuscar.addEventListener("change", function (event) {
+  inputBuscar.addEventListener("input", function (event) {
     var busqueda = event.target.value.toLowerCase();
     buscarMascotas(busqueda);
   });
-  var mascotas = [];
 }
 /*
   IMPORTANTE PARA LAS IMAGENES: 
@@ -85,7 +83,6 @@ export function cargarLista() {
         var mascota = childSnapshot.val();
         mascotas.push(mascota);
       });
-      console.log(mascotas); // lista de objetos de JavaScript
       // Add pet items to the list
       mascotas.forEach((pet) => {
         // Create a new list item element
@@ -152,66 +149,59 @@ function buscarMascotas(busqueda) {
   if (mascotas.length > 0) {
     mascotas.splice(0, mascotas.length);
   }
-  const seccion = document.getElementById("contenido");
-  const divs = seccion.querySelectorAll("div");
-  const articles = document.querySelectorAll("article");
-
-  // Me cargo todos los divs y los articles de la section
-  divs.forEach((div) => {
-    div.remove();
-  });
-  articles.forEach((article) => {
-    article.remove();
-    console.log("borro el article");
-  });
-
-  var mascotasRef = ref(getDatabase(), `Mascotas`);
   const mascotasList = document.getElementById("mascotasList");
+
+  // Limpiar los elementos existentes en la lista de mascotas
+  mascotasList.innerHTML = "";
+
+  var mascotasRef = ref(getDatabase(), "Mascotas");
 
   get(mascotasRef).then(function (snapshot) {
     snapshot.forEach(function (childSnapshot) {
       var mascota = childSnapshot.val();
       mascotas.push(mascota);
+    });
 
-      if (
-        mascota.nombre.toLowerCase().includes(busqueda) ||
-        mascota.raza.toLowerCase().includes(busqueda)
-      ) {
-        // Comprueba si el nombre o la raza de la mascota coinciden con la búsqueda
-        mascotas.forEach((pet) => {
-          // Crea un elemento para mostrar la mascota y agrega el resultado al contenedor
-          const listItem = document.createElement("article");
-          listItem.classList.add("elementoListaAnimales");
+    // Filtrar las mascotas que coinciden con la búsqueda
+    const mascotasFiltradas = mascotas.filter((pet) => {
+      return (
+        pet.nombre.toLowerCase().includes(busqueda) ||
+        pet.raza.toLowerCase().includes(busqueda)
+      );
+    });
 
-          const petPhotoFrame = document.createElement("button");
-          petPhotoFrame.id = "fotoListaAnimales";
-          petPhotoFrame.classList.add("fotoListaAnimales");
-          //petPhotoFrame.addEventListener('click', informacionMascota);
-          listItem.appendChild(petPhotoFrame);
+    mascotasFiltradas.forEach((pet) => {
+      // Crear un elemento para mostrar la mascota y agregar el resultado al contenedor
+      const listItem = document.createElement("article");
+      listItem.classList.add("elementoListaAnimales");
 
-          const petPhoto = document.createElement("img");
-          petPhoto.src = "img/logo.png"; // pet.imagen
+      const petPhotoFrame = document.createElement("button");
+      petPhotoFrame.id = "fotoListaAnimales";
+      petPhotoFrame.classList.add("fotoListaAnimales");
+      //petPhotoFrame.addEventListener('click', informacionMascota);
+      listItem.appendChild(petPhotoFrame);
 
-          petPhotoFrame.appendChild(petPhoto);
+      const petPhoto = document.createElement("img");
+      petPhoto.src = "img/logo.png"; // pet.imagen
 
-          // Create the pet info element
-          const petInfo = document.createElement("div");
-          listItem.appendChild(petInfo);
+      petPhotoFrame.appendChild(petPhoto);
 
-          // Create the pet name element
-          const petName = document.createElement("h3");
-          petName.textContent = pet.nombre;
-          petInfo.appendChild(petName);
+      // Crear el elemento de información de la mascota
+      const petInfo = document.createElement("div");
+      listItem.appendChild(petInfo);
 
-          // Create the pet species and age element
-          const petSpeciesAge = document.createElement("p");
-          petSpeciesAge.textContent = `${pet.raza} - ${pet.sexo}`;
-          petInfo.appendChild(petSpeciesAge);
+      // Crear el elemento para el nombre de la mascota
+      const petName = document.createElement("h3");
+      petName.textContent = pet.nombre;
+      petInfo.appendChild(petName);
 
-          // Add the new list item to the pet list
-          mascotasList.appendChild(listItem);
-        });
-      }
+      // Crear el elemento para la especie y edad de la mascota
+      const petSpeciesAge = document.createElement("p");
+      petSpeciesAge.textContent = `${pet.raza} - ${pet.sexo}`;
+      petInfo.appendChild(petSpeciesAge);
+
+      // Agregar el nuevo elemento a la lista de mascotas
+      mascotasList.appendChild(listItem);
     });
   });
 }
