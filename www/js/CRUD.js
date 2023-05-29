@@ -8,19 +8,24 @@ import {
 import {
   getStorage,
   ref as ref2,
-  uploadBytes
+  uploadBytes,
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
 import { listaDOM } from "./listaInteractiva.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
+import { getUID } from "./index.js";
 
-export function actualizarDOM(role,email) {
+export function actualizarDOM() {
   console.log("INTENTANDO ACTUALIZAR EL DOM");
 
   const seccion = document.getElementById("contenido");
   const divs = seccion.querySelectorAll("div");
-  const storage = getStorage();
+  const articles = seccion.querySelectorAll("article");
   // Me cargo todos los divs de la section
   divs.forEach((div) => {
     div.remove();
+  });
+  articles.forEach((article) => {
+    article.remove();
   });
 
   //Inserto el contenido nuevo de la section
@@ -96,6 +101,7 @@ export function actualizarDOM(role,email) {
       '</form>'+
     '</div> '
   );
+/* Comprobación de si es admin eliminada, ya veremos si metemos esto al final
   if (role != "admin") {
     // Obtener una lista de elementos con la clase "admButton"
     const buttons = document.querySelectorAll(".admButton");
@@ -104,10 +110,10 @@ export function actualizarDOM(role,email) {
     for (let i = 0; i < buttons.length; i++) {
       buttons[i].remove();
     }
-  }
+  }*/
   const bAnadir = document.getElementById("alta");
   bAnadir.addEventListener("click", function () {
-    anadir(email);
+    anadir();
   });
   document.getElementById("modifica").addEventListener("click", () => {
     modificar();
@@ -117,10 +123,10 @@ export function actualizarDOM(role,email) {
   });
   document.getElementById("consulta").addEventListener("click", () => {
     //listaDOM(role);
-    listaDOM('admin');
+    listaDOM();
   });
 }
-function anadir(email) {
+function anadir() {
   console.log("SE EJECUTA ANADIR");
   const database = getDatabase();
 
@@ -142,9 +148,7 @@ function anadir(email) {
     nacimiento: nacimiento,
   };
   set(ref(database, "Mascotas/" + cod), Mascota);
-
-  // Limpiar los campos después de insertar los datos.
-  subirImagen(email);
+  subirImagen();
   limpiaCampos();
 }
 
@@ -222,15 +226,34 @@ function limpiaCampos() {
   document.getElementById("nacimiento").value = null;
   document.getElementById("imagen").value = null;
 }
-function subirImagen(email) {
-  // Selecciona el archivo a subir
-  const file = document.getElementById("imagen").files[0];
 
-  // Crea una referencia al archivo en Firebase Storage
-  const storageRef = ref2(getStorage(), `${email}/perrito1.jpg`);
+function subirImagen() {
+  const database = getDatabase();
 
-  // Sube el archivo a Firebase Storage
-  uploadBytes(storageRef, file).then((snapshot) => {
-    console.log("Imagen subida correctamente");
+  get(ref(database, `users/${getUID()}`)).then((snapshot) => { 
+    // Obtiene el objeto de datos del usuario
+    const userData = snapshot.val();
+
+    // Obtiene el valor del rol del usuario
+    const email = userData.email;
+    // Selecciona el archivo a subir
+    const file = document.getElementById("imagen").files[0];
+
+    // Crea una referencia al archivo en Firebase Storage
+    const storageRef = ref2(getStorage(), `${email}/perrito1.jpg`);
+    // Sube el archivo a Firebase Storage
+    console.log(convertImageToBlob("img/logo.png"));
+
+    uploadBytes(storageRef,file ).then((snapshot) => {
+      console.log("Imagen subida correctamente");
+    });
+
+    // Hace algo con el valor del rol (por ejemplo, lo muestra en la consola)
+
+    // Si el inicio de sesión es exitoso, puedes redirigir a la página que desees o realizar otras acciones
   });
 }
+
+
+
+

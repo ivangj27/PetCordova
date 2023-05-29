@@ -20,31 +20,33 @@
 
 <body>
   <section class="app text-center" id="contenido">
+    <header style="text-align: center"><img id="imagenUs" src="./assets/images/rottweiler-ejemplo.jpg"></header>
     <div>
-      <div class="input-group mb-3">
-        <input type="text" id="email" class="form-control" placeholder="Usuario" aria-label="Username">
-      </div>
-      <div class="contrasena-container input-group mb-3">
-        <input type="password" id="contrasena" class="form-control" placeholder="Contraseña" aria-label="Server">
-        <i class="fa-solid fa-eye" id="eye"></i>
-      </div>
-      <br>
-      <div id="divRecordarUsuario">
-        <label id="remember">Recordar usuario</label> 
-          <label class="switch">
-            <input id="recordar" type="checkbox">
-            <span class="slider round"></span>
-          </label>
-      </div>
-      <button id="resetPass" class="btn btn-light btn-ripple">¿Has olvidado tu contraseña?</button>
-      <br>
-      <button id="registro" type="button" class="btn btn-secondary btn-ripple">Registrarse</button>
-
-      <button id="inicio" type="button" class="btn btn-primary btn-ripple">Iniciar sesión</button>
+        <h1 id="nombreUsuario">Paquito</h1>
     </div>
-
-
+    <div class="list-group">
+        <button type="button" class="list-group-item list-group-item-action" aria-current="true">
+          Mis mascotas
+        </button>
+        <button type="button" class="list-group-item list-group-item-action">Datos de mi cuenta</button>
+        <button type="button" class="list-group-item list-group-item-action" id="cerrarSesion">Cerrar sesión<img id="imagenSalir" src="assets/images/leave.png"></button>
+      </div>
   </section>
+  <footer id="navegacion">
+    <nav class="navbar fixed-bottom navbar-light justify-content-center navbar-custom ">
+        <div class="container" id="barraNavContent">
+            <a class="navbar-brand" href="#">
+                <img src="./assets/images/user.png" alt="Usuario" width="30" height="24">
+            </a>
+            <a class="navbar-brand" href="#">
+                <img src="./assets/images/rottweiler-ejemplo.jpg" alt="Usuario" width="30" height="24">
+            </a>
+            <a class="navbar-brand" href="#">
+                <img src="./assets/images/user.png" alt="Usuario" width="30" height="24">
+            </a>
+        </div>
+    </nav>
+</footer>
 
   <script src="cordova.js"></script>
 
@@ -56,8 +58,6 @@
   <script type="module" src="js/CRUD.js"></script>
   <script type="module" src="js/index.js"></script>
   <script type="module" src="js/informacionMascota.js"></script>
-  <script type="module" src="js/paginaUsuario.js"></script>
-  <script type="module" src="js/datosCuenta.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 </body>

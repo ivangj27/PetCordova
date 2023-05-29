@@ -17,8 +17,26 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
 
 import { actualizarDOM } from "./CRUD.js";
-import { listaDOM } from "./listaInteractiva.js";
+import { paginaRegistro } from "./registro.js";
+import { recuperacion } from "./restablecerContrasena.js";
+import { generarPaginaUs } from "./paginaUsuario.js";
+import { cargarLista, listaDOM } from "./listaInteractiva.js";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyCBXo6m6nAiY8r3Oo35MT-Tp3rLrJpN0nA",
+  authDomain: "tfg-app-mascotas.firebaseapp.com",
+  databaseURL:
+    "https://tfg-app-mascotas-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "tfg-app-mascotas",
+  storageBucket: "tfg-app-mascotas.appspot.com",
+  messagingSenderId: "348794448656",
+  appId: "1:348794448656:web:6f93585ca395453eff9395",
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const auth = getAuth();
+var uid ="";
 window.onload = function () {
   console.log("toy probando el remember me");
   document.getElementById("consultar").addEventListener("click",listaDOM('admin'));
@@ -35,60 +53,35 @@ window.onload = function () {
     document.getElementById("inicio").click();
   }
 };
+const passwordInput = document.querySelector("#contrasena")
+const eye = document.querySelector("#eye")
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCBXo6m6nAiY8r3Oo35MT-Tp3rLrJpN0nA",
-  authDomain: "tfg-app-mascotas.firebaseapp.com",
-  databaseURL:
-    "https://tfg-app-mascotas-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "tfg-app-mascotas",
-  storageBucket: "tfg-app-mascotas.appspot.com",
-  messagingSenderId: "348794448656",
-  appId: "1:348794448656:web:6f93585ca395453eff9395",
-};
+function restablecerVariables() {
+  // Initialize Firebase
+  const botonRegistro = document.getElementById("registro");
+  const botonInicio = document.getElementById("inicio");
+  const botonPass = document.getElementById("resetPass");
+  document.getElementById("resetPass").addEventListener("click", dialogConfirm);
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-const auth = getAuth();
-const botonRegistro = document.getElementById("registro");
-const botonInicio = document.getElementById("inicio");
-const botonPass = document.getElementById("resetPass")
-console.log("iniciado");
+  console.log("iniciado");
 
-// Listeners de los botones de inicio y registro
-botonRegistro.addEventListener("click", registro);
-botonInicio.addEventListener("click", iniciarSesion);
-botonPass.addEventListener("click",cambiarContrasena);
-
-function registro() {
-  console.log("REGISTRANDO...");
-  var usuario = document.getElementById("email").value;
-  var contrasena = document.getElementById("contrasena").value;
-
-  createUserWithEmailAndPassword(auth, usuario, contrasena)
-    .then((userCredential) => {
-      const user = userCredential.user;
-
-      set(ref(database, "users/" + user.uid), {
-        username: usuario,
-        contrasena: contrasena,
-      });
-      mostrarToast("Registro exitoso", false);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      mostrarToast("Registro fallido error: " + errorMessage, true);
-    });
+  // Listeners de los botones de inicio y registro
+  botonRegistro.addEventListener("click", paginaRegistro);
+  botonInicio.addEventListener("click", iniciarSesion);
+  botonPass.addEventListener("click", dialogConfirm);
+  eye.addEventListener("click", function(){
+    this.classList.toggle("fa-eye-slash")
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password"
+    passwordInput.setAttribute("type", type)
+  })
+  
 }
-
+restablecerVariables();
 function iniciarSesion() {
   
   // Obtener los valores de los campos de email y contraseña
   var email = document.getElementById("email").value;
   var contrasena = document.getElementById("contrasena").value;
-
   // Iniciar sesión con Firebase
   signInWithEmailAndPassword(auth, email, contrasena)
     .then((userCredential) => {
@@ -97,51 +90,34 @@ function iniciarSesion() {
         if (user) {
           // User logged in already or has just logged in.
           var id = user.uid;
-          get(ref(database, `users/${id}`)).then((snapshot) => {
-            // Obtiene el objeto de datos del usuario
-            const userData = snapshot.val();
-
-            // Obtiene el valor del rol del usuario
-            const userRole = userData.role;
-
-            // Hace algo con el valor del rol (por ejemplo, lo muestra en la consola)
-            recordarDatos();
-            listaDOM(userRole);
-
-            // Si el inicio de sesión es exitoso, puedes redirigir a la página que desees o realizar otras acciones
-
-            mostrarToast("Inicio de sesión correcto", false);
-          });
+          setUID(id)
+          recordarDatos();
+          insertarNavBar();
+          actualizarDOM();
+          mostrarToast("Inicio de sesión correcto");
         }
       });
     })
     .catch((error) => {
       // Si hay un error en el inicio de sesión, puedes mostrar un mensaje de error o realizar otras acciones
-      const errorCode = error.code;
       const errorMessage = error.message;
 
-      mostrarToast("Error al iniciar sesión" + errorMessage, true);
+      mostrarToast("Error al iniciar sesión" + errorMessage);
     });
 }
 
 //Método para crear un "Toast" personalizado con el texto que le pases por parámetros
-function mostrarToast(cuerpo, error) {
-  // Si error es verdadero muestra un toast de rojo
-  if (error) {
-    const toast = document.getElementById("fallido");
-    const toastBody = toast.querySelector(".toast-body");
-    toastBody.textContent = cuerpo;
-    const bsToast = new bootstrap.Toast(toast);
-    bsToast.show();
-  } //Si error es falso muestra un toast del color principal
-  else {
-    const toast = document.getElementById("correcto");
-    const toastBody = toast.querySelector(".toast-body");
-    toastBody.textContent = cuerpo;
-    const bsToast = new bootstrap.Toast(toast);
-    bsToast.show();
-  }
+export function mostrarToast(mensaje) {
+  window.plugins.toast.showWithOptions(
+    {
+      message: mensaje,
+      duration: "short", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+      position: "bottom",
+    },
+  );
 }
+
+// Función para guardar los datos del usuario en el almacenamiento local si activa el switch
 function recordarDatos() {
   const recordarUs = document.getElementById("recordar");
   var usuario = document.getElementById("email").value;
@@ -155,20 +131,91 @@ function recordarDatos() {
     console.log("datos guardados");
   }
 }
-function cambiarContrasena(){
-  console.log(document.getElementById("email").value)
-  if (document.getElementById("email").value == "") {
-    mostrarToast("El campo de 'email' está vacío", true)
-  }else {
-    console.log("cambiando la contrasena")
-    sendPasswordResetEmail(auth,document.getElementById("email").value)
-    .then(() => {
-      mostrarToast("Email de cambio de contraseña enviado", false);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      mostrarToast("Fallo al enviar el email: " + errorMessage, true);
-    });
-  }
+
+// Diálogo de restablecimiento de contraseña
+function dialogConfirm() {
+  var message = "¿Estás seguro de que deseas restablecer la contraseña?";
+  var title = "Restablecer contraseña";
+  var buttonLabels = "Confirmar,Cancelar";
+  navigator.notification.confirm(message, (input) => {if(input==1){recuperacion()}else return}, title, buttonLabels);
+}
+
+//Recarga la página de login
+export function restablecerDOM() {
+  const seccion = document.getElementById("contenido");
+  const divs = seccion.querySelectorAll("div");
+  // Me cargo todos los divs de la section
+  divs.forEach((div) => {
+    div.remove();
+  });
+
+  //Inserto el contenido nuevo de la section
+  seccion.insertAdjacentHTML(
+    "afterbegin",
+    "<div>" +
+      '<div class="input-group mb-3">' +
+      '<input type="text" id="email" class="form-control" placeholder="Usuario" aria-label="Username">' +
+      "</div>" +
+      "<div>" +
+      '<input type="password" id="contrasena" class="form-control" placeholder="Contraseña" aria-label="Server">' +
+      '<i class="fa-solid fa-eye" id="eye"></i>'+
+      "</div>" +
+      '<button id="resetPass" class="btn btn-light">¿Has olvidado tu contraseña?</button>' +
+      "<br>" +
+      "<div>" +
+      '<label id="remember">Recordar usuario</label>' +
+      "<!-- Rounded switch -->" +
+      '<label class="switch">' +
+      '<input id="recordar" type="checkbox">' +
+      '<span class="slider round"></span>' +
+      "</label>" +
+      "</div>" +
+      "<br>" +
+      '<button id="registro" type="button" class="btn btn-secondary">Registrarse</button>' +
+      '<button id="inicio" type="button" class="btn btn-primary">Iniciar sesión</button>' +
+      "</div>"
+  );
+  restablecerVariables();
+}
+
+//Inserta la barra de navegación inferior en la app
+function insertarNavBar() {
+  const seccion = document.getElementById("contenido");
+  seccion.insertAdjacentHTML(
+    "afterend",
+    '<footer id="navegacion">' +
+    '<nav class="navbar fixed-bottom navbar-light justify-content-center navbar-custom ">' +
+        '<div class="container" id="barraNavContent">' +
+            '<a class="navbar-brand" id="botonLista">' +
+                '<i class="fas fa-search"></i>' +
+            '</a>' +
+            '<a class="navbar-brand" id="botonCRUD">' +
+                '<img src="./assets/images/rottweiler-ejemplo.jpg" alt="Usuario" width="30" height="24">' +
+            '</a>' +
+            '<a class="navbar-brand" id="botonUsuario">' +
+                '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
+            '</a>' +
+        '</div>' +
+    '</nav>' +
+'</footer>'
+  );
+  const botonLista = document.getElementById("botonLista");
+  const botonUsuario = document.getElementById("botonUsuario");
+  const botonCRUD = document.getElementById("botonCRUD");
+
+  botonUsuario.addEventListener("click", function(e){
+    generarPaginaUs();
+  })
+  botonLista.addEventListener("click", function(e){
+    listaDOM();
+  })
+  botonCRUD.addEventListener("click", function(e){
+    actualizarDOM();
+  })
+}
+function setUID(id){
+  uid = id;
+}
+export function getUID(){
+  return uid;
 }

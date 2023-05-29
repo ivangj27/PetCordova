@@ -219,4 +219,52 @@ h1 {
       margin-bottom: 0.5rem;
     }
   }
-  
+
+  .navbar-custom {
+    background-color: transparent;
+  }
+
+/* Estilo de los campos de contraseña, el ojo y eso */
+  .contrasena-container{
+    width: 700px;
+    position: relative;
+  }
+  .contrasena-container input[type="password"],
+  .contrasena-container input[type="text"]{
+    width: 100%;
+    padding: 12px 36px 12px 12px;
+    box-sizing: border-box;
+  }
+  .fa-eye{
+    position: absolute;
+    top: 35%;
+    right: 12%;
+    cursor: pointer;
+    color: rgb(181, 181, 181);
+  }
+  .list-group-item{
+    margin-top: -12px;
+    border-top: #0F6B90 5px ;
+  }
+  #imagenUs{
+    width: 100px;
+    position: relative;
+    margin-left: 44px;
+    margin-bottom: 50px;
+    border-radius:50%;
+  }
+  #nombreUsuario{
+    margin-bottom: 40px;
+    margin-left: 44px;
+  }
+  #cerrarSesion{
+    color: red;
+    margin-top: 20px;
+  }
+  #imagenSalir{
+    width: 20px;
+    padding-left: 6px;
+  }
+  #barraNavContent{
+    margin-top: 0rem;
+  }

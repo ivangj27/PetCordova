@@ -11,12 +11,15 @@ import {
       console.log("acceso datos mascota");
       const seccion = document.getElementById("contenido");
       const divs = seccion.querySelectorAll("div");
-    
+      const articles = seccion.querySelectorAll("article");
       // Me cargo todos los divs de la section
       divs.forEach((div) => {
         div.remove();
       });
-      seccion.insertAdjacentHTML("afterbegin",
+      articles.forEach((article) => {
+      article.remove();
+    });
+    seccion.insertAdjacentHTML("afterbegin",
       "<div>" +
         '<section id="infoMascota">' +
         '<header style="text-align: center"><h1 id="tituloInfoMascota">Detalles - '+pet.nombre+'</h1></header>'+
