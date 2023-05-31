@@ -132,7 +132,6 @@ export function actualizarDOM() {
     eliminar();
   });
   document.getElementById("consulta").addEventListener("click", () => {
-    //listaDOM(role);
     listaDOM();
   });
 }
@@ -148,6 +147,7 @@ function anadir() {
   var sexo = document.getElementById("sexo").value;
   var dni = document.getElementById("dni").value;
   var nacimiento = document.getElementById("nacimiento").value;
+  
 
   var Mascota = {
     cod: cod,
@@ -158,9 +158,10 @@ function anadir() {
     nacimiento: nacimiento,
   };
   set(ref(database, "Mascotas/" + cod), Mascota);
-  subirImagen();
+  subirImagen(); 
   limpiaCampos();
 }
+
 
 function modificar() {
   console.log("SE EJECUTA MODIFICAR");
@@ -237,6 +238,8 @@ function limpiaCampos() {
   document.getElementById("imagen").value = null;
 }
 
+var fileData = new File
+
 function subirImagen() {
   const database = getDatabase();
 
@@ -247,14 +250,13 @@ function subirImagen() {
     // Obtiene el valor del rol del usuario
     const email = userData.email;
     // Selecciona el archivo a subir
-    const file = document.getElementById("imagen").files[0];
 
+    console.log(fileData.size)
     // Crea una referencia al archivo en Firebase Storage
     const storageRef = ref2(getStorage(), `${email}/perrito1.jpg`);
     // Sube el archivo a Firebase Storage
-    console.log(convertImageToBlob("img/logo.png"));
 
-    uploadBytes(storageRef,file ).then((snapshot) => {
+    uploadBytes(storageRef,fileData).then((snapshot) => {
       console.log("Imagen subida correctamente");
     });
 
@@ -265,5 +267,22 @@ function subirImagen() {
 }
 
 
+export function handleFileSelect(event) {
+  var file = event.target.files[0]; // Obtiene el archivo seleccionado
+
+  if (file) {
+    var reader = new FileReader(); // Crea un objeto FileReader
+
+    reader.onload = function(e) {
+      var fileContents = e.target.result; // Obtiene el contenido del archivo
+      // Aquí puedes realizar las acciones que desees con el archivo
+      // Por ejemplo, puedes asignar el contenido a una variable
+      fileData = fileContents;
+      console.log(fileData); // Muestra el contenido del archivo en la consola
+    };
+
+    reader.readAsText(file); // Lee el archivo como texto
+  }
+}
 
 
