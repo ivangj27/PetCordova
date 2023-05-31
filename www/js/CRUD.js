@@ -29,6 +29,10 @@ export function actualizarDOM() {
     document.getElementById("datosUsuario").remove();
   }
 
+  if(document.getElementById("divMascotasList")){
+    document.getElementById("divMascotasList").remove();
+  }
+
 
   // Me cargo todos los divs de la section
   divs.forEach((div) => {
