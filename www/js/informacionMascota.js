@@ -8,6 +8,8 @@ import {
   import { listaDOM } from "./listaInteractiva.js";
   export function cargarDatosMascota(pet){
     if (pet != null){
+      document.getElementById("bloqueBusqueda").remove();
+      document.getElementById("divMascotasList").remove();
       console.log("acceso datos mascota");
       const seccion = document.getElementById("contenido");
       const divs = seccion.querySelectorAll("div");
@@ -22,12 +24,13 @@ import {
     seccion.insertAdjacentHTML("afterbegin",
       "<div>" +
         '<section id="infoMascota">' +
-        '<header style="text-align: center"><h1 id="tituloInfoMascota">Detalles - '+pet.nombre+'</h1></header>'+
         "</section>" +
       "</div>");
       mostrarDatos(pet);
       document.addEventListener("backbutton", function(){listaDOM(role)}, false);
   }else {
+    document.getElementById("bloqueBusqueda").remove();
+    document.getElementById("divMascotasList").remove();
     console.log("Alta Nueva Mascota");
       const seccion = document.getElementById("contenido");
       const divs = seccion.querySelectorAll("div");
@@ -43,7 +46,6 @@ import {
       seccion.insertAdjacentHTML("afterbegin",
       "<div>" +
         '<section id="infoMascota">' +
-        '<header style="text-align: center"><h1 id="tituloInfoMascota">NUEVA MASCOTA</h1></header>'+
         "</section>" +
       "</div>");
       nuevaMascota();
@@ -225,11 +227,6 @@ import {
   function nuevaMascota() {
     console.log("GENERACION CAMPOS NUEVA MASCOTA")
     const database = getDatabase();
-
-    const divBusqueda = document.querySelector("#bloqueBusqueda");
-    divBusqueda.remove();
-    const divLista = document.querySelector("#divMascotasList");
-    divLista.remove();
 
     // Parent Node
     const appWindow = document.getElementById("infoMascota");

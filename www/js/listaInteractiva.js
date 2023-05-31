@@ -38,7 +38,7 @@ export function listaDOM() {
       "</span>" +
       "</div>" +
       '<div id="divMascotasList">' +
-      '<section id="mascotasList"><header style="text-align: center"><h1 id="tituloListaAnimales">Mascotas</h1><button class="botonAnadirMascota" id="BtnAM">Añadir Mascota</button></header>'+
+      '<section id="mascotasList"><header style="text-align: center"><button class="botonAnadirMascota" id="BtnAM">Añadir Mascota</button></header>'+
     '</section>'+
       "</div>"
   );

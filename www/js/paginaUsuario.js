@@ -16,6 +16,9 @@ export function generarPaginaUs() {
   const divs = seccion.querySelectorAll("div");
   const articles = document.querySelectorAll("article");
 
+  if(document.getElementById("divMascotasList")){
+    document.getElementById("divMascotasList").remove();
+  }
   // Me cargo todos los divs de la section
   divs.forEach((div) => {
     div.remove();

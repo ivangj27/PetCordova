@@ -21,7 +21,7 @@ export function paginaRegistro() {
   //Inserto el contenido nuevo de la section
   seccion.insertAdjacentHTML(
     "afterbegin",
-    "<div>" +
+    '<div id="datosUsuario">' +
       "<h2>Registro</h2>" +
       '<div class="inputContainer">'+
         '<input class="camposTextoRegistro" type="text" placeholder="a"></input>'+

@@ -203,7 +203,7 @@
 .inputContainer{
   border-radius: 15px;
   background-color: white;
-  margin-left: 10%;
+  margin-left: 35%;
   padding: 10px;
   position: relative;
   height: 80px;
@@ -274,7 +274,7 @@
     position: relative;
     height: 45px;
     width: 90%;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
 
   .botonEditarMascota{

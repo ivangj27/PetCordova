@@ -20,6 +20,16 @@ export function actualizarDOM() {
   const seccion = document.getElementById("contenido");
   const divs = seccion.querySelectorAll("div");
   const articles = seccion.querySelectorAll("article");
+
+  if(document.getElementById("bloqueBusqueda")){
+    document.getElementById("bloqueBusqueda").remove();
+  }
+
+  if(document.getElementById("datosUsuario")){
+    document.getElementById("datosUsuario").remove();
+  }
+
+
   // Me cargo todos los divs de la section
   divs.forEach((div) => {
     div.remove();
