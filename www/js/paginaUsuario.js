@@ -32,7 +32,7 @@ export function generarPaginaUs() {
     "afterbegin",
     '<div style="text-align: center"><img id="imagenUs" src="./assets/images/rottweiler-ejemplo.jpg"></div>' +
       "<div>" +
-      '<h1 id="nombreUsuario">Paquito</h1>' +
+      '<h1 id="nombreUsuario"></h1>' +
       "</div>" +
       '<div class="list-group">' +
       '<button type="button" class="list-group-item list-group-item-action" aria-current="true">' +

@@ -8,10 +8,8 @@ import {
 import { actualizarDOM } from "./CRUD.js";
 import { cargarDatosMascota } from "./informacionMascota.js";
 
-var rol = "";
 var mascotas = [];
 export function listaDOM() {
-  console.log(rol);
   console.log("INTENTANDO ACTUALIZAR EL DOM");
 
   const seccion = document.getElementById("contenido");
@@ -57,6 +55,7 @@ export function listaDOM() {
     var busqueda = event.target.value.toLowerCase();
     buscarMascotas(busqueda);
   });
+  mascotas = [];
 }
 /*
   IMPORTANTE PARA LAS IMAGENES: 
@@ -71,9 +70,7 @@ export function cargarLista() {
   var mascotasRef = ref(database, "Mascotas");
 
   // lista de objetos de JavaScript
-  if (mascotas.length > 0) {
-    mascotas.splice(0, mascotas.length);
-  }
+  mascotas = [];
   const mascotasList = document.getElementById("mascotasList");
   // obtener todos los objetos de la lista "mascotas"
   get(mascotasRef)
