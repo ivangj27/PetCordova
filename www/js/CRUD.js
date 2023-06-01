@@ -45,75 +45,44 @@ export function actualizarDOM() {
   //Inserto el contenido nuevo de la section
   seccion.insertAdjacentHTML(
     "afterbegin",
-    '<div class="container mt-4">'+
-      '<label for="tituloDatos" id="tituloDatos">DATOS DE LA MASCOTA</label>'+
-      '<form>'+
-        '<div class="row col-campos">'+
-          '<div class="col-md-2">'+
-            '<div class="form-group">'+
-              '<label for="cod">Código identificación:</label>'+
-              '<div class="input-group mb-3">'+
-                '<input type="text" class="form-control" id="cod">'+
-              '</div>'+
-            '</div>'+
-          '</div>'+
-          '<div class="col-md-2">'+
-            '<div class="form-group">'+
-              '<label for="nombre">Nombre: </label>'+
-              '<div class="input-group mb-3">'+
-                '<input type="text" class="form-control" id="nombre">'+
-              '</div>'+
-            '</div>'+
-          '</div>'+
-          '<div class="col-md-2">'+
-            '<div class="form-group">'+
-              '<label for="raza">Raza: </label>'+
-              '<div class="input-group mb-3">'+
-                '<input type="text" class="form-control" id="raza">'+
-              '</div>'+
-            '</div>'+
-          '</div>'+
-          '<div class="col-md-2">'+
-            '<div class="form-group">'+
-              '<label for="sexo">Sexo: </label>'+
-              '<div class="input-group mb-3">'+
-                '<input type="text" class="form-control" id="sexo">'+
-              '</div>'+
-            '</div>'+
-          '</div>'+
-          '<div class="col-md-2">'+
-            '<div class="form-group">'+
-              '<label for="nacimiento">Fecha Nacimiento: </label>'+
-              '<div class="input-group mb-3">'+
-                '<input type="text" class="form-control" id="nacimiento">'+
-              '</div>'+
-            '</div>'+
-          '</div>'+
-          '<div class="col-md-2">'+
-            '<div class="form-group">'+
-              '<label for="dni">DNI: </label>'+
-              '<div class="input-group mb-3">'+
-                '<input type="text" class="form-control" id="dni">'+
-              '</div>'+
-            '</div>'+
-          '</div>'+
-          '<div class="col-md-2">'+
-            '<div class="form-group">'+
-              '<label for="imagen">Imagen: </label>'+
-              '<div class="input-group mb-3">'+
-                '<input type="file" class="form-control" id="imagen">'+
-              '</div>'+
-            '</div>'+
-         ' </div>'+
-       ' </div>'+
-        '<div class="row col-botones">'+
-         ' <div class="row-cols-2">'+
-            '<button type="button" class="btn btn-danger w-100 admButton" id="cancelar">CANCELAR</button>'+
-            '<button type="button" class="btn btn-success w-100 admButton" id="aceptar">ACEPTAR</button>'+
-          '</div>'+
-        '</div>'+
-      '</form>'+
-    '</div> '
+    '<div><section id="infoMascota"><article class="ventanaDatosMascota">' +
+  '<img class="fotoDetalleMascota" src="img/icono_perro.png" width="170" height="200">' +
+  '<div class="divDatosMascota">' +
+  '<div class="inputContainer">' +
+  '<input type="text" class="camposTextoDatosMascota" placeholder="a">' +
+  '<label class="labelTituloCampos" for="">Nombre Mascota</label>' +
+  '</div>' +
+  '<div class="inputContainer">' +
+  '<input class="camposTextoDatosMascota" type="text" placeholder="a">' +
+  '<label class="labelTituloCampos" for="">DNI Dueño</label>' +
+  '</div>' +
+  '<br>' +
+  '<div class="inputContainer">' +
+  '<input class="camposTextoDatosMascota" type="date" placeholder="a">' +
+  '<label class="labelTituloCampos" for="">Fecha Nacimiento</label>' +
+  '</div>' +
+  '<div class="inputContainer">' +
+  '<input type="text" placeholder="a" readonly="" class="camposTextoDatosMascota">' +
+  '<label class="labelTituloCampos" for="">Edad</label>' +
+  '</div>' +
+  '<div class="inputContainer">' +
+  '<input type="text" placeholder="a" class="camposTextoDatosMascota">' +
+  '<label class="labelTituloCampos" for="">Raza Mascota</label>' +
+  '</div>' +
+  '<div class="inputContainer">' +
+  '<input type="text" placeholder="a" class="camposTextoDatosMascota">' +
+  '<label class="labelTituloCampos" for="">Sexo</label>' +
+  '</div>' +
+  '</div>' +
+  '<div class="divBotones">' +
+  '<div class="divBotonAceptar">' +
+  '<button class="botonAceptar">ACEPTAR MASCOTA</button>' +
+  '</div>' +
+  '<div class="divBotonCancelar">' +
+  '<button class="botonCancelar">CANCELAR MASCOTA</button>' +
+  '</div>' +
+  '</div>' +
+  '</article></section></div>'
   );
 /* Comprobación de si es admin eliminada, ya veremos si metemos esto al final
   if (role != "admin") {
@@ -160,6 +129,7 @@ function anadir() {
     sexo: sexo,
     dni: dni,
     nacimiento: nacimiento,
+    adoptado:false
   };
   set(ref(database, "Mascotas/" + cod), Mascota);
   subirImagen();

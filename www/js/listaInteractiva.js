@@ -38,7 +38,7 @@ export function listaDOM() {
       "</span>" +
       "</div>" +
       '<div id="divMascotasList">' +
-      '<section id="mascotasList"><header style="text-align: center"><button class="botonAnadirMascota" id="BtnAM">Añadir Mascota</button></header>'+
+      '<section id="mascotasList">'+
     '</section>'+
       "</div>"
   );
@@ -51,8 +51,7 @@ export function listaDOM() {
     false
   );
   var inputBuscar = document.getElementById("inputBuscar");
-  const botonAnadir = document.querySelector(".botonAnadirMascota");
-  botonAnadir.addEventListener('click', function(){cargarDatosMascota(null), false})
+  console.log(inputBuscar)
   inputBuscar.addEventListener("input", function (event) {
     var busqueda = event.target.value.toLowerCase();
     buscarMascotas(busqueda);
@@ -80,6 +79,7 @@ export function cargarLista() {
     .then(function (snapshot) {
       // para cada objeto en la lista, crear un objeto de JavaScript y agregarlo a la lista
       snapshot.forEach(function (childSnapshot) {
+        // SI EL USUARIO QUIERE VER SUS MASCOTAS, MOSTRAR LAS SUYAS POR DNI
         var mascota = childSnapshot.val();
         mascotas.push(mascota);
       });

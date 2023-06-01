@@ -191,7 +191,7 @@ h1 {
     padding: 15px;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 1000px) {
     /* Reduce el tamaño de los campos de entrada */
     input.form-control {
       font-size: 0.9rem;
@@ -239,19 +239,17 @@ h1 {
     color: rgb(181, 181, 181);
   }
   .list-group-item{
-    margin-top: -12px;
+    margin-top: -8px;
     border-top: #0F6B90 5px ;
   }
   #imagenUs{
     width: 100px;
     position: relative;
-    margin-left: 44px;
     margin-bottom: 50px;
     border-radius:50%;
   }
   #nombreUsuario{
     margin-bottom: 40px;
-    margin-left: 44px;
   }
   #cerrarSesion{
     color: red;

@@ -1233,7 +1233,7 @@ progress {
 
   .col-md-2 {
     flex: 0 0 auto;
-    width: 16.66666667%;
+    /*width: 16.66666667%;*/
   }
 
   .col-md-3 {
@@ -4777,6 +4777,7 @@ textarea.form-control-lg {
 
 .list-group {
   display: flex;
+  align-items: center;
   flex-direction: column;
   padding-left: 0;
   margin-bottom: 0;
@@ -4793,7 +4794,7 @@ textarea.form-control-lg {
 }
 
 .list-group-item-action {
-  width: 100%;
+  width: 90%;
   color: #495057;
   text-align: inherit;
 }

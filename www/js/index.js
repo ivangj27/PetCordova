@@ -144,36 +144,40 @@ function dialogConfirm() {
 export function restablecerDOM() {
   const seccion = document.getElementById("contenido");
   const divs = seccion.querySelectorAll("div");
+  const divsBody = document.querySelectorAll("div");
   // Me cargo todos los divs de la section
   divs.forEach((div) => {
+    div.remove();
+  });
+
+  divsBody.forEach((div) => {
     div.remove();
   });
 
   //Inserto el contenido nuevo de la section
   seccion.insertAdjacentHTML(
     "afterbegin",
-    "<div>" +
-      '<div class="input-group mb-3">' +
-      '<input type="text" id="email" class="form-control" placeholder="Usuario" aria-label="Username">' +
-      "</div>" +
-      "<div>" +
-      '<input type="password" id="contrasena" class="form-control" placeholder="Contraseña" aria-label="Server">' +
-      '<i class="fa-solid fa-eye" id="eye"></i>'+
-      "</div>" +
-      '<button id="resetPass" class="btn btn-light">¿Has olvidado tu contraseña?</button>' +
-      "<br>" +
-      "<div>" +
-      '<label id="remember">Recordar usuario</label>' +
-      "<!-- Rounded switch -->" +
-      '<label class="switch">' +
-      '<input id="recordar" type="checkbox">' +
-      '<span class="slider round"></span>' +
-      "</label>" +
-      "</div>" +
-      "<br>" +
-      '<button id="registro" type="button" class="btn btn-secondary">Registrarse</button>' +
-      '<button id="inicio" type="button" class="btn btn-primary">Iniciar sesión</button>' +
-      "</div>"
+    '<div>' +
+  '<div class="input-group mb-3">' +
+  '<input type="text" id="email" class="form-control" placeholder="Usuario" aria-label="Username">' +
+  '</div>' +
+  '<div class="contrasena-container input-group mb-3">' +
+  '<input type="password" id="contrasena" class="form-control" placeholder="Contraseña" aria-label="Server">' +
+  '<i class="fa-solid fa-eye" id="eye"></i>' +
+  '</div>' +
+  '<br>' +
+  '<div id="divRecordarUsuario">' +
+  '<label id="remember">Recordar usuario</label>' +
+  '<label class="switch">' +
+  '<input id="recordar" type="checkbox">' +
+  '<span class="slider round"></span>' +
+  '</label>' +
+  '</div>' +
+  '<button id="resetPass" class="btn btn-light btn-ripple">¿Has olvidado tu contraseña?</button>' +
+  '<br>' +
+  '<button id="registro" type="button" class="btn btn-secondary btn-ripple">Registrarse</button>' +
+  '<button id="inicio" type="button" class="btn btn-primary btn-ripple">Iniciar sesión</button>' +
+  '</div>'
   );
   restablecerVariables();
 }
