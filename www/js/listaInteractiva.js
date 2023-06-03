@@ -28,6 +28,10 @@ export function listaDOM() {
     const busqueda = document.getElementById("bloqueBusqueda");
     busqueda.remove();
   }
+  if(document.getElementById("divMascotasList")){
+    const busqueda = document.getElementById("divMascotasList");
+    busqueda.remove();
+  }
   //Inserto el contenido nuevo de la section
   seccion.insertAdjacentHTML(
     "afterend",

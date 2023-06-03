@@ -7,10 +7,17 @@ import {
   } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-database.js";
   import { listaDOM } from "./listaInteractiva.js";
   import { getUID, mostrarToast } from "./index.js";
+
+
+  var nacimientoBD;
   export function cargarDatosMascota(pet){
     if (pet != null){
-      document.getElementById("bloqueBusqueda").remove();
-      document.getElementById("divMascotasList").remove();
+      if(document.getElementById("bloqueBusqueda")) {
+        document.getElementById("bloqueBusqueda").remove();
+      }
+      if(document.getElementById("divMascotasList")) {
+        document.getElementById("divMascotasList").remove()
+      }
       console.log("acceso datos mascota");
       const seccion = document.getElementById("contenido");
       const divs = seccion.querySelectorAll("div");
@@ -29,6 +36,24 @@ import {
       "</div>");
       mostrarDatos(pet);
       document.addEventListener("backbutton", function(){listaDOM(role)}, false);
+
+      const inputFecha = document.getElementById("nacimiento");
+      const inputEdad = document.getElementById("edad");
+
+      inputFecha.addEventListener("input", () => {
+        console.log(inputFecha.value)
+        var fechas = inputFecha.value.split("-");
+        console.log(fechas)
+        nacimientoBD = fechas[2]+"/"+fechas[1]+"/"+fechas[0];
+        console.log(nacimientoBD)
+        var cumple_date = new Date(inputFecha.value);
+        var edadDiff = Date.now() - cumple_date.getTime();
+        var edadDate = new Date(edadDiff);
+        const edadMascota = Math.abs(edadDate.getUTCFullYear() - 1970);
+  
+        inputEdad.value = edadMascota;
+  
+    });
   }
   }
 
@@ -76,6 +101,7 @@ import {
     nombreLabel.setAttribute("for", "");
     nombreLabel.textContent = "Nombre Mascota";
     nombreInput.setAttribute("type", "text");
+    nombreInput.setAttribute("id","nombre");
     nombreInput.classList.add("camposTextoDatosMascota");
     nombreInput.setAttribute("readonly","");
     nombreInput.setAttribute("placeholder", "a");
@@ -91,6 +117,7 @@ import {
     dniInput.setAttribute("type","text");
     dniInput.setAttribute("readonly","");
     dniInput.setAttribute("placeholder","a");
+    dniInput.setAttribute("id","dni");
     dniInput.value = pet.dni;
     const dniLabel = document.createElement("label");
     dniLabel.classList.add("labelTituloCampos");
@@ -111,7 +138,9 @@ import {
     fechaNacimientoInput.setAttribute("type","date");
     fechaNacimientoInput.setAttribute("placeholder", "a");
     fechaNacimientoInput.setAttribute("readonly", "");
-    fechaNacimientoInput.value = cumple_array[2]+"-"+cumple_array[1]+"-"+cumple_array[0];
+    fechaNacimientoInput.setAttribute("id","nacimiento");
+    const fechaCadena = cumple_array[2]+"-"+cumple_array[1]+"-"+cumple_array[0];
+    fechaNacimientoInput.value = fechaCadena;
     const fechaNacimientoLabel = document.createElement("label");
     fechaNacimientoLabel.classList.add("labelTituloCampos");
     fechaNacimientoLabel.setAttribute("for","");
@@ -129,6 +158,7 @@ import {
     edadLabel.textContent = "Edad";
     edadInput.setAttribute("type", "text");
     edadInput.setAttribute("placeholder", "a");
+    edadInput.setAttribute("id","edad");
     edadInput.classList.add("camposTextoDatosMascota");
     edadInput.setAttribute("readonly","");
     edadInput.value = edadMascota;
@@ -146,6 +176,7 @@ import {
     razaLabel.textContent = "Raza Mascota";
     razaInput.setAttribute("type", "text");
     razaInput.setAttribute("placeholder", "a");
+    razaInput.setAttribute("id","raza")
     razaInput.classList.add("camposTextoDatosMascota");
     razaInput.setAttribute("readonly","");
     razaInput.value = pet.raza;
@@ -163,6 +194,7 @@ import {
     sexoLabel.textContent = "Sexo";
     sexoInput.setAttribute("type", "text");
     sexoInput.setAttribute("placeholder", "a");
+    sexoInput.setAttribute("id","sexo")
     sexoInput.classList.add("camposTextoDatosMascota");
     sexoInput.setAttribute("readonly","");
     sexoInput.value = pet.sexo;
@@ -178,7 +210,7 @@ import {
       var usuario = snapshot.val();
       if (usuario.dni == pet.dni) {
         console.log(">> Mascota del Usuario");
-        mostrarBotones(ventanaPrincipal);
+        mostrarBotones(ventanaPrincipal, pet);
       }
       document.addEventListener("backbutton", function(){listaDOM()}, false);
   
@@ -186,7 +218,7 @@ import {
   appWindow.appendChild(ventanaPrincipal);
   }
 
-  function mostrarBotones(ventanaPrincipal){
+  function mostrarBotones(ventanaPrincipal,pet){
     // BOTONES
     const divBotones = document.createElement("div");
     divBotones.classList.add("divBotones");
@@ -196,6 +228,34 @@ import {
     const botonEditar = document.createElement("button");
     botonEditar.classList.add("botonEditarMascota");
     botonEditar.textContent = "EDITAR MASCOTA";
+
+    botonEditar.addEventListener("click", function() {
+      /* si se acepta */
+
+      
+      console.log("SE EJECUTA MODIFICAR");
+
+      var nacimientoRecogida = document.getElementById("nacimiento").value.split("-");
+      var nacimientoString = nacimientoRecogida[2]+"/"+nacimientoRecogida[1]+"/"+nacimientoRecogida[0];
+
+      const database = getDatabase();
+      var mascotaRef = ref(database, `Mascotas/${pet.cod}`);
+      get(mascotaRef).then((snapshot) => {
+        if(snapshot.exists()) {
+          set(mascotaRef, {
+            cod: pet.cod,
+            nombre: "JAJA1",
+            raza: document.getElementById("raza").value,
+            sexo: document.getElementById("sexo").value,
+            dni: document.getElementById("dni").value,
+            nacimiento: nacimientoString,
+          });
+          cargarDatosMascota(pet);
+        }
+      })
+
+    })
+
     divBotonEditar.appendChild(botonEditar);
     // BOTON ELIMINAR
     const divBotonEliminar = document.createElement("div");

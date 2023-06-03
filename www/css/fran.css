@@ -79,13 +79,6 @@
 }
 
 
-#cod , #nombre, #raza, #sexo, #nacimiento, #dni, #imagen{
-    margin-top: 10px;
-    margin-left: 60px;
-    margin-right: 60px;
-    margin-bottom: 0px;
-    width: 50%;
-}
 
 .botonAnadirMascota {
     position: inherit;

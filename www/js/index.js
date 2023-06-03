@@ -191,13 +191,13 @@ function insertarNavBar() {
     '<nav class="navbar fixed-bottom navbar-light justify-content-center navbar-custom ">' +
         '<div class="container" id="barraNavContent">' +
             '<a class="navbar-brand" id="botonLista">' +
-                '<i class="fas fa-search"></i>' +
+                '<i class="fas fa-search" id="iconoLista"></i>' +
             '</a>' +
             '<a class="navbar-brand" id="botonCRUD">' +
-                '<img src="./assets/images/rottweiler-ejemplo.jpg" alt="Usuario" width="30" height="24">' +
+                '<i class="fa-solid fa-paw" id="iconoCRUD"></i>'+
             '</a>' +
             '<a class="navbar-brand" id="botonUsuario">' +
-                '<img src="./assets/images/user.png" alt="Usuario" width="30" height="24">' +
+                '<img src="./assets/images/user_black.png" alt="Usuario" id="iconoUsuario" width="30" height="24">' +
             '</a>' +
         '</div>' +
     '</nav>' +
@@ -206,14 +206,27 @@ function insertarNavBar() {
   const botonLista = document.getElementById("botonLista");
   const botonUsuario = document.getElementById("botonUsuario");
   const botonCRUD = document.getElementById("botonCRUD");
+  const imagenUsuario = document.getElementById("iconoUsuario");
+  const imagenCRUD = document.getElementById("iconoCRUD");
+  imagenCRUD.setAttribute("style","color: white");
+  const imagenLista = document.getElementById("iconoLista");
 
   botonUsuario.addEventListener("click", function(e){
+    imagenUsuario.src = "./assets/images/user_white.png"
+    imagenCRUD.setAttribute("style","color: black")
+    imagenLista.setAttribute("style","color: black")
     generarPaginaUs();
   })
   botonLista.addEventListener("click", function(e){
+    imagenUsuario.src = "./assets/images/user_black.png"
+    imagenCRUD.setAttribute("style","color: black")
+    imagenLista.setAttribute("style","color: white")
     listaDOM();
   })
   botonCRUD.addEventListener("click", function(e){
+    imagenUsuario.src = "./assets/images/user_black.png"
+    imagenCRUD.setAttribute("style","color: white")
+    imagenLista.setAttribute("style","color: black")
     actualizarDOM();
   })
 }

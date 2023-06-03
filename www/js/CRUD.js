@@ -14,6 +14,10 @@ import { listaDOM } from "./listaInteractiva.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
 import { getUID } from "./index.js";
 
+var nacimientoBD; 
+var mascotas = [];
+var cod;
+
 export function actualizarDOM() {
   console.log("INTENTANDO ACTUALIZAR EL DOM");
 
@@ -49,37 +53,37 @@ export function actualizarDOM() {
   '<img class="fotoDetalleMascota" src="img/icono_perro.png" width="170" height="200">' +
   '<div class="divDatosMascota">' +
   '<div class="inputContainer">' +
-  '<input type="text" class="camposTextoDatosMascota" placeholder="a">' +
+  '<input type="text" class="camposTextoDatosMascota" id="nombre" placeholder="a">' +
   '<label class="labelTituloCampos" for="">Nombre Mascota</label>' +
   '</div>' +
   '<div class="inputContainer">' +
-  '<input class="camposTextoDatosMascota" type="text" placeholder="a">' +
+  '<input class="camposTextoDatosMascota" type="text" id="dni" placeholder="a">' +
   '<label class="labelTituloCampos" for="">DNI Dueño</label>' +
   '</div>' +
   '<br>' +
   '<div class="inputContainer">' +
-  '<input class="camposTextoDatosMascota" type="date" placeholder="a">' +
+  '<input class="camposTextoDatosMascota" type="date" id="nacimiento" placeholder="a">' +
   '<label class="labelTituloCampos" for="">Fecha Nacimiento</label>' +
   '</div>' +
   '<div class="inputContainer">' +
-  '<input type="text" placeholder="a" readonly="" class="camposTextoDatosMascota">' +
+  '<input type="text" placeholder="a" readonly="" class="camposTextoDatosMascota" id="edad">' +
   '<label class="labelTituloCampos" for="">Edad</label>' +
   '</div>' +
   '<div class="inputContainer">' +
-  '<input type="text" placeholder="a" class="camposTextoDatosMascota">' +
+  '<input type="text" placeholder="a" class="camposTextoDatosMascota" id="raza">' +
   '<label class="labelTituloCampos" for="">Raza Mascota</label>' +
   '</div>' +
   '<div class="inputContainer">' +
-  '<input type="text" placeholder="a" class="camposTextoDatosMascota">' +
+  '<input type="text" placeholder="a" class="camposTextoDatosMascota" id="sexo">' +
   '<label class="labelTituloCampos" for="">Sexo</label>' +
   '</div>' +
   '</div>' +
   '<div class="divBotones">' +
   '<div class="divBotonAceptar">' +
-  '<button class="botonAceptar">ACEPTAR MASCOTA</button>' +
+  '<button class="botonAceptar" id="botonAceptar">ACEPTAR MASCOTA</button>' +
   '</div>' +
   '<div class="divBotonCancelar">' +
-  '<button class="botonCancelar">CANCELAR MASCOTA</button>' +
+  '<button class="botonCancelar" id="botonCancelar">CANCELAR MASCOTA</button>' +
   '</div>' +
   '</div>' +
   '</article></section></div>'
@@ -94,7 +98,46 @@ export function actualizarDOM() {
       buttons[i].remove();
     }
   }*/
-  const bAnadir = document.getElementById("alta");
+  const bAnadir = document.getElementById("botonAceptar");
+  const bCancelar = document.getElementById("botonCancelar");
+  const inputEdad = document.getElementById("edad");
+  const inputFecha = document.getElementById("nacimiento");
+
+
+  const database = getDatabase();
+  var mascotasRef = ref(database, "Mascotas");
+  if (mascotas.length > 0) {
+    mascotas.splice(0, mascotas.length);
+  }
+  get(mascotasRef).then(function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      var mascota = childSnapshot.val();
+      mascotas.push(mascota);
+    });
+
+    mascotas.forEach((mascota) => {
+      cod = (parseInt(mascota.cod) + 1).toString();
+    });
+  });
+
+
+  inputFecha.addEventListener("input", () => {
+      console.log(inputFecha.value)
+      var fechas = inputFecha.value.split("-");
+      console.log(fechas)
+      nacimientoBD = fechas[2]+"/"+fechas[1]+"/"+fechas[0];
+      console.log(nacimientoBD)
+      var cumple_date = new Date(inputFecha.value);
+      var edadDiff = Date.now() - cumple_date.getTime();
+      var edadDate = new Date(edadDiff);
+      const edadMascota = Math.abs(edadDate.getUTCFullYear() - 1970);
+
+      inputEdad.value = edadMascota;
+
+  });
+  bCancelar.addEventListener("click", function() {
+    listaDOM();
+  });
   bAnadir.addEventListener("click", function () {
     anadir();
   });
@@ -104,23 +147,20 @@ export function actualizarDOM() {
   document.getElementById("borra").addEventListener("click", () => {
     eliminar();
   });
-  document.getElementById("consulta").addEventListener("click", () => {
-    //listaDOM(role);
-    listaDOM();
-  });
 }
+
 function anadir() {
   console.log("SE EJECUTA ANADIR");
   const database = getDatabase();
 
   // Obtener una referencia a la ubicación donde deseas agregar datos.
-
-  var cod = document.getElementById("cod").value;
+  
   var nombre = document.getElementById("nombre").value;
   var raza = document.getElementById("raza").value;
   var sexo = document.getElementById("sexo").value;
   var dni = document.getElementById("dni").value;
-  var nacimiento = document.getElementById("nacimiento").value;
+/* var cumple_array = pet.nacimiento.split("/");  */
+  var nacimiento = nacimientoBD;
 
   var Mascota = {
     cod: cod,
@@ -132,7 +172,7 @@ function anadir() {
     adoptado:false
   };
   set(ref(database, "Mascotas/" + cod), Mascota);
-  subirImagen();
+  //subirImagen();
   limpiaCampos();
 }
 
@@ -202,13 +242,12 @@ function eliminar() {
   limpiaCampos();
 }
 function limpiaCampos() {
-  document.getElementById("cod").value = null;
   document.getElementById("nombre").value = null;
   document.getElementById("raza").value = null;
   document.getElementById("sexo").value = null;
   document.getElementById("dni").value = null;
   document.getElementById("nacimiento").value = null;
-  document.getElementById("imagen").value = null;
+  document.getElementById("edad").value = null;
 }
 
 function subirImagen() {
