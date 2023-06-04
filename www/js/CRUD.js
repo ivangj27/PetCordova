@@ -241,7 +241,7 @@ function eliminar() {
     });
   limpiaCampos();
 }
-function limpiaCampos() {
+export function limpiaCampos() {
   document.getElementById("nombre").value = null;
   document.getElementById("raza").value = null;
   document.getElementById("sexo").value = null;

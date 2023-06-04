@@ -39,7 +39,6 @@ const auth = getAuth();
 var uid ="";
 window.onload = function () {
   console.log("toy probando el remember me");
-  document.getElementById("consultar").addEventListener("click",listaDOM('admin'));
   var username = window.localStorage.getItem("username");
   var password = window.localStorage.getItem("password");
   var rememberMe = document.getElementById("recordar");
@@ -50,7 +49,7 @@ window.onload = function () {
     document.getElementById("email").value = username;
     document.getElementById("contrasena").value = password;
     rememberMe.checked = true;
-    document.getElementById("inicio").click();
+    //document.getElementById("inicio").click();
   }
 };
 const passwordInput = document.querySelector("#contrasena")
@@ -101,8 +100,8 @@ function iniciarSesion() {
     .catch((error) => {
       // Si hay un error en el inicio de sesión, puedes mostrar un mensaje de error o realizar otras acciones
       const errorMessage = error.message;
-
-      mostrarToast("Error al iniciar sesión" + errorMessage);
+      console.log(errorMessage)
+      //mostrarToast("Error al iniciar sesión" + errorMessage);
     });
 }
 

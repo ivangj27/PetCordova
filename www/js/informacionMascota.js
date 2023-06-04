@@ -7,6 +7,7 @@ import {
   } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-database.js";
   import { listaDOM } from "./listaInteractiva.js";
   import { getUID, mostrarToast } from "./index.js";
+  import { limpiaCampos } from "./CRUD.js";
 
 
   var nacimientoBD;
@@ -228,10 +229,82 @@ import {
     const botonEditar = document.createElement("button");
     botonEditar.classList.add("botonEditarMascota");
     botonEditar.textContent = "EDITAR MASCOTA";
+    // BOTON ELIMINAR
+    const divBotonEliminar = document.createElement("div");
+    divBotonEliminar.classList.add("divBotonEliminar");
+    const botonEliminar = document.createElement("button");
+    botonEliminar.classList.add("botonEliminarMascota");
+    botonEliminar.textContent = "ELIMINAR MASCOTA";
+
+    divBotonEditar.appendChild(botonEditar);
+    divBotonEliminar.appendChild(botonEliminar);
+
+    divBotones.appendChild(divBotonEditar);
+    divBotones.appendChild(divBotonEliminar);
+    ventanaPrincipal.appendChild(divBotones);
+
+    botonEliminar.addEventListener("click", function() {
+      console.log("SE EJECUTA ELIMINAR");
+      const database = getDatabase();
+    
+      // Obtener el valor del campo "cod"
+      var cod = pet.cod;
+    
+      // Obtener una referencia al documento que se desea eliminar
+      var mascotaRef = ref(database, `Mascotas/${cod}`);
+    
+      // Verificar si el documento existe en la base de datos
+      get(mascotaRef)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            // Si el documento existe, eliminarlo
+            set(mascotaRef, null)
+              .then(() => {
+                console.log("Documento eliminado exitosamente.");
+                listaDOM();
+              })
+              .catch((error) => {
+                console.error("Error eliminando el documento: ", error);
+              });
+          } else {
+            console.error("El documento no existe.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error obteniendo el documento: ", error);
+        });
+      limpiaCampos();
+    });
 
     botonEditar.addEventListener("click", function() {
       /* si se acepta */
+      mostrarAceptaryCancelar(pet);
+    })
+  }
 
+  function mostrarAceptaryCancelar(pet) {
+    const divBotonEditar = document.querySelector(".divBotonEditar");
+    const divBotonEliminar = document.querySelector(".divBotonEliminar");
+    divBotonEditar.remove();
+    divBotonEliminar.remove();
+    const divBotones = document.querySelector(".divBotones");
+    divBotones.insertAdjacentHTML("afterbegin",
+      '<div class="divBotonAceptar">' +
+        '<button class="botonAceptar">ACEPTAR CAMBIOS</button>' +
+      "</div>" +
+      '<div class="divBotonCancelar">' +
+        '<button class="botonCancelar">DESCARTAR CAMBIOS</button>' +
+      "</div>");
+    const botonAceptar = document.querySelector(".botonAceptar");
+    const botonCancelar = document.querySelector(".botonCancelar");
+
+    const camposDatos = document.querySelectorAll(".camposTextoDatosMascota");
+    camposDatos.forEach((input) => {
+      input.removeAttribute("readonly");
+    })
+    console.log(camposDatos);
+
+    botonAceptar.addEventListener("click", () => {
       
       console.log("SE EJECUTA MODIFICAR");
 
@@ -244,28 +317,22 @@ import {
         if(snapshot.exists()) {
           set(mascotaRef, {
             cod: pet.cod,
-            nombre: "JAJA1",
+            nombre: document.getElementById("nombre").value,
             raza: document.getElementById("raza").value,
             sexo: document.getElementById("sexo").value,
             dni: document.getElementById("dni").value,
             nacimiento: nacimientoString,
           });
+          pet.nombre = document.getElementById("nombre").value;
+          pet.raza = document.getElementById("raza").value;
+          pet.sexo = document.getElementById("sexo").value;
+          pet.dni = document.getElementById("dni").value;
+          pet.nacimiento = nacimientoString;
           cargarDatosMascota(pet);
         }
       })
-
     })
-
-    divBotonEditar.appendChild(botonEditar);
-    // BOTON ELIMINAR
-    const divBotonEliminar = document.createElement("div");
-    divBotonEliminar.classList.add("divBotonEliminar");
-    const botonEliminar = document.createElement("button");
-    botonEliminar.classList.add("botonEliminarMascota");
-    botonEliminar.textContent = "ELIMINAR MASCOTA"
-    divBotonEliminar.appendChild(botonEliminar);
-
-    divBotones.appendChild(divBotonEditar);
-    divBotones.appendChild(divBotonEliminar);
-    ventanaPrincipal.appendChild(divBotones);
+    botonCancelar.addEventListener("click", () => {
+        cargarDatosMascota(pet);
+    })
   }
