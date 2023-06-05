@@ -1,8 +1,6 @@
 import {
   getDatabase,
   ref,
-  push,
-  set,
   get,
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-database.js";
 import { actualizarDOM } from "./CRUD.js";
@@ -10,7 +8,6 @@ import { cargarDatosMascota } from "./informacionMascota.js";
 import {
   getStorage,
   ref as ref2,
-  uploadBytes,
   getDownloadURL,
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
 
@@ -103,7 +100,7 @@ export function cargarLista() {
         listItem.appendChild(petPhotoFrame);
 
         const petPhoto = document.createElement("img");
-        const storageRef = ref2(getStorage(), "/"+pet.imagen);
+        const storageRef = ref2(getStorage(), "/" + pet.imagen);
         petPhoto.width = "170";
         petPhoto.height = "170";
 
@@ -198,8 +195,18 @@ function buscarMascotas(busqueda) {
       listItem.appendChild(petPhotoFrame);
 
       const petPhoto = document.createElement("img");
-      petPhoto.src = "img/logo.png"; // pet.imagen
+      const storageRef = ref2(getStorage(), "/" + pet.imagen);
+      petPhoto.width = "170";
+      petPhoto.height = "170";
 
+      getDownloadURL(storageRef)
+        .then((url) => {
+          // Asigna la URL de descarga como el valor del atributo src de la imagen
+          petPhoto.src = url;
+        })
+        .catch((error) => {
+          console.error("Error al obtener la URL de descarga:", error);
+        });
       petPhotoFrame.appendChild(petPhoto);
 
       // Crear el elemento de información de la mascota
