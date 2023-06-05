@@ -17,6 +17,8 @@ import { mostrarToast } from "./index.js";
 import { comprobarDNI } from "./registro.js";
 
 export function actualizarDOM() {
+  var imagen = ""; 
+
   console.log("INTENTANDO ACTUALIZAR EL DOM");
 
   const seccion = document.getElementById("contenido");
@@ -124,12 +126,26 @@ export function actualizarDOM() {
     }
   }*/
   const bAnadir = document.getElementById("aceptar");
+  const bImagen = document.getElementById("imagen");
+ 
+  bImagen.addEventListener("change", function (event) {
+    imagen = event.target.files[0];
+  })
+
   bAnadir.addEventListener("click", function () {
-    anadir();
+    console.log(imagen.name)
+    anadir(imagen);
   });
-  
   }
-function anadir() {
+function anadir(archivo) {
+  get(ref(getDatabase(), `users/${getUID()}`)).then((snapshot) => {
+    // Obtiene el objeto de datos del usuario
+    const userData = snapshot.val();
+
+    // Obtiene el valor del rol del usuario
+    const email = userData.email;
+    // Selecciona el archivo a subir
+
   console.log("SE EJECUTA ANADIR");
   const database = getDatabase();
 
@@ -155,10 +171,13 @@ function anadir() {
     sexo: sexo,
     dni: dni,
     nacimiento: nacimiento,
+    imagen: archivo.name,
   };
   set(ref(database, "Mascotas/" + cod), Mascota);
-  subirImagen();
+  subirImagen(archivo);
   limpiaCampos();
+})
+mostrarToast("Mascota agregada correctamente");
 }
 
 function modificar() {
@@ -257,9 +276,9 @@ function limpiaCampos() {
 
 var fileData = new File();
 
-function subirImagen() {
+function subirImagen(archivo) {
   const database = getDatabase();
-
+  const imagen = archivo
   get(ref(database, `users/${getUID()}`)).then((snapshot) => {
     // Obtiene el objeto de datos del usuario
     const userData = snapshot.val();
@@ -268,12 +287,13 @@ function subirImagen() {
     const email = userData.email;
     // Selecciona el archivo a subir
 
-    console.log(fileData.size);
+    console.log(archivo.name);
+    console.log(archivo.size);
     // Crea una referencia al archivo en Firebase Storage
-    const storageRef = ref2(getStorage(), `${email}/perrito1.jpg`);
+    const storageRef = ref2(getStorage(), `${email}/` + archivo.name);
     // Sube el archivo a Firebase Storage
 
-    uploadBytes(storageRef, fileData).then((snapshot) => {
+    uploadBytes(storageRef, archivo).then((snapshot) => {
       console.log("Imagen subida correctamente");
     });
 
@@ -281,22 +301,4 @@ function subirImagen() {
 
     // Si el inicio de sesión es exitoso, puedes redirigir a la página que desees o realizar otras acciones
   });
-}
-
-export function handleFileSelect(event) {
-  var file = event.target.files[0]; // Obtiene el archivo seleccionado
-
-  if (file) {
-    var reader = new FileReader(); // Crea un objeto FileReader
-
-    reader.onload = function (e) {
-      var fileContents = e.target.result; // Obtiene el contenido del archivo
-      // Aquí puedes realizar las acciones que desees con el archivo
-      // Por ejemplo, puedes asignar el contenido a una variable
-      fileData = fileContents;
-      console.log(fileData); // Muestra el contenido del archivo en la consola
-    };
-
-    reader.readAsText(file); // Lee el archivo como texto
-  }
 }
