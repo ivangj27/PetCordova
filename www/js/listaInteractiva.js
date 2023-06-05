@@ -62,7 +62,7 @@ export function listaDOM() {
   IMPORTANTE PARA LAS IMAGENES: 
   Si no les vamos a decir un tamaño fijo en el CSS tenemos que añadir una función de recortarla 
   (igual que insta o cualquier otra cuando subes algo), si no no podemos redimensionarlas sin distorsionar la imagen.
-  */
+*/
 
 export function cargarLista() {
   console.log("Prueba Fran");
