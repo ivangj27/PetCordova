@@ -141,12 +141,6 @@ export function actualizarDOM() {
   bAnadir.addEventListener("click", function () {
     anadir();
   });
-  document.getElementById("modifica").addEventListener("click", () => {
-    modificar();
-  });
-  document.getElementById("borra").addEventListener("click", () => {
-    eliminar();
-  });
 }
 
 function anadir() {

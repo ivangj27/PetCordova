@@ -215,18 +215,21 @@ function insertarNavBar() {
     imagenCRUD.setAttribute("style","color: black")
     imagenLista.setAttribute("style","color: black")
     generarPaginaUs();
+    window.scrollTo(0,0);
   })
   botonLista.addEventListener("click", function(e){
     imagenUsuario.src = "./assets/images/user_black.png"
     imagenCRUD.setAttribute("style","color: black")
     imagenLista.setAttribute("style","color: white")
     listaDOM();
+    window.scrollTo(0,0);
   })
   botonCRUD.addEventListener("click", function(e){
     imagenUsuario.src = "./assets/images/user_black.png"
     imagenCRUD.setAttribute("style","color: white")
     imagenLista.setAttribute("style","color: black")
     actualizarDOM();
+    window.scrollTo(0,0);
   })
 }
 function setUID(id){

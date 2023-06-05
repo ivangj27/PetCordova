@@ -23,38 +23,38 @@ export function paginaRegistro() {
     "afterbegin",
     '<div id="datosUsuario">' +
       "<h2>Registro</h2>" +
-      '<div class="inputContainer">'+
-        '<input class="camposTextoRegistro" type="text" placeholder="a"></input>'+
+      '<div class="inputContainerUsuario">'+
+        '<input class="camposTextoDatosMascota" id="camposTextoUsuario" name="nombre" type="text" placeholder="a"></input>'+
         '<label class="labelTituloCampos" for="">NOMBRE</label>'+
      '</div>'+
-      '<div class="mb-3">' +
-      '<label for="apellidos" class="form-label">Apellidos:</label>' +
-      '<input type="text" id="apellidos" name="apellidos" class="form-control" placeholder="Escribe tus apellidos">' +
-      "</div>" +
-      '<div class="input-group mb-3">' +
+     '<div class="inputContainerUsuario">'+
+        '<input class="camposTextoDatosMascota" name="apellidos" id="camposTextoUsuario" type="text" placeholder="a"></input>'+
+        '<label class="labelTituloCampos" for="">APELLIDOS</label>'+
+     '</div>'+
+      '<div class="inputContainerUsuario">'+
+        '<input class="camposTextoDatosMascota" name="dni" id="camposTextoUsuario" type="text" placeholder="a"></input>'+
+        '<label class="labelTituloCampos" for="">DNI</label>'+
+     '</div>'+
+     '<div class="inputContainerUsuario">'+
+        '<input class="camposTextoDatosMascota" name="email" id="camposTextoUsuario" type="email" aria-describedby="emailHelp" placeholder="a"></input>'+
+        '<label class="labelTituloCampos" for="">EMAIL</label>'+
+        '<div id="emailHelp" class="form-text"></div>'+
+     '</div>'+
+     '<div class="inputContainerUsuario">'+
+        '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" aria-describedby="emailHelp" placeholder="a"></input>'+
+        '<label class="labelTituloCampos" for="">CONTRASEÑA</label>'+
+     '</div>'+
+     '<div class="inputContainerUsuario">'+
+        '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" aria-describedby="emailHelp" placeholder="a"></input>'+
+        '<label class="labelTituloCampos" for="">CONFIRMAR CONTRA.</label>'+
+     '</div>'+
+     '<div class="input-group mb-3">' +
       ' <select class="form-select" id="inputGroupSelect02" placeholder="Sexo">' +
       ' <option value="" disabled selected hidden>Seleccione su sexo</option>'+
       ' <option value="1">Hombre</option>' +
       ' <option value="2">Mujer</option>' +
       " </select>" +
       ' <label class="input-group-text" for="inputGroupSelect02">SEXO</label>' +
-      "</div>" +
-      '<div class="mb-3">' +
-      '<label for="dni" class="form-label">DNI:</label>' +
-      '<input type="text" id="dni" name="dni" class="form-control" placeholder="Inserte su DNI">' +
-      "</div>" +
-      '<div class="mb-3">' +
-      '<label for="exampleInputEmail1" class="form-label">Email address</label>' +
-      '<input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">' +
-      '<div id="emailHelp" class="form-text"></div>' +
-      "</div>" +
-      '<div class="mb-3">' +
-      '<label for="exampleInputPassword1" class="form-label">Contraseña</label>' +
-      '<input type="password" class="form-control" id="contrasena" placeholder="Contraseña">' +
-      "</div>" +
-      '<div class="mb-3">' +
-      '<label for="exampleInputPassword1" class="form-label">Confirmar contraseña</label>' +
-      '<input type="password" class="form-control" id="confirmarContrasena">' +
       "</div>" +
       '<div class="mb-3 form-check">' +
       '<input class="form-check-input" type="checkbox" id="exampleCheck1">' +
@@ -64,12 +64,35 @@ export function paginaRegistro() {
       "</div>"
   );
   const registro = document.getElementById("registro");
-  registro.addEventListener("click", registrar);
+  registro.addEventListener("click", prueba);
   document.addEventListener("backbutton", function(){restablecerDOM()}, false);
 
 }
 
+function prueba() {
+  const seccion = document.getElementById("contenido");
+  const divs = seccion.getElementsByTagName("input");
+
+  var datos = [];
+
+  console.log(divs);
+  for(var i = 0; i<6;i++) {
+    if(divs.item(i).className.match("camposTextoDatosMascota")){
+      datos.push(divs.item(i).value);
+    }
+  }
+  console.log(datos)
+  const nombre = datos[0];
+  const apellidos = datos[1];
+  const dni = datos[2];
+  const email = datos[3];
+  const contrasena = datos[4];
+  const confirmarContrasena = datos[5];
+}
+
 function registrar() {
+
+
   const nombre = document.getElementById("nombre").value;
   const apellidos = document.getElementById("apellidos").value;
   const email = document.getElementById("email").value;

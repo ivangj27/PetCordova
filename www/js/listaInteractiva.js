@@ -34,7 +34,7 @@ export function listaDOM() {
   }
   //Inserto el contenido nuevo de la section
   seccion.insertAdjacentHTML(
-    "afterend",
+    "afterbegin",
     '<div class="input-group rounded" id="bloqueBusqueda">' +
       '<input id="inputBuscar" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />' +
       '<span class="input-group-text border-0" id="search-addon">' +
@@ -133,6 +133,7 @@ export function cargarLista() {
             if (mascota.nombre == nombreMascotaBoton) {
               console.log("animal encontrado");
               cargarDatosMascota(mascota, rol);
+              window.scrollTo(0,0);
             }
           });
         });
