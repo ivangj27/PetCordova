@@ -21,39 +21,46 @@ export function generarDatosCuenta() {
   //Inserto el contenido nuevo de la section
   seccion.insertAdjacentHTML(
     "afterbegin",
-    "<div>" +
-      "<h2>Tus datos</h2>" +
-      '<div class="mb-3">' +
-      '<label for="nombre" class="form-label">Nombre:</label>' +
-      '<input type="text" id="nombre" name="nombre" class="form-control" placeholder="Escribe tu nombre">' +
-      "</div>" +
-      '<div class="mb-3">' +
-      '<label for="apellidos" class="form-label">Apellidos:</label>' +
-      '<input type="text" id="apellidos" name="apellidos" class="form-control" placeholder="Escribe tus apellidos">' +
-      "</div>" +
-      '<div class="input-group mb-3">' +
+    '<div id="datosUsuario">' +
+      "<h2>MIS DATOS</h2>" +
+      '<div class="inputContainerUsuario">'+
+        '<input class="camposTextoDatosMascota" id="camposTextoUsuario" name="nombre" type="text" placeholder="a"></input>'+
+        '<label class="labelTituloCampos" for="">NOMBRE</label>'+
+     '</div>'+
+     '<div class="inputContainerUsuario">'+
+        '<input class="camposTextoDatosMascota" name="apellidos" id="camposTextoUsuario" type="text" placeholder="a"></input>'+
+        '<label class="labelTituloCampos" for="">APELLIDOS</label>'+
+     '</div>'+
+      '<div class="inputContainerUsuario">'+
+        '<input class="camposTextoDatosMascota" name="dni" id="camposTextoUsuario" type="text" placeholder="a"></input>'+
+        '<label class="labelTituloCampos" for="">DNI</label>'+
+     '</div>'+
+     '<div class="inputContainerUsuario">'+
+        '<input class="camposTextoDatosMascota" name="email" id="camposTextoUsuario" type="email" aria-describedby="emailHelp" placeholder="a"></input>'+
+        '<label class="labelTituloCampos" for="">EMAIL</label>'+
+        '<div id="emailHelp" class="form-text"></div>'+
+     '</div>'+
+     '<div class="inputContainerUsuario">'+
+        '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" aria-describedby="emailHelp" placeholder="a"></input>'+
+        '<label class="labelTituloCampos" for="">CONTRASEÑA</label>'+
+     '</div>'+
+     '<div class="inputContainerUsuario">'+
+        '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" aria-describedby="emailHelp" placeholder="a"></input>'+
+        '<label class="labelTituloCampos" for="">CONFIRMAR CONTRA.</label>'+
+     '</div>'+
+     '<div class="input-group mb-3">' +
       ' <select class="form-select" id="inputGroupSelect02" placeholder="Sexo">' +
-      ' <option value="" disabled selected hidden>Seleccione su sexo</option>' +
+      ' <option value="" disabled selected hidden>Seleccione su sexo</option>'+
       ' <option value="1">Hombre</option>' +
       ' <option value="2">Mujer</option>' +
       " </select>" +
       ' <label class="input-group-text" for="inputGroupSelect02">SEXO</label>' +
       "</div>" +
-      '<div class="mb-3">' +
-      '<label for="dni" class="form-label">DNI:</label>' +
-      '<input type="text" id="dni" name="dni" class="form-control" placeholder="Inserte su DNI">' +
+      '<div class="mb-3 form-check">' +
+      '<input class="form-check-input" type="checkbox" id="exampleCheck1">' +
+      '<label class="form-check-label" for="exampleCheck1">Acepto los términos y condiciones</label>' +
       "</div>" +
-      '<div class="mb-3">' +
-      '<label for="exampleInputEmail1" class="form-label">Email address</label>' +
-      '<input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">' +
-      '<div id="emailHelp" class="form-text"></div>' +
-      "</div>" +
-      '<div class="mb-3">' +
-      '<label for="exampleInputPassword1" class="form-label">Contraseña</label>' +
-      '<input type="password" class="form-control" id="contrasena" placeholder="Contraseña">' +
-      "</div>" +
-      '<button id="confirmar" class="btn btn-primary">Confirmar cambios</button>' +
-      
+      '<button id="registro" class="btn btn-primary">Confirmar cambios</button>' +
       "</div>"
   );
   const buttonConfirmar = document.getElementById("confirmar");
@@ -68,12 +75,13 @@ export function generarDatosCuenta() {
 
   const auth = getAuth();
   const db = getDatabase();
-  const nombre = document.getElementById("nombre");
+  
+  /*const nombre = document.getElementById("nombre");
   const apellidos = document.getElementById("apellidos");
   const dni = document.getElementById("dni");
   const email = document.getElementById("email");
   const contrasena = document.getElementById("contrasena");
-  const sexo = document.getElementById("inputGroupSelect02");
+  const sexo = document.getElementById("inputGroupSelect02");*/
 
   get(ref(db, `users/${getUID()}`)).then((snapshot) => {
     // Obtiene el objeto de datos del usuario

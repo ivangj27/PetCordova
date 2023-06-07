@@ -88,6 +88,62 @@ function prueba() {
   const email = datos[3];
   const contrasena = datos[4];
   const confirmarContrasena = datos[5];
+
+  var sexo = document.getElementById("inputGroupSelect02").value; //ACABO DE AÑADIR ESTO SI NO VA NO SE COMO ES
+  const aceptoTerminos = document.getElementById("exampleCheck1");
+
+  //Validaciones
+  if (
+    nombre === "" ||
+    apellidos === "" ||
+    email === "" ||
+    contrasena === "" ||
+    confirmarContrasena === "" ||
+    sexo === "" ||
+    !aceptoTerminos
+  ) {
+    alert("Por favor, rellene todos los campos");
+  } else {
+    if (!contrasena === confirmarContrasena) {
+      alert("Las contraseñas no coinciden");
+    }
+  }
+
+  if (aceptoTerminos.checked) {
+    if (comprobarDNI(dni)) {
+      //registro del usuario en firebase
+      const auth = getAuth();
+      if(sexo == 1){
+        sexo = "Hombre"
+      }else if(sexo == 2){
+        sexo = "Mujer"
+      }else {
+        sexo = "Desconocido"
+      }
+
+      createUserWithEmailAndPassword(auth, email, contrasena)
+        .then((userCredential) => {
+          const user = userCredential.user;
+
+          set(ref(getDatabase(), "users/" + user.uid), {
+            username: email,
+            contrasena: contrasena,
+            nombre: nombre,
+            apellidos: apellidos,
+            dni: dni,
+            sexo: sexo,
+          });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorMessage);
+        });
+        alert("Registro completado con éxito.")
+    }
+  } else {
+    alert("Debe aceptar los términos y condiciones");
+  }
 }
 
 function registrar() {
@@ -150,6 +206,8 @@ function registrar() {
           console.log(errorMessage);
         });
         alert("Registro completado con éxito.")
+        window.scrollTo(0,0);
+        restablecerDOM();
     }
   } else {
     alert("Debe aceptar los términos y condiciones");
@@ -168,7 +226,7 @@ function comprobarDNI(dni) {
   }
 
   // Obtenemos el número del DNI
-  const numeroDNI = dni.substr(0, 8);
+  const numeroDNI = dni.substr(0, 8).trim();
   console.log("EL NUMERO DEL DNI ES: ", numeroDNI)
   // Obtenemos la letra correspondiente al número del DNI
   const letrasDNI = "TRWAGMYFPDXBNJZSQVHLCKE";

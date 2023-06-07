@@ -74,7 +74,7 @@ import {
     imagenMascota.src = "img/logo.png";
     ventanaPrincipal.appendChild(imagenMascota);
     //boton Adoptar
-    /*if (pet.adoptado != true) {
+    if (pet.adoptado != true) {
       const divBotonAdoptar = document.createElement("div");
       divBotonAdoptar.classList.add("divBotonAdoptar");
       const botonAdoptar = document.createElement("button");
@@ -82,7 +82,8 @@ import {
       botonAdoptar.textContent = "Adoptar"
       divBotonAdoptar.appendChild(botonAdoptar);
       ventanaPrincipal.appendChild(divBotonAdoptar);
-    }*/
+      botonAdoptar.addEventListener("click", function(){adoptarMascota(pet)})
+    }
 
     const divDatosMascota = document.createElement("div");
     divDatosMascota.classList.add("divDatosMascota");
@@ -280,6 +281,10 @@ import {
       /* si se acepta */
       mostrarAceptaryCancelar(pet);
     })
+  }
+
+  function adoptarMascota(pet) {
+      console.log(">> adopcion de "+pet.nombre)
   }
 
   function mostrarAceptaryCancelar(pet) {

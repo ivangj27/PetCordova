@@ -133,10 +133,14 @@ function recordarDatos() {
 
 // Diálogo de restablecimiento de contraseña
 function dialogConfirm() {
+  if (document.getElementById("email").value != "") {
   var message = "¿Estás seguro de que deseas restablecer la contraseña?";
   var title = "Restablecer contraseña";
   var buttonLabels = "Confirmar,Cancelar";
   navigator.notification.confirm(message, (input) => {if(input==1){recuperacion()}else return}, title, buttonLabels);
+  }else {
+    navigator.notification.alert("Introduzca el email en 'usuario', por favor.")
+  }
 }
 
 //Recarga la página de login
