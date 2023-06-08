@@ -126,7 +126,7 @@ function prueba() {
           const user = userCredential.user;
 
           set(ref(getDatabase(), "users/" + user.uid), {
-            username: email,
+            email: email,
             contrasena: contrasena,
             nombre: nombre,
             apellidos: apellidos,

@@ -285,6 +285,41 @@ import {
 
   function adoptarMascota(pet) {
       console.log(">> adopcion de "+pet.nombre)
+      const db =getDatabase();
+      var keys;
+      const uid_solicitante = getUID();
+      var dni_sol;
+      var uid_dueno;
+      do {
+        get(ref(db, `users`)).then((snapshot) => {
+          keys = Object.keys(snapshot.val());
+          console.log(">> SOL "+uid_solicitante)
+          console.log(keys)
+          for (const key in keys) {
+            if (Object.hasOwnProperty.call(keys, key)) {
+              var uid = keys[key];
+              const usuarioRef = ref(db, `users/${uid}`);
+              get(usuarioRef).then((snapshot) => {
+                var usuario = snapshot.val();
+                if (snapshot.key == uid_solicitante) {
+                  console.log("USUARIO SOLICITANTE");
+                  dni_sol = usuario.dni;
+                  console.log(usuario);
+                }
+                if (usuario.dni == "29569836r"){
+                  console.log("USUARIO DUEÑO")
+                  uid_dueno = uid;
+                  console.log(uid_dueno)
+                  console.log(usuario)
+                }
+                
+              })
+  
+            }
+          }
+        })
+      } while ((dni_sol == undefined && uid_dueno == undefined));
+      console.log(">> Cambio de dueño")
   }
 
   function mostrarAceptaryCancelar(pet) {
