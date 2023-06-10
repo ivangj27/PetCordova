@@ -13,23 +13,27 @@ import {
 import { listaDOM } from "./listaInteractiva.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
 import { getUID } from "./index.js";
+import { mostrarToast } from "./index.js";
+import { comprobarDNI } from "./registro.js";
 
 var nacimientoBD; 
 var mascotas = [];
 var cod;
 
 export function actualizarDOM() {
+  var imagen = ""; 
+
   console.log("INTENTANDO ACTUALIZAR EL DOM");
 
   const seccion = document.getElementById("contenido");
   const divs = seccion.querySelectorAll("div");
   const articles = seccion.querySelectorAll("article");
 
-  if(document.getElementById("bloqueBusqueda")){
+  if (document.getElementById("bloqueBusqueda")) {
     document.getElementById("bloqueBusqueda").remove();
   }
 
-  if(document.getElementById("datosUsuario")){
+  if (document.getElementById("datosUsuario")) {
     document.getElementById("datosUsuario").remove();
   }
 
@@ -88,7 +92,7 @@ export function actualizarDOM() {
   '</div>' +
   '</article></section></div>'
   );
-/* Comprobación de si es admin eliminada, ya veremos si metemos esto al final
+  /* Comprobación de si es admin eliminada, ya veremos si metemos esto al final
   if (role != "admin") {
     // Obtener una lista de elementos con la clase "admButton"
     const buttons = document.querySelectorAll(".admButton");
@@ -98,6 +102,12 @@ export function actualizarDOM() {
       buttons[i].remove();
     }
   }*/
+  const bImagen = document.getElementById("imagen");
+ 
+  bImagen.addEventListener("change", function (event) {
+    imagen = event.target.files[0];
+  })
+
   const bAnadir = document.getElementById("botonAceptar");
   const bCancelar = document.getElementById("botonCancelar");
   const inputEdad = document.getElementById("edad");
@@ -139,6 +149,20 @@ export function actualizarDOM() {
     listaDOM();
   });
   bAnadir.addEventListener("click", function () {
+    console.log(imagen.name)
+    anadir(imagen);
+  });
+  }
+
+function anadir(archivo) {
+  get(ref(getDatabase(), `users/${getUID()}`)).then((snapshot) => {
+    // Obtiene el objeto de datos del usuario
+    const userData = snapshot.val();
+
+    // Obtiene el valor del rol del usuario
+    const email = userData.email;
+    // Selecciona el archivo a subir
+
     anadir();
   });
 
@@ -168,10 +192,9 @@ function anadir() {
   
   var nombre = document.getElementById("nombre").value;
   var raza = document.getElementById("raza").value;
-  var sexo = document.getElementById("sexo").value;
+  var sexo = document.getElementById("inputGroupSelect02").value
   var dni = document.getElementById("dni").value;
-/* var cumple_array = pet.nacimiento.split("/");  */
-  var nacimiento = nacimientoBD;
+  var nacimiento = nacimientoBD
 
   var Mascota = {
     cod: cod,
@@ -180,11 +203,13 @@ function anadir() {
     sexo: sexo,
     dni: dni,
     nacimiento: nacimiento,
-    adoptado:false
+    adoptado:false,
+    imagen: archivo.name
   };
   set(ref(database, "Mascotas/" + cod), Mascota);
-  //subirImagen();
+  subirImagen(archivo);
   limpiaCampos();
+mostrarToast("Mascota agregada correctamente");
 }
 
 function modificar() {
@@ -195,7 +220,7 @@ function modificar() {
   var cod = document.getElementById("cod").value;
   var nombre = document.getElementById("nombre").value;
   var raza = document.getElementById("raza").value;
-  var sexo = document.getElementById("sexo").value;
+  var sexo = document.getElementById("inputGroupSelect02").value
   var dni = document.getElementById("dni").value;
   var nacimiento = document.getElementById("nacimiento").value;
 
@@ -203,23 +228,42 @@ function modificar() {
   var mascotaRef = ref(database, `Mascotas/${cod}`);
 
   // Verificar si el documento existe en la base de datos
-  get(mascotaRef).then((snapshot) => {
-    if (snapshot.exists()) {
-      // Actualizar los campos específicos de la mascota usando el método set()
-      set(mascotaRef, {
-        cod: cod,
-        nombre: nombre,
-        raza: raza,
-        sexo: sexo,
-        dni: dni,
-        nacimiento: nacimiento,
-      });
-      console.log("MASCOTA MODIFICADA");
-    } else {
-      console.log("EL DOCUMENTO NO EXISTE");
+  var error = false;
+  if (nacimiento === "") {
+    mostrarToast("Por favor, ingresa la fecha de nacimiento");
+    error = true;
+  } else {
+    var fechaRegex = /^\d{2}\/\d{2}\/\d{4}$/; // Expresión regular para el formato dd/mm/yyyy
+    if (!fechaRegex.test(nacimiento)) {
+      mostrarToast("El formato de fecha de nacimiento debe ser dd/mm/yyyy");
+      error = true;
     }
-  });
-  limpiaCampos();
+  }
+
+  if(comprobarDNI(dni) === false){
+    mostrarToast("El DNI no es válido");
+    error = true;
+  }
+
+  if (!error) {
+    get(mascotaRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        // Actualizar los campos específicos de la mascota usando el método set()
+        set(mascotaRef, {
+          cod: cod,
+          nombre: nombre,
+          raza: raza,
+          sexo: sexo,
+          dni: dni,
+          nacimiento: nacimiento,
+        });
+        console.log("MASCOTA MODIFICADA");
+      } else {
+        console.log("EL DOCUMENTO NO EXISTE");
+      }
+    });
+    limpiaCampos();
+  }
 }
 function eliminar() {
   console.log("SE EJECUTA ELIMINAR");
@@ -255,30 +299,32 @@ function eliminar() {
 export function limpiaCampos() {
   document.getElementById("nombre").value = null;
   document.getElementById("raza").value = null;
-  document.getElementById("sexo").value = null;
+  document.getElementById("inputGroupSelect02").value = null;
   document.getElementById("dni").value = null;
   document.getElementById("nacimiento").value = null;
   document.getElementById("edad").value = null;
 }
 
-function subirImagen() {
-  const database = getDatabase();
+var fileData = new File();
 
-  get(ref(database, `users/${getUID()}`)).then((snapshot) => { 
+function subirImagen(archivo) {
+  const database = getDatabase();
+  const imagen = archivo
+  get(ref(database, `users/${getUID()}`)).then((snapshot) => {
     // Obtiene el objeto de datos del usuario
     const userData = snapshot.val();
 
     // Obtiene el valor del rol del usuario
     const email = userData.email;
     // Selecciona el archivo a subir
-    const file = document.getElementById("imagen").files[0];
 
+    console.log(archivo.name);
+    console.log(archivo.size);
     // Crea una referencia al archivo en Firebase Storage
-    const storageRef = ref2(getStorage(), `${email}/perrito1.jpg`);
+    const storageRef = ref2(getStorage(), `${email}/` + archivo.name);
     // Sube el archivo a Firebase Storage
-    console.log(convertImageToBlob("img/logo.png"));
 
-    uploadBytes(storageRef,file ).then((snapshot) => {
+    uploadBytes(storageRef, archivo).then((snapshot) => {
       console.log("Imagen subida correctamente");
     });
 
@@ -287,7 +333,3 @@ function subirImagen() {
     // Si el inicio de sesión es exitoso, puedes redirigir a la página que desees o realizar otras acciones
   });
 }
-
-
-
-

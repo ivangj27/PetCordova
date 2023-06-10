@@ -214,7 +214,7 @@ function registrar() {
     alert("Debe aceptar los términos y condiciones");
   }
 }
-function comprobarDNI(dni) {
+export function comprobarDNI(dni) {
   dni = dni.toUpperCase();
   const formatoDNI = /^[0-9]{8}[a-zA-Z]$/;
 

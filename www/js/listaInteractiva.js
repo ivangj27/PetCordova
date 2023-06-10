@@ -1,14 +1,16 @@
 import {
   getDatabase,
   ref,
-  push,
-  set,
   get,
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-database.js";
 import { actualizarDOM } from "./CRUD.js";
 import { cargarDatosMascota } from "./informacionMascota.js";
+import {
+  getStorage,
+  ref as ref2,
+  getDownloadURL,
+} from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
 
-var rol = "";
 var mascotas = [];
 export function listaDOM() {
   console.log("INTENTANDO ACTUALIZAR EL DOM");
@@ -24,7 +26,7 @@ export function listaDOM() {
   articles.forEach((article) => {
     article.remove();
   });
-  if(document.getElementById("bloqueBusqueda")){
+  if (document.getElementById("bloqueBusqueda")) {
     const busqueda = document.getElementById("bloqueBusqueda");
     busqueda.remove();
   }
@@ -42,7 +44,7 @@ export function listaDOM() {
       "</span>" +
       "</div>" +
       '<div id="divMascotasList">' +
-      '<section id="mascotasList">'+
+      '<section id="mascotasList"><header style="text-align: center"><button class="botonAnadirMascota" id="BtnAM">Añadir Mascota</button></header>'+
     '</section>'+
       "</div>"
   );
@@ -55,17 +57,19 @@ export function listaDOM() {
     false
   );
   var inputBuscar = document.getElementById("inputBuscar");
-  console.log(inputBuscar)
+  const botonAnadir = document.querySelector(".botonAnadirMascota");
+  botonAnadir.addEventListener('click', function(){cargarDatosMascota(null), false})
   inputBuscar.addEventListener("input", function (event) {
     var busqueda = event.target.value.toLowerCase();
     buscarMascotas(busqueda);
   });
+  mascotas = [];
 }
 /*
   IMPORTANTE PARA LAS IMAGENES: 
   Si no les vamos a decir un tamaño fijo en el CSS tenemos que añadir una función de recortarla 
   (igual que insta o cualquier otra cuando subes algo), si no no podemos redimensionarlas sin distorsionar la imagen.
-  */
+*/
 
 export function cargarLista() {
   console.log("Prueba Fran");
@@ -74,9 +78,7 @@ export function cargarLista() {
   var mascotasRef = ref(database, "Mascotas");
 
   // lista de objetos de JavaScript
-  if (mascotas.length > 0) {
-    mascotas.splice(0, mascotas.length);
-  }
+  mascotas = [];
   const mascotasList = document.getElementById("mascotasList");
   // obtener todos los objetos de la lista "mascotas"
   get(mascotasRef)
@@ -101,8 +103,18 @@ export function cargarLista() {
         listItem.appendChild(petPhotoFrame);
 
         const petPhoto = document.createElement("img");
-        petPhoto.src = "img/logo.png"; // pet.imagen
+        const storageRef = ref2(getStorage(), "/" + pet.imagen);
+        petPhoto.width = "170";
+        petPhoto.height = "170";
 
+        getDownloadURL(storageRef)
+          .then((url) => {
+            // Asigna la URL de descarga como el valor del atributo src de la imagen
+            petPhoto.src = url;
+          })
+          .catch((error) => {
+            console.error("Error al obtener la URL de descarga:", error);
+          });
         petPhotoFrame.appendChild(petPhoto);
 
         // Create the pet info element
@@ -187,8 +199,18 @@ function buscarMascotas(busqueda) {
       listItem.appendChild(petPhotoFrame);
 
       const petPhoto = document.createElement("img");
-      petPhoto.src = "img/logo.png"; // pet.imagen
+      const storageRef = ref2(getStorage(), "/" + pet.imagen);
+      petPhoto.width = "170";
+      petPhoto.height = "170";
 
+      getDownloadURL(storageRef)
+        .then((url) => {
+          // Asigna la URL de descarga como el valor del atributo src de la imagen
+          petPhoto.src = url;
+        })
+        .catch((error) => {
+          console.error("Error al obtener la URL de descarga:", error);
+        });
       petPhotoFrame.appendChild(petPhoto);
 
       // Crear el elemento de información de la mascota
