@@ -89,7 +89,7 @@ br{
 
 .botonAnadirMascota {
     position: inherit;
-    margin: 0 0 20px -200px;
+    margin: 0 0 20px 0;
 }
 #tituloDatos{
     color: #fff;

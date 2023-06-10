@@ -44,7 +44,7 @@ export function listaDOM() {
       "</span>" +
       "</div>" +
       '<div id="divMascotasList">' +
-      '<section id="mascotasList"><header style="text-align: center"><button class="botonAnadirMascota" id="BtnAM">Añadir Mascota</button></header>'+
+      '<section id="mascotasList">'+
     '</section>'+
       "</div>"
   );
@@ -57,8 +57,6 @@ export function listaDOM() {
     false
   );
   var inputBuscar = document.getElementById("inputBuscar");
-  const botonAnadir = document.querySelector(".botonAnadirMascota");
-  botonAnadir.addEventListener('click', function(){cargarDatosMascota(null), false})
   inputBuscar.addEventListener("input", function (event) {
     var busqueda = event.target.value.toLowerCase();
     buscarMascotas(busqueda);
@@ -144,7 +142,7 @@ export function cargarLista() {
           mascotas.forEach((mascota) => {
             if (mascota.nombre == nombreMascotaBoton) {
               console.log("animal encontrado");
-              cargarDatosMascota(mascota, rol);
+              cargarDatosMascota(mascota);
               window.scrollTo(0,0);
             }
           });

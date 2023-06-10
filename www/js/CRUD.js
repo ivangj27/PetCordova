@@ -163,7 +163,7 @@ function anadir(archivo) {
     const email = userData.email;
     // Selecciona el archivo a subir
 
-    anadir();
+    anadirMascota();
   });
 
   get(ref(database,`users/${getUID()}`)).then((snapshot) => {
@@ -184,7 +184,7 @@ function alertDismissed() {
   // do something
 }
 
-function anadir() {
+function anadirMascota() {
   console.log("SE EJECUTA ANADIR");
   const database = getDatabase();
 
