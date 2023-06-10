@@ -63,7 +63,7 @@ export function generarDatosCuenta() {
       '<button id="registro" class="btn btn-primary">Confirmar cambios</button>' +
       "</div>"
   );
-  const buttonConfirmar = document.getElementById("confirmar");
+  const buttonConfirmar = document.getElementById("registro");
   document.addEventListener(
     "backbutton",
     function () {
@@ -75,14 +75,18 @@ export function generarDatosCuenta() {
 
   const auth = getAuth();
   const db = getDatabase();
-  
-  /*const nombre = document.getElementById("nombre");
-  const apellidos = document.getElementById("apellidos");
-  const dni = document.getElementById("dni");
-  const email = document.getElementById("email");
-  const contrasena = document.getElementById("contrasena");
-  const sexo = document.getElementById("inputGroupSelect02");*/
 
+  const nombre = document.getElementsByName("nombre").item(0);
+  const apellidos = document.getElementsByName("apellidos").item(0);
+  const dni = document.getElementsByName("dni").item(0);
+  const email = document.getElementsByName("email").item(0);
+  const contrasena = document.getElementsByName("contrasena").item(0);
+  const sexo = document.getElementById("inputGroupSelect02");
+  
+  buttonConfirmar.addEventListener("click", function(){
+    confirmar(db, nombre, apellidos, dni, email, contrasena, sexo)
+  })
+  document.addEventListener("backbutton", function(){generarPaginaUs()}, false);
   get(ref(db, `users/${getUID()}`)).then((snapshot) => {
     // Obtiene el objeto de datos del usuario
     var usuario = snapshot.val();
@@ -93,15 +97,18 @@ export function generarDatosCuenta() {
     dni.value = usuario.dni;
     email.value = usuario.email;
     contrasena.value = usuario.contrasena;
-    sexo.value = usuario.sexo;
-      
-    buttonConfirmar.addEventListener("click", function(){confirmar(usuario,db,nombre,apellidos,dni,email,contrasena,sexo)});
-    document.addEventListener("backbutton", function(){generarPaginaUs()}, false);
-
+    if (usuario.sexo.includes("ujer")) {
+      sexo.value = 2
+    }else {sexo.value = 1}
 })
 }
 
-function confirmar(user, db, nombre, apellidos, dni, email, contrasena, sexo) {
+function confirmar(db, nombre, apellidos, dni, email, contrasena, sexo) {
+    if (sexo.value == 2){
+      sexo = "Mujer"
+    }else if (sexo.value == 1) {
+      sexo = "Hombre"
+    }
     if (
     nombre != "" ||
     apellidos != "" ||
@@ -115,7 +122,7 @@ function confirmar(user, db, nombre, apellidos, dni, email, contrasena, sexo) {
       dni: dni.value,
       email: email.value,
       contrasena: contrasena.value,
-      sexo: sexo.value,
+      sexo: sexo,
     });
     mostrarToast("Cambios realizados correctamente")
     generarPaginaUs();

@@ -287,39 +287,45 @@ import {
       console.log(">> adopcion de "+pet.nombre)
       const db =getDatabase();
       var keys;
-      const uid_solicitante = getUID();
+      var usuario_dueno;
       var dni_sol;
       var uid_dueno;
-      do {
-        get(ref(db, `users`)).then((snapshot) => {
-          keys = Object.keys(snapshot.val());
-          console.log(">> SOL "+uid_solicitante)
-          console.log(keys)
-          for (const key in keys) {
-            if (Object.hasOwnProperty.call(keys, key)) {
-              var uid = keys[key];
-              const usuarioRef = ref(db, `users/${uid}`);
-              get(usuarioRef).then((snapshot) => {
-                var usuario = snapshot.val();
-                if (snapshot.key == uid_solicitante) {
-                  console.log("USUARIO SOLICITANTE");
-                  dni_sol = usuario.dni;
-                  console.log(usuario);
-                }
-                if (usuario.dni == "29569836r"){
-                  console.log("USUARIO DUEÑO")
-                  uid_dueno = uid;
-                  console.log(uid_dueno)
-                  console.log(usuario)
-                }
-                
-              })
-  
-            }
+
+      get(ref(db, 'users')).then((snapshot) => {
+        var indice = 0;
+        keys = Object.keys(snapshot.val());
+        var usuarios = Object.values(snapshot.val());
+        console.log(keys)
+        console.log(usuarios)
+        for (var usuario in usuarios) {
+           var usuarioObj = usuarios[usuario]
+           if (usuarioObj.dni == pet.dni) {
+              uid_dueno = keys[indice];
+              usuario_dueno = usuarioObj;
+              console.log(uid_dueno)
+           }else if (getUID() == keys[indice]) {
+              dni_sol = usuarioObj.dni;
+              console.log(dni_sol)
+           }
+           indice++;
+        }
+        const usuarioRef = ref(db, `users/${uid_dueno}`);
+        get(usuarioRef).then((snapshot) => {
+          if(snapshot.exists()) {
+            set(usuarioRef, {
+              apellidos: usuario_dueno.apellidos,
+              confirmacion: usuario_dueno.confirmacion,
+              contrasena: usuario_dueno.contrasena,
+              dni:usuario_dueno.dni,
+              email: usuario_dueno.email,
+              nombre:usuario_dueno.nombre,
+              sexo:usuario_dueno.sexo,
+              solicitud:dni_sol
+            })
+            console.log("SOLICITUD ENVIDADA")
           }
-        })
-      } while ((dni_sol == undefined && uid_dueno == undefined));
-      console.log(">> Cambio de dueño")
+        });
+      })
   }
 
   function mostrarAceptaryCancelar(pet) {

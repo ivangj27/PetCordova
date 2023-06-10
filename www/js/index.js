@@ -67,7 +67,6 @@ function restablecerVariables() {
   // Listeners de los botones de inicio y registro
   botonRegistro.addEventListener("click", paginaRegistro);
   botonInicio.addEventListener("click", iniciarSesion);
-  botonPass.addEventListener("click", dialogConfirm);
   eye.addEventListener("click", function(){
     this.classList.toggle("fa-eye-slash")
     const type = passwordInput.getAttribute("type") === "password" ? "text" : "password"
@@ -87,6 +86,7 @@ function iniciarSesion() {
       console.log("Sesión iniciada correctamente");
       auth.onAuthStateChanged((user) => {
         if (user) {
+          console.log(user)
           // User logged in already or has just logged in.
           var id = user.uid;
           setUID(id)
@@ -101,7 +101,7 @@ function iniciarSesion() {
       // Si hay un error en el inicio de sesión, puedes mostrar un mensaje de error o realizar otras acciones
       const errorMessage = error.message;
       console.log(errorMessage)
-      //mostrarToast("Error al iniciar sesión" + errorMessage);
+      mostrarToast("Error al iniciar sesión" + errorMessage);
     });
 }
 
@@ -133,14 +133,7 @@ function recordarDatos() {
 
 // Diálogo de restablecimiento de contraseña
 function dialogConfirm() {
-  if (document.getElementById("email").value != "") {
-  var message = "¿Estás seguro de que deseas restablecer la contraseña?";
-  var title = "Restablecer contraseña";
-  var buttonLabels = "Confirmar,Cancelar";
-  navigator.notification.confirm(message, (input) => {if(input==1){recuperacion()}else return}, title, buttonLabels);
-  }else {
-    navigator.notification.alert("Introduzca el email en 'usuario', por favor.")
-  }
+  recuperacion();
 }
 
 //Recarga la página de login

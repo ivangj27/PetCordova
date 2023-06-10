@@ -224,6 +224,7 @@ h1 {
   
     /* Añade un poco de espacio entre los botones */
     .btn {
+      margin-top: 2%;
       margin-bottom: 0.5rem;
     }
   }

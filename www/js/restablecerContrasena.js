@@ -18,9 +18,9 @@ export function recuperacion(){
         "afterbegin",
         "<div>" +
         "<h2>Restablece tu contraseña</h2>" +
-        '<div class="mb-3">' +
+        '<div class="inputContainerCambioContra mb-3">' +
         '<label for="nombre" class="form-label" style="text-align:left;">Correo electrónico de su cuenta:</label>' +
-        '<input type="text" id="correo" name="correo" class="form-control" placeholder="Correo electrónico de su cuenta">' +
+        '<input type="text" id="correo" name="correo" class="textoRecuperacion" placeholder="Correo electrónico de su cuenta">' +
         "</div>" +
         '<button id="aceptar" class="btn btn-primary">Continuar</button>' +
         "</div>"

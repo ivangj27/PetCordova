@@ -141,6 +141,23 @@ export function actualizarDOM() {
   bAnadir.addEventListener("click", function () {
     anadir();
   });
+
+  get(ref(database,`users/${getUID()}`)).then((snapshot) => {
+    if(snapshot.exists()){
+      if(snapshot.val().solicitud.length != 0) {
+        navigator.notification.alert(
+          'You are the winner!',  // message
+          alertDismissed,         // callback
+          'Game Over',            // title
+          'Done'                  // buttonName
+      );
+      }
+    }
+  })
+}
+
+function alertDismissed() {
+  // do something
 }
 
 function anadir() {

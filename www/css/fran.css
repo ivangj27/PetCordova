@@ -51,6 +51,11 @@ br{
   color: #003366;
 }
 
+.textoRecuperacion{
+  width: 50%;
+  margin-bottom: 6%;
+}
+
 #email{
     margin-top: 10px;
     margin-left: 60px;
@@ -213,6 +218,17 @@ br{
   padding: 10px;
   position: relative;
   height: 80px;
+  width: 85%;
+  margin-bottom: 17px;
+}
+
+.inputContainerCambioContra{
+  border-radius: 15px;
+  background-color: white;
+  margin-left: 9%;
+  padding: 20px;
+  position: relative;
+  height: 110px;
   width: 85%;
   margin-bottom: 17px;
 }

@@ -133,6 +133,7 @@ function prueba() {
             dni: dni,
             sexo: sexo,
           });
+          restablecerDOM();
         })
         .catch((error) => {
           const errorCode = error.code;
