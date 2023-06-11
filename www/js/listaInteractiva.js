@@ -102,8 +102,8 @@ export function cargarLista() {
 
         const petPhoto = document.createElement("img");
         const storageRef = ref2(getStorage(), "/" + pet.imagen);
-        petPhoto.width = "170";
-        petPhoto.height = "170";
+        petPhoto.width = "120";
+        petPhoto.height = "120";
 
         getDownloadURL(storageRef)
           .then((url) => {
@@ -112,6 +112,7 @@ export function cargarLista() {
           })
           .catch((error) => {
             console.error("Error al obtener la URL de descarga:", error);
+            petPhoto.src = 'img/icono_perro.png'
           });
         petPhotoFrame.appendChild(petPhoto);
 

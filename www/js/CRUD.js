@@ -81,6 +81,10 @@ export function actualizarDOM() {
   '<input type="text" placeholder="a" class="camposTextoDatosMascota" id="sexo">' +
   '<label class="labelTituloCampos" for="">Sexo</label>' +
   '</div>' +
+ ' <div class="inputContainer">'+
+   '<input type="file" class="camposTextoDatosMascota"> '+
+   '<label class="labelTituloCampos" for="">Imagen</label>' +
+  '</div>'+
   '</div>' +
   '<div class="divBotones">' +
   '<div class="divBotonAceptar">' +
@@ -102,11 +106,6 @@ export function actualizarDOM() {
       buttons[i].remove();
     }
   }*/
-  const bImagen = document.getElementById("imagen");
- 
-  bImagen.addEventListener("change", function (event) {
-    imagen = event.target.files[0];
-  })
 
   const bAnadir = document.getElementById("botonAceptar");
   const bCancelar = document.getElementById("botonCancelar");
@@ -152,6 +151,126 @@ export function actualizarDOM() {
     console.log(imagen.name)
     anadirMascota(imagen);
   });
+
+  get(ref(database,`users/${getUID()}`)).then((snapshot) => {
+    if(snapshot.exists()){
+      var usuario_duenoBD = snapshot.val();
+      if(snapshot.val().solicitud.length != 0) {
+        var dni_dueno = snapshot.val().dni;
+        var dni_solicitante = snapshot.val().solicitud.substring(0,9);
+        var cod_pet = snapshot.val().solicitud.substring(10,snapshot.val().solicitud.length+1);
+        var mensaje = "Solicitud de "+dni_solicitante+ " para el codMascota "+cod_pet;
+        var titulo = "SOLICITUD";
+        var etiquetaAceptar = "Aceptar";
+        var etiquetaCancelar = "Cancelar";
+        navigator.notification.confirm(
+          mensaje,
+          function (buttonIndex) {
+              if (buttonIndex === 1) {
+                  // Se hizo clic en el botón Aceptar
+                  get(ref(database, `Mascotas/${cod_pet}`)).then((snapshot) => {
+                    var petBD = snapshot.val();
+                    if (snapshot.exists()) {
+                      set(ref(database, `Mascotas/${cod_pet}`),{
+                        adoptado:petBD.adoptado,
+                        cod:petBD.cod,
+                        dni:dni_solicitante,
+                        nacimiento:petBD.nacimiento,
+                        nombre:petBD.nombre,
+                        raza:petBD.raza,
+                        sexo:petBD.sexo
+                      })
+                    }
+                  });
+                  get(ref(database, `Solicitudes`)).then((snapshot) => {
+                    var solicitudes = []
+                    snapshot.forEach(function(childSnapshot) {
+                        var solicitud = childSnapshot.val();
+                        solicitudes.push(solicitud);
+                    });
+                    var nSolicitud = solicitudes.length+1
+                    var fechaActual = obtenerFechaActual();
+                    var solicitudJSON= {
+                      codPet: cod_pet,
+                      dni_anterior: dni_dueno,
+                      dni_nuevo:dni_solicitante,
+                      fecha:fechaActual,
+                      nSolicitud: nSolicitud
+                    };
+                    set(ref(database, "Solicitudes/" + nSolicitud), solicitudJSON);
+                  });
+                  //ENVIAR NOTIFICACION A USUARIO
+                  get(ref(database,"users")).then((snapshot) => {
+                    var uid_solicitante;
+                    var indice = 0;
+                    var keys = Object.keys(snapshot.val());
+                    var usuarios = Object.values(snapshot.val());
+                    for (var usuario in usuarios) {
+                       var usuarioObj = usuarios[usuario]
+                       if (usuarioObj.dni == dni_solicitante) {
+                          uid_solicitante = keys[indice];
+                          get(ref(database, `users/${uid_solicitante}`)).then((snapshot) => {
+                            if (snapshot.exists()){
+                              var usuario = snapshot.val();
+      
+                              set(ref(database, `users/${uid_solicitante}`), {
+                                apellidos:usuario.apellidos,
+                                confirmacion:2,
+                                contrasena:usuario.contrasena,
+                                dni:usuario.dni,
+                                email:usuario.email,
+                                nombre:usuario.nombre,
+                                sexo:usuario.sexo,
+                                solicitud:usuario.solicitud
+                              })
+                            }
+                          });
+                       }
+                       indice++;
+                     }
+                  });
+                  // QUITAR SOLICITUD DUEÑO_ANTERIOR PARA QUE NO LE SALGA LA NOTIFICACION
+                  set(ref(database,`users/${getUID()}`), {
+                    apellidos:usuario_duenoBD.apellidos,
+                    confirmacion:usuario_duenoBD.confirmacion,
+                    contrasena:usuario_duenoBD.contrasena,
+                    dni:usuario_duenoBD.dni,
+                    email:usuario_duenoBD.email,
+                    nombre:usuario_duenoBD.nombre,
+                    sexo:usuario_duenoBD.sexo,
+                    solicitud:""
+                  })
+
+                  
+              } else if (buttonIndex === 2) {
+                  // Se hizo clic en el botón Cancelar
+                  // MODIFICAR USUARIO_DUEÑO LA SOLICITUD EN ""
+              }
+          },
+          titulo,
+          [etiquetaAceptar, etiquetaCancelar]
+      );
+      }
+    }
+  });
+  }
+
+  function obtenerFechaActual() {
+    var fecha = new Date();
+    var dia = fecha.getDate();
+    var mes = fecha.getMonth() + 1; // El mes se indexa desde 0 (enero es 0)
+    var anio = fecha.getFullYear();
+
+    // Añadir un cero al día y mes si tienen un solo dígito
+    if (dia < 10) {
+      dia = "0" + dia;
+    }
+    if (mes < 10) {
+      mes = "0" + mes;
+    }
+
+    var fechaFormateada = dia + "/" + mes + "/" + anio;
+    return fechaFormateada;
   }
 
   /*
@@ -307,8 +426,6 @@ export function limpiaCampos() {
   document.getElementById("nacimiento").value = null;
   document.getElementById("edad").value = null;
 }
-
-var fileData = new File();
 
 function subirImagen(archivo) {
   const database = getDatabase();

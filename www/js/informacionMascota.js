@@ -8,6 +8,11 @@ import {
   import { listaDOM } from "./listaInteractiva.js";
   import { getUID, mostrarToast } from "./index.js";
   import { limpiaCampos } from "./CRUD.js";
+  import {
+    getStorage,
+    ref as ref2,
+    getDownloadURL,
+  } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
 
 
   var nacimientoBD;
@@ -68,11 +73,20 @@ import {
     ventanaPrincipal.classList.add("ventanaDatosMascota")
     //Imagen mascota
     const imagenMascota = document.createElement("img");
+    const storageRef = ref2(getStorage(), "/" + pet.imagen);
     imagenMascota.classList.add("fotoDetalleMascota");
-    imagenMascota.height = 200;
-    imagenMascota.width = 170;
-    imagenMascota.src = "img/logo.png";
+    imagenMascota.height = 130;
+    imagenMascota.width = 130;
+    getDownloadURL(storageRef)
+          .then((url) => {
+            // Asigna la URL de descarga como el valor del atributo src de la imagen
+            imagenMascota.src = url;
+          })
+          .catch((error) => {
+            imagenMascota.src = 'img/icono_perro.png'
+          });
     ventanaPrincipal.appendChild(imagenMascota);
+
     //boton Adoptar
     if (pet.adoptado != true) {
       const divBotonAdoptar = document.createElement("div");
@@ -204,6 +218,27 @@ import {
     divContenedorSexo.appendChild(sexoLabel);
     divDatosMascota.appendChild(divContenedorSexo);
 
+
+    //IMAGEN
+    const divContenedorImagen = document.createElement("div");
+    divContenedorImagen.classList.add("inputContainer");
+    const imagenInput =  document.createElement("input");
+    const imagenLabel = document.createElement("label");
+    imagenLabel.classList.add("labelTituloCampos");
+    imagenLabel.setAttribute("for","");
+    imagenLabel.textContent = "Imagen";
+    imagenInput.setAttribute("type", "file");
+    imagenInput.setAttribute("id","imagenMascota");
+    imagenInput.classList.add("camposTextoDatosMascota");
+    imagenInput.setAttribute("readonly","");
+    imagenInput.addEventListener("change", function() {
+      cambiarImagenArriba(imagenInput);
+    })
+    divContenedorImagen.appendChild(imagenInput);
+    divContenedorImagen.appendChild(imagenLabel);
+    divDatosMascota.appendChild(divContenedorImagen);
+
+
     ventanaPrincipal.appendChild(divDatosMascota);
 
     const db = getDatabase();
@@ -218,6 +253,10 @@ import {
   
   })
   appWindow.appendChild(ventanaPrincipal);
+  }
+
+  function cambiarImagenArriba(imagenInput){
+    console.log(">> Cambiando la imagen de arriba")
   }
 
   function mostrarBotones(ventanaPrincipal,pet){
@@ -308,7 +347,7 @@ import {
               console.log(dni_sol)
            }
            indice++;
-        }
+         }
         const usuarioRef = ref(db, `users/${uid_dueno}`);
         get(usuarioRef).then((snapshot) => {
           if(snapshot.exists()) {
@@ -320,7 +359,7 @@ import {
               email: usuario_dueno.email,
               nombre:usuario_dueno.nombre,
               sexo:usuario_dueno.sexo,
-              solicitud:dni_sol
+              solicitud:dni_sol +"/"+pet.cod
             })
             console.log("SOLICITUD ENVIDADA")
           }
