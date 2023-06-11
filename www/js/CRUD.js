@@ -150,10 +150,11 @@ export function actualizarDOM() {
   });
   bAnadir.addEventListener("click", function () {
     console.log(imagen.name)
-    anadir(imagen);
+    anadirMascota(imagen);
   });
   }
 
+  /*
 function anadir(archivo) {
   get(ref(getDatabase(), `users/${getUID()}`)).then((snapshot) => {
     // Obtiene el objeto de datos del usuario
@@ -163,7 +164,7 @@ function anadir(archivo) {
     const email = userData.email;
     // Selecciona el archivo a subir
 
-    anadirMascota();
+    anadirMascota(archivo);
   });
 
   get(ref(database,`users/${getUID()}`)).then((snapshot) => {
@@ -180,11 +181,13 @@ function anadir(archivo) {
   })
 }
 
+
 function alertDismissed() {
   // do something
 }
+*/
 
-function anadirMascota() {
+function anadirMascota(archivo) {
   console.log("SE EJECUTA ANADIR");
   const database = getDatabase();
 
