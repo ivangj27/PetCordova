@@ -46,7 +46,7 @@ export function paginaRegistro() {
      '</div>'+
      '<div class="inputContainerUsuario">'+
         '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" aria-describedby="emailHelp" placeholder="a"></input>'+
-        '<label class="labelTituloCampos" for="">CONFIRMAR CONTRA.</label>'+
+        '<label class="labelTituloCampos" for="">CONF. CONTRA</label>'+
      '</div>'+
      '<div class="input-group mb-3">' +
       ' <select class="form-select" id="inputGroupSelect02" placeholder="Sexo">' +
@@ -132,6 +132,8 @@ function prueba() {
             apellidos: apellidos,
             dni: dni,
             sexo: sexo,
+            confirmacion:0,
+            solicitud:""
           });
           restablecerDOM();
         })

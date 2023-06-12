@@ -253,7 +253,7 @@ import {
       var usuario = snapshot.val();
       if (usuario.dni == pet.dni) {
         console.log(">> Mascota del Usuario");
-        mostrarBotones(ventanaPrincipal, pet);
+        mostrarBotones(ventanaPrincipal, pet, imagenInput, imagenMascota);
       }
       document.addEventListener("backbutton", function(){listaDOM()}, false);
   
@@ -285,7 +285,7 @@ import {
     }
   }
 
-  function mostrarBotones(ventanaPrincipal,pet){
+  function mostrarBotones(ventanaPrincipal,pet, imagenInput, imagenMascota){
     // BOTONES
     const divBotones = document.createElement("div");
     divBotones.classList.add("divBotones");
@@ -344,7 +344,7 @@ import {
 
     botonEditar.addEventListener("click", function() {
       /* si se acepta */
-      mostrarAceptaryCancelar(pet);
+      mostrarAceptaryCancelar(pet, imagenInput, imagenMascota);
     })
   }
 
@@ -393,7 +393,7 @@ import {
       })
   }
 
-  function mostrarAceptaryCancelar(pet) {
+  function mostrarAceptaryCancelar(pet, imagenInput, imagenMascota) {
     const divBotonEditar = document.querySelector(".divBotonEditar");
     const divBotonEliminar = document.querySelector(".divBotonEliminar");
     divBotonEditar.remove();
@@ -419,31 +419,81 @@ import {
       
       console.log("SE EJECUTA MODIFICAR");
 
+      var imagen = imagenInput.files[0];
+      var imagenBD;
+      try{
+        imagenBD = email+"/"+imagen.name
+      }catch(error){
+        imagenBD = pet.imagen
+      }
+
       var nacimientoRecogida = document.getElementById("nacimiento").value.split("-");
       var nacimientoString = nacimientoRecogida[2]+"/"+nacimientoRecogida[1]+"/"+nacimientoRecogida[0];
 
       const database = getDatabase();
       var mascotaRef = ref(database, `Mascotas/${pet.cod}`);
-      get(mascotaRef).then((snapshot) => {
-        if(snapshot.exists()) {
-          set(mascotaRef, {
-            cod: pet.cod,
-            nombre: document.getElementById("nombre").value,
-            raza: document.getElementById("raza").value,
-            sexo: document.getElementById("sexo").value,
-            dni: document.getElementById("dni").value,
-            nacimiento: nacimientoString,
-          });
-          pet.nombre = document.getElementById("nombre").value;
-          pet.raza = document.getElementById("raza").value;
-          pet.sexo = document.getElementById("sexo").value;
-          pet.dni = document.getElementById("dni").value;
-          pet.nacimiento = nacimientoString;
-          cargarDatosMascota(pet);
+
+      get(ref(database, `users/${getUID()}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          var email = snapshot.val().email;
+
+          get(mascotaRef).then((snapshot) => {
+            if(snapshot.exists()) {
+              set(mascotaRef, {
+                adoptado:pet.adoptado,
+                cod: pet.cod,
+                imagen: imagenBD,
+                nombre: document.getElementById("nombre").value,
+                raza: document.getElementById("raza").value,
+                sexo: document.getElementById("sexo").value,
+                dni: document.getElementById("dni").value,
+                nacimiento: nacimientoString,
+              });
+              pet.nombre = document.getElementById("nombre").value;
+              pet.raza = document.getElementById("raza").value;
+              pet.sexo = document.getElementById("sexo").value;
+              pet.dni = document.getElementById("dni").value;
+              pet.nacimiento = nacimientoString;
+              pet.imagen = imagenBD;
+              cargarDatosMascota(pet);
+              try{
+              subirImagen(imagen);
+              }catch(error) {
+
+              }
+            }
+          })
+
         }
       })
     })
     botonCancelar.addEventListener("click", () => {
         cargarDatosMascota(pet);
     })
+  }
+
+  function subirImagen(archivo) {
+    const database = getDatabase();
+    get(ref(database, `users/${getUID()}`)).then((snapshot) => {
+      // Obtiene el objeto de datos del usuario
+      const userData = snapshot.val();
+  
+      // Obtiene el valor del rol del usuario
+      const email = userData.email;
+      // Selecciona el archivo a subir
+  
+      console.log(archivo.name);
+      console.log(archivo.size);
+      // Crea una referencia al archivo en Firebase Storage
+      const storageRef = ref2(getStorage(), `${email}/` + archivo.name);
+      // Sube el archivo a Firebase Storage
+  
+      uploadBytes(storageRef, archivo).then((snapshot) => {
+        console.log("Imagen subida correctamente");
+      });
+  
+      // Hace algo con el valor del rol (por ejemplo, lo muestra en la consola)
+  
+      // Si el inicio de sesión es exitoso, puedes redirigir a la página que desees o realizar otras acciones
+    });
   }

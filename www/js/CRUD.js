@@ -158,6 +158,7 @@ export function actualizarDOM() {
   });
 
   inputImagen.addEventListener("change",function() {
+    imagen = inputImagen.files[0];
     cambiarImagenArriba(inputImagen);
   });
 
@@ -430,20 +431,26 @@ function anadirMascota(archivo) {
   var dni = document.getElementById("dni").value;
   var nacimiento = nacimientoBD
 
-  var Mascota = {
-    cod: cod,
-    nombre: nombre,
-    raza: raza,
-    sexo: sexo,
-    dni: dni,
-    nacimiento: nacimiento,
-    adoptado:false,
-    imagen: archivo.name
-  };
-  set(ref(database, "Mascotas/" + cod), Mascota);
-  subirImagen(archivo);
-  limpiaCampos();
-mostrarToast("Mascota agregada correctamente");
+  //coger usuario de la sesion para guardar la imagen como -> "usuario"/"nombre_foto"
+  get(ref(database, `users/${getUID()}`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      var usuario = snapshot.val();
+      var Mascota = {
+        cod: cod,
+        nombre: nombre,
+        raza: raza,
+        sexo: sexo,
+        dni: dni,
+        nacimiento: nacimiento,
+        adoptado:false,
+        imagen: usuario.email+"/"+archivo.name
+      };
+      set(ref(database, "Mascotas/" + cod), Mascota);
+      subirImagen(archivo);
+      limpiaCampos();
+    mostrarToast("Mascota agregada correctamente");
+    }
+  })
 }
 
 function modificar() {

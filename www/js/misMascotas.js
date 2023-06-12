@@ -10,6 +10,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
 import { getUID
 } from "./index.js";
+import { cargarDatosMascota } from "./informacionMascota.js";
 
 export function paginaMisMascotas() {
     
@@ -82,14 +83,16 @@ export function paginaMisMascotas() {
         const petPhotoFrame = document.createElement("button");
         petPhotoFrame.id = "fotoListaAnimales";
         petPhotoFrame.classList.add("fotoListaAnimales");
-        //petPhotoFrame.addEventListener('click', informacionMascota);
+        petPhotoFrame.addEventListener('click', function() {
+          cargarDatosMascota(pet)
+        });
         listItem.appendChild(petPhotoFrame);
 
         const petPhoto = document.createElement("img");
         const storageRef = ref2(getStorage(), "/" + pet.imagen);
-        petPhoto.width = "170";
-        petPhoto.height = "170";
-
+        petPhoto.width = "120";
+        petPhoto.height = "120";
+        try{
         getDownloadURL(storageRef)
           .then((url) => {
             // Asigna la URL de descarga como el valor del atributo src de la imagen
@@ -98,6 +101,9 @@ export function paginaMisMascotas() {
           .catch((error) => {
             console.error("Error al obtener la URL de descarga:", error);
           });
+        }catch(error) {
+          petPhoto.src = 'img/icono_perro.png'
+        }
         petPhotoFrame.appendChild(petPhoto);
 
         // Crear el elemento de información de la mascota

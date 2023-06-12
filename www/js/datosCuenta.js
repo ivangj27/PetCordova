@@ -46,7 +46,7 @@ export function generarDatosCuenta() {
      '</div>'+
      '<div class="inputContainerUsuario">'+
         '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" aria-describedby="emailHelp" placeholder="a"></input>'+
-        '<label class="labelTituloCampos" for="">CONFIRMAR CONTRA.</label>'+
+        '<label class="labelTituloCampos" for="">CONF. CONTRA</label>'+
      '</div>'+
      '<div class="input-group mb-3">' +
       ' <select class="form-select" id="inputGroupSelect02" placeholder="Sexo">' +
@@ -116,16 +116,21 @@ function confirmar(db, nombre, apellidos, dni, email, contrasena, sexo) {
     contrasena != "" ||
     sexo != "")
     {
-    set(ref(db, `users/${getUID()}`), {
-      nombre: nombre.value,
-      apellidos: apellidos.value,
-      dni: dni.value,
-      email: email.value,
-      contrasena: contrasena.value,
-      sexo: sexo,
-    });
-    mostrarToast("Cambios realizados correctamente")
+    get(ref(db, `users/${getUID()}`)).then((snapshot) => {
+      var usuario = snapshot.val();
+      set(ref(db, `users/${getUID()}`), {
+        nombre: nombre.value,
+        apellidos: apellidos.value,
+        dni: dni.value,
+        email: email.value,
+        contrasena: contrasena.value,
+        sexo: sexo,
+        solicitud:usuario.solicitud,
+        confirmacion:usuario.confirmacion
+      });
+      mostrarToast("Cambios realizados correctamente")
     generarPaginaUs();
+    })
 
   }else{
     mostrarToast("Por favor, rellena todos los campos");

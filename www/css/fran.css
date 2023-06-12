@@ -214,7 +214,7 @@ br{
 .inputContainer{
   border-radius: 15px;
   background-color: white;
-  margin-left: 25%;
+  margin-left: 10%;
   padding: 10px;
   position: relative;
   height: 80px;
@@ -266,7 +266,7 @@ br{
   left: 0px;
   background: none;
   z-index: 1;
-  width: 200px;
+  width: 80%;
   font-size: 16px;
   padding: 0 10px;
   font-weight: 400;
@@ -309,22 +309,29 @@ br{
     justify-content: center;
     position: relative;
     height: 45px;
-    width: 90%;
+    width: 100%;
     margin-bottom: 30px;
+  }
+
+  .divBotonEditar, .divBotonAceptar{
+    margin-right: 20px;
   }
 
   .botonEditarMascota{
     background-color: orange;
+    padding: 10px;
     margin:5px;
-    margin-right: 50px;
     width: 100%;
     height: 100%;
+  }
+
+  .divBotonEliminar, .divBotonCancelar{
+    margin-left: 20px;
   }
 
   .botonEliminarMascota{
     background-color: red;
     margin:5px;
-    margin-left: 50px;
     width: 100%;
     height: 100%;
   }
@@ -332,16 +339,8 @@ br{
   .botonAceptar{
     background-color: green;
     margin:5px;
-    width: 120%;
+    width: 100%;
     height: 100%;
-  }
-
-  .divBotonCancelar{
-    margin-left: 20%;
-  }
-
-  .divBotonAceptar{
-    margin-left: 5%;
   }
 
   .botonCancelar{

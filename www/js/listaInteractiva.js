@@ -104,7 +104,7 @@ export function cargarLista() {
         const storageRef = ref2(getStorage(), "/" + pet.imagen);
         petPhoto.width = "120";
         petPhoto.height = "120";
-
+        try {
         getDownloadURL(storageRef)
           .then((url) => {
             // Asigna la URL de descarga como el valor del atributo src de la imagen
@@ -114,6 +114,9 @@ export function cargarLista() {
             console.error("Error al obtener la URL de descarga:", error);
             petPhoto.src = 'img/icono_perro.png'
           });
+        }catch(error) {
+          petPhoto.src = 'img/icono_perro.png'
+        }
         petPhotoFrame.appendChild(petPhoto);
 
         // Create the pet info element
