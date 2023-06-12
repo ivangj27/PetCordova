@@ -75,9 +75,11 @@ import {
     const imagenMascota = document.createElement("img");
     const storageRef = ref2(getStorage(), "/" + pet.imagen);
     imagenMascota.classList.add("fotoDetalleMascota");
-    imagenMascota.height = 130;
-    imagenMascota.width = 130;
-    getDownloadURL(storageRef)
+    imagenMascota.height = 200;
+    imagenMascota.width = 170;
+    
+    try {
+        getDownloadURL(storageRef)
           .then((url) => {
             // Asigna la URL de descarga como el valor del atributo src de la imagen
             imagenMascota.src = url;
@@ -85,6 +87,9 @@ import {
           .catch((error) => {
             imagenMascota.src = 'img/icono_perro.png'
           });
+    }catch(error) {
+      imagenMascota.src = 'img/icono_perro.png'
+    }
     ventanaPrincipal.appendChild(imagenMascota);
 
     //boton Adoptar
@@ -230,7 +235,8 @@ import {
     imagenInput.setAttribute("type", "file");
     imagenInput.setAttribute("id","imagenMascota");
     imagenInput.classList.add("camposTextoDatosMascota");
-    imagenInput.setAttribute("readonly","");
+    imagenInput.setAttribute("readonly","readonly");
+
     imagenInput.addEventListener("change", function() {
       cambiarImagenArriba(imagenInput);
     })
@@ -256,7 +262,27 @@ import {
   }
 
   function cambiarImagenArriba(imagenInput){
-    console.log(">> Cambiando la imagen de arriba")
+    if (document.getElementsByClassName("botonAceptar")[0]){
+      var img = document.getElementsByClassName("fotoDetalleMascota")[0]
+      var archivo = imagenInput.files[0];
+      console.log(archivo)
+      if (archivo) {
+      // Crear un objeto FileReader
+      var lector = new FileReader();
+
+      // Configurar el evento "load" del lector
+      lector.onload = function(e) {
+        // Establecer la imagen seleccionada como fuente de la imagen preview
+        img.src = e.target.result;
+        console.log(img.src)
+      };
+
+      // Leer el contenido del archivo como una URL de datos
+      lector.readAsDataURL(archivo);
+      }
+    }else{
+      imagenInput.value = ""
+    }
   }
 
   function mostrarBotones(ventanaPrincipal,pet){

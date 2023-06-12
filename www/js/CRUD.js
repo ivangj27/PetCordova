@@ -77,12 +77,16 @@ export function actualizarDOM() {
   '<input type="text" placeholder="a" class="camposTextoDatosMascota" id="raza">' +
   '<label class="labelTituloCampos" for="">Raza Mascota</label>' +
   '</div>' +
-  '<div class="inputContainer">' +
-  '<input type="text" placeholder="a" class="camposTextoDatosMascota" id="sexo">' +
-  '<label class="labelTituloCampos" for="">Sexo</label>' +
-  '</div>' +
+  '<div class="input-group mb-3">' +
+      ' <select class="form-select" id="inputGroupSelect02" placeholder="Sexo">' +
+      ' <option value="" disabled selected hidden>Seleccione su sexo</option>'+
+      ' <option value="1">Hombre</option>' +
+      ' <option value="2">Mujer</option>' +
+      " </select>" +
+      ' <label class="input-group-text" for="inputGroupSelect02">SEXO</label>' +
+  "</div>" +
  ' <div class="inputContainer">'+
-   '<input type="file" class="camposTextoDatosMascota"> '+
+   '<input id="inputImagen" type="file" class="camposTextoDatosMascota"> '+
    '<label class="labelTituloCampos" for="">Imagen</label>' +
   '</div>'+
   '</div>' +
@@ -111,6 +115,7 @@ export function actualizarDOM() {
   const bCancelar = document.getElementById("botonCancelar");
   const inputEdad = document.getElementById("edad");
   const inputFecha = document.getElementById("nacimiento");
+  const inputImagen = document.getElementById("inputImagen");
 
 
   const database = getDatabase();
@@ -152,6 +157,10 @@ export function actualizarDOM() {
     anadirMascota(imagen);
   });
 
+  inputImagen.addEventListener("change",function() {
+    cambiarImagenArriba(inputImagen);
+  });
+
   get(ref(database,`users/${getUID()}`)).then((snapshot) => {
     if(snapshot.exists()){
       var usuario_duenoBD = snapshot.val();
@@ -172,7 +181,7 @@ export function actualizarDOM() {
                     var petBD = snapshot.val();
                     if (snapshot.exists()) {
                       set(ref(database, `Mascotas/${cod_pet}`),{
-                        adoptado:petBD.adoptado,
+                        adoptado:true,
                         cod:petBD.cod,
                         dni:dni_solicitante,
                         nacimiento:petBD.nacimiento,
@@ -245,14 +254,117 @@ export function actualizarDOM() {
               } else if (buttonIndex === 2) {
                   // Se hizo clic en el botón Cancelar
                   // MODIFICAR USUARIO_DUEÑO LA SOLICITUD EN ""
+                  set(ref(database,`users/${getUID()}`), {
+                    apellidos:usuario_duenoBD.apellidos,
+                    confirmacion:usuario_duenoBD.confirmacion,
+                    contrasena:usuario_duenoBD.contrasena,
+                    dni:usuario_duenoBD.dni,
+                    email:usuario_duenoBD.email,
+                    nombre:usuario_duenoBD.nombre,
+                    sexo:usuario_duenoBD.sexo,
+                    solicitud:""
+                  })
+                  // HACER LLEGAR AL USUARIO QUE LA SOLICITUD HA SIDO RECHAZADA
+                  get(ref(database,"users")).then((snapshot) => {
+                    var uid_solicitante;
+                    var indice = 0;
+                    var keys = Object.keys(snapshot.val());
+                    var usuarios = Object.values(snapshot.val());
+                    for (var usuario in usuarios) {
+                       var usuarioObj = usuarios[usuario]
+                       if (usuarioObj.dni == dni_solicitante) {
+                          uid_solicitante = keys[indice];
+                          get(ref(database, `users/${uid_solicitante}`)).then((snapshot) => {
+                            if (snapshot.exists()){
+                              var usuario = snapshot.val();
+      
+                              set(ref(database, `users/${uid_solicitante}`), {
+                                apellidos:usuario.apellidos,
+                                confirmacion:1,
+                                contrasena:usuario.contrasena,
+                                dni:usuario.dni,
+                                email:usuario.email,
+                                nombre:usuario.nombre,
+                                sexo:usuario.sexo,
+                                solicitud:usuario.solicitud
+                              })
+                            }
+                          });
+                       }
+                       indice++;
+                     }
+                  });
               }
           },
           titulo,
           [etiquetaAceptar, etiquetaCancelar]
       );
       }
+      if (snapshot.val().confirmacion != 0) {
+        if (snapshot.val().confirmacion === 1) {
+          window.plugins.toast.showWithOptions(
+            {
+              message: "Solicitud Rechazada",
+              duration: "long", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+              position: "bottom",
+            },
+          );
+          set(ref(database, `users/${getUID()}`), {
+            apellidos:usuario_duenoBD.apellidos,
+            confirmacion:0,
+            contrasena:usuario_duenoBD.contrasena,
+            dni:usuario_duenoBD.dni,
+            email:usuario_duenoBD.email,
+            nombre:usuario_duenoBD.nombre,
+            sexo:usuario_duenoBD.sexo,
+            solicitud:usuario_duenoBD.solicitud
+          })
+        }else if (snapshot.val().confirmacion === 2){
+          window.plugins.toast.showWithOptions(
+            {
+              message: "Solicitud Aceptada",
+              duration: "long", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+              position: "bottom",
+            },
+          );
+          set(ref(database, `users/${getUID()}`), {
+            apellidos:usuario_duenoBD.apellidos,
+            confirmacion:0,
+            contrasena:usuario_duenoBD.contrasena,
+            dni:usuario_duenoBD.dni,
+            email:usuario_duenoBD.email,
+            nombre:usuario_duenoBD.nombre,
+            sexo:usuario_duenoBD.sexo,
+            solicitud:usuario_duenoBD.solicitud
+          })
+        }
+      }
     }
   });
+  }
+
+  function cambiarImagenArriba(imagenInput){
+    if (document.getElementsByClassName("botonAceptar")[0]){
+      var img = document.getElementsByClassName("fotoDetalleMascota")[0]
+      var archivo = imagenInput.files[0];
+      console.log(archivo)
+      if (archivo) {
+      // Crear un objeto FileReader
+      var lector = new FileReader();
+
+      // Configurar el evento "load" del lector
+      lector.onload = function(e) {
+        // Establecer la imagen seleccionada como fuente de la imagen preview
+        img.src = e.target.result;
+        console.log(img.src)
+      };
+
+      // Leer el contenido del archivo como una URL de datos
+      lector.readAsDataURL(archivo);
+      }
+    }else{
+      imagenInput.value = ""
+    }
   }
 
   function obtenerFechaActual() {
