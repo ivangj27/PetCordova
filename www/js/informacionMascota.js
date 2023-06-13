@@ -255,10 +255,11 @@ import {
         console.log(">> Mascota del Usuario");
         mostrarBotones(ventanaPrincipal, pet, imagenInput, imagenMascota);
       }
-      document.addEventListener("backbutton", function(){listaDOM()}, false);
   
   })
   appWindow.appendChild(ventanaPrincipal);
+  document.addEventListener("backbutton", function(){listaDOM()}, false);
+
   }
 
   function cambiarImagenArriba(imagenInput){
@@ -266,6 +267,7 @@ import {
       var img = document.getElementsByClassName("fotoDetalleMascota")[0]
       var archivo = imagenInput.files[0];
       console.log(archivo)
+      console.log(archivo.name)
       if (archivo) {
       // Crear un objeto FileReader
       var lector = new FileReader();
@@ -278,7 +280,7 @@ import {
       };
 
       // Leer el contenido del archivo como una URL de datos
-      lector.readAsDataURL(archivo);
+      lector.readAsDataURL(img.src);
       }
     }else{
       imagenInput.value = ""
