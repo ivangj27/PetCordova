@@ -65,7 +65,7 @@ export function paginaRegistro() {
   );
   const registro = document.getElementById("registro");
   registro.addEventListener("click", prueba);
-  document.addEventListener("backbutton", function(){restablecerDOM()}, false);
+  document.addEventListener("backbutton", function(){restablecerDOM()});
 
 }
 

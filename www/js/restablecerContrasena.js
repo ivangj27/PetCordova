@@ -26,7 +26,7 @@ export function recuperacion(){
         "</div>"
     );
   document.getElementById("aceptar").addEventListener("click",enviar)
-  document.addEventListener("backbutton", function(){restablecerDOM()}, false);
+  document.addEventListener("backbutton", function(){restablecerDOM()});
 
 }
 function enviar(){

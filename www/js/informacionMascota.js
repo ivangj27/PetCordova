@@ -41,7 +41,7 @@ import {
         "</section>" +
       "</div>");
       mostrarDatos(pet);
-      document.addEventListener("backbutton", function(){listaDOM(role)}, false);
+      document.addEventListener("backbutton", function(){listaDOM()});
 
       const inputFecha = document.getElementById("nacimiento");
       const inputEdad = document.getElementById("edad");
@@ -207,21 +207,35 @@ import {
 
     // SEXO
     const divContenedorSexo = document.createElement("div");
-    divContenedorSexo.classList.add("input-group mb-3");
+    divContenedorSexo.classList.add("input-group");
+    divContenedorSexo.classList.add("mb-3");
     const sexoInput = document.createElement("select");
+    const sexoDefault = document.createElement("option");
+    sexoDefault.setAttribute("value","")
+    sexoDefault.textContent = "Seleccione el Sexo";
+    const sexoHembra = document.createElement("option");
+    sexoHembra.setAttribute("value",2);
+    sexoHembra.textContent = "Hembra"
+    const sexoMacho = document.createElement("option");
+    sexoMacho.setAttribute("value",1);
+    sexoMacho.textContent = "Macho"
     const sexoLabel = document.createElement("label");
-    sexoLabel.classList.add("labelTituloCampos");
-    sexoLabel.setAttribute("for", "");
+    sexoLabel.classList.add("input-group-text");
+    sexoLabel.setAttribute("for", "inputGroupSelect02");
     sexoLabel.textContent = "Sexo";
     sexoInput.setAttribute("placeholder", "Sexo");
     sexoInput.setAttribute("id","sexo")
     sexoInput.classList.add("form-select");
     sexoInput.setAttribute("readonly","");
     sexoInput.setAttribute("id","inputGroupSelect02")
-    if (pet.sexo.match("%embra%")) {
-      sexoInput.value = 2
-    }else if (pet.sexo.match("%acho%")) {
-      sexoInput.value = 1
+    sexoInput.appendChild(sexoDefault);
+    sexoInput.appendChild(sexoMacho);
+    sexoInput.appendChild(sexoHembra);
+    if (pet.sexo.match(/Hembra/i)) {
+      sexoInput.selectedIndex = 2
+      console.log(sexoInput.selectedOptions.item)
+    }else if (pet.sexo.match(/Macho/i)) {
+      sexoInput.selectedIndex = 1
     }
     divContenedorSexo.appendChild(sexoInput);
     divContenedorSexo.appendChild(sexoLabel);
@@ -433,11 +447,13 @@ import {
 
       var nacimientoRecogida = document.getElementById("nacimiento").value.split("-");
       var nacimientoString = nacimientoRecogida[2]+"/"+nacimientoRecogida[1]+"/"+nacimientoRecogida[0];
-
-      var sexo = document.getElementById("sexo").value
-      if (sexo === 1) {
+      var sexo = "";
+      var selectElement = document.getElementById("inputGroupSelect02");
+      var selectedOption = selectElement.options[selectElement.selectedIndex];
+      var contenidoOpcion = selectedOption.textContent;
+      if (contenidoOpcion == "Macho") {
         sexo = "Macho"
-      }else if (sexo === 2) {
+      }else if (sexo == "Hembra") {
         sexo = "Hembra"
       }
 
@@ -456,13 +472,13 @@ import {
                 imagen: imagenBD,
                 nombre: document.getElementById("nombre").value,
                 raza: document.getElementById("raza").value,
-                sexo: document.getElementById("sexo").value,
+                sexo: sexo,
                 dni: document.getElementById("dni").value,
                 nacimiento: nacimientoString,
               });
               pet.nombre = document.getElementById("nombre").value;
               pet.raza = document.getElementById("raza").value;
-              pet.sexo = document.getElementById("sexo").value;
+              pet.sexo = sexo;
               pet.dni = document.getElementById("dni").value;
               pet.nacimiento = nacimientoString;
               pet.imagen = imagenBD;
@@ -492,9 +508,6 @@ import {
       // Obtiene el valor del rol del usuario
       const email = userData.email;
       // Selecciona el archivo a subir
-  
-      console.log(archivo.name);
-      console.log(archivo.size);
       // Crea una referencia al archivo en Firebase Storage
       const storageRef = ref2(getStorage(), `${email}/` + archivo.name);
       // Sube el archivo a Firebase Storage

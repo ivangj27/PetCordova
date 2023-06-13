@@ -64,13 +64,9 @@ export function generarDatosCuenta() {
       "</div>"
   );
   const buttonConfirmar = document.getElementById("registro");
-  document.addEventListener(
-    "backbutton",
-    function () {
-      generarPaginaUs();
-    },
-    false
-  );
+  document.addEventListener("backbutton",function(){
+    generarPaginaUs()
+  })
   //inserta los datos del user en los campos correspondientes
 
   const auth = getAuth();

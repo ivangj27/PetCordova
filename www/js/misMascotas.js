@@ -14,13 +14,9 @@ import { cargarDatosMascota } from "./informacionMascota.js";
 
 export function paginaMisMascotas() {
     
-  document.addEventListener(
-    "backbutton",
-    function () {
-      generarPaginaUs();
-    },
-    false
-  );
+  document.addEventListener("backbutton",function(){
+    generarPaginaUs()
+  })
   console.log("INTENTANDO ACTUALIZAR EL DOM");
 
   const seccion = document.getElementById("contenido");

@@ -427,10 +427,13 @@ function anadirMascota(archivo) {
   
   var nombre = document.getElementById("nombre").value;
   var raza = document.getElementById("raza").value;
-  var sexo = document.getElementById("inputGroupSelect02").value
-  if(sexo === 1) {
+  var sexo = ""; 
+  var selectElement = document.getElementById("inputGroupSelect02");
+  var selectedOption = selectElement.options[selectElement.selectedIndex];
+  var contenidoOpcion = selectedOption.textContent;
+  if(contenidoOpcion == "Macho") {
     sexo = "Macho"
-  }else if (sexo === 2){
+  }else if (contenidoOpcion == "Hembra"){
     sexo = "Hembra"
   }
   var dni = document.getElementById("dni").value;
@@ -466,7 +469,15 @@ function modificar() {
   var cod = document.getElementById("cod").value;
   var nombre = document.getElementById("nombre").value;
   var raza = document.getElementById("raza").value;
-  var sexo = document.getElementById("inputGroupSelect02").value
+  var sexo = ""; 
+  var selectElement = document.getElementById("inputGroupSelect02");
+  var selectedOption = selectElement.options[selectElement.selectedIndex];
+  var contenidoOpcion = selectedOption.textContent;
+  if(contenidoOpcion == "Macho") {
+    sexo = "Macho"
+  }else if (contenidoOpcion == "Hembra"){
+    sexo = "Hembra"
+  }
   var dni = document.getElementById("dni").value;
   var nacimiento = document.getElementById("nacimiento").value;
 
