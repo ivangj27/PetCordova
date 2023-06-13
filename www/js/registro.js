@@ -41,11 +41,11 @@ export function paginaRegistro() {
         '<div id="emailHelp" class="form-text"></div>'+
      '</div>'+
      '<div class="inputContainerUsuario">'+
-        '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" aria-describedby="emailHelp" placeholder="a"></input>'+
+        '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" placeholder="a"></input>'+
         '<label class="labelTituloCampos" for="">CONTRASEÑA</label>'+
      '</div>'+
      '<div class="inputContainerUsuario">'+
-        '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" aria-describedby="emailHelp" placeholder="a"></input>'+
+        '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" placeholder="a"></input>'+
         '<label class="labelTituloCampos" for="">CONF. CONTRA</label>'+
      '</div>'+
      '<div class="input-group mb-3">' +
@@ -89,7 +89,15 @@ function prueba() {
   const contrasena = datos[4];
   const confirmarContrasena = datos[5];
 
-  var sexo = document.getElementById("inputGroupSelect02").value; //ACABO DE AÑADIR ESTO SI NO VA NO SE COMO ES
+  var sexo = ""; 
+  var selectElement = document.getElementById("inputGroupSelect02");
+  var selectedOption = selectElement.options[selectElement.selectedIndex];
+  var contenidoOpcion = selectedOption.textContent;
+  if(contenidoOpcion == "Hombre") {
+    sexo = "Hombre"
+  }else if (contenidoOpcion == "Mujer"){
+    sexo = "Mujer"
+  } //ACABO DE AÑADIR ESTO SI NO VA NO SE COMO ES
   const aceptoTerminos = document.getElementById("exampleCheck1");
 
   //Validaciones
@@ -109,17 +117,10 @@ function prueba() {
     }
   }
 
-  if (aceptoTerminos.checked) {
+  if (aceptoTerminos.checked && contrasena === confirmarContrasena) {
     if (comprobarDNI(dni)) {
       //registro del usuario en firebase
       const auth = getAuth();
-      if(sexo == 1){
-        sexo = "Hombre"
-      }else if(sexo == 2){
-        sexo = "Mujer"
-      }else {
-        sexo = "Desconocido"
-      }
 
       createUserWithEmailAndPassword(auth, email, contrasena)
         .then((userCredential) => {

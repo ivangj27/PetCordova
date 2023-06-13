@@ -45,7 +45,7 @@ export function generarDatosCuenta() {
         '<label class="labelTituloCampos" for="">CONTRASEÑA</label>'+
      '</div>'+
      '<div class="inputContainerUsuario">'+
-        '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" aria-describedby="emailHelp" placeholder="a"></input>'+
+        '<input class="camposTextoDatosMascota" name="contrasenaConfirmar" id="camposTextoUsuario" type="password" aria-describedby="emailHelp" placeholder="a"></input>'+
         '<label class="labelTituloCampos" for="">CONF. CONTRA</label>'+
      '</div>'+
      '<div class="input-group mb-3">' +
@@ -77,12 +77,13 @@ export function generarDatosCuenta() {
   const dni = document.getElementsByName("dni").item(0);
   const email = document.getElementsByName("email").item(0);
   const contrasena = document.getElementsByName("contrasena").item(0);
-  const sexo = document.getElementById("inputGroupSelect02");
-  
+  const confirmarContra = document.getElementsByName("contrasenaConfirmar").item(0);
+  var sexo = document.getElementById("inputGroupSelect02");
   buttonConfirmar.addEventListener("click", function(){
-    confirmar(db, nombre, apellidos, dni, email, contrasena, sexo)
+    confirmar(db, nombre, apellidos, dni, email, contrasena, sexo, confirmarContra)
   })
   document.addEventListener("backbutton", function(){generarPaginaUs()}, false);
+
   get(ref(db, `users/${getUID()}`)).then((snapshot) => {
     // Obtiene el objeto de datos del usuario
     var usuario = snapshot.val();
@@ -94,23 +95,29 @@ export function generarDatosCuenta() {
     email.value = usuario.email;
     contrasena.value = usuario.contrasena;
     if (usuario.sexo.includes("ujer")) {
-      sexo.value = 2
-    }else {sexo.value = 1}
+      sexo.selectedIndex = 2
+    }else {
+      sexo.selectedIndex = 1
+    }
 })
 }
 
-function confirmar(db, nombre, apellidos, dni, email, contrasena, sexo) {
-    if (sexo.value == 2){
-      sexo = "Mujer"
-    }else if (sexo.value == 1) {
-      sexo = "Hombre"
-    }
+function confirmar(db, nombre, apellidos, dni, email, contrasena, sexo, confirmarContra) {
+  var selectElement = sexo
+  var selectedOption = selectElement.options[selectElement.selectedIndex];
+  var contenidoOpcion = selectedOption.textContent;
+  if(contenidoOpcion == "Hombre") {
+    sexo = "Hombre"
+  }else if (contenidoOpcion == "Mujer"){
+    sexo = "Mujer"
+  }
     if (
-    nombre != "" ||
-    apellidos != "" ||
-    email != "" ||
-    contrasena != "" ||
-    sexo != "")
+    (nombre.value != "" ||
+    apellidos.value != "" ||
+    email.value != "" ||
+    contrasena.value != "" ||
+    confirmarContra.value != "" ||
+    sexo != "") && contrasena.value === confirmarContra.value)
     {
     get(ref(db, `users/${getUID()}`)).then((snapshot) => {
       var usuario = snapshot.val();
