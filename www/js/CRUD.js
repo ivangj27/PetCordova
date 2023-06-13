@@ -428,6 +428,11 @@ function anadirMascota(archivo) {
   var nombre = document.getElementById("nombre").value;
   var raza = document.getElementById("raza").value;
   var sexo = document.getElementById("inputGroupSelect02").value
+  if(sexo === 1) {
+    sexo = "Macho"
+  }else if (sexo === 2){
+    sexo = "Hembra"
+  }
   var dni = document.getElementById("dni").value;
   var nacimiento = nacimientoBD
 

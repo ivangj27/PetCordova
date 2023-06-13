@@ -207,18 +207,22 @@ import {
 
     // SEXO
     const divContenedorSexo = document.createElement("div");
-    divContenedorSexo.classList.add("inputContainer");
-    const sexoInput = document.createElement("input");
+    divContenedorSexo.classList.add("input-group mb-3");
+    const sexoInput = document.createElement("select");
     const sexoLabel = document.createElement("label");
     sexoLabel.classList.add("labelTituloCampos");
     sexoLabel.setAttribute("for", "");
     sexoLabel.textContent = "Sexo";
-    sexoInput.setAttribute("type", "text");
-    sexoInput.setAttribute("placeholder", "a");
+    sexoInput.setAttribute("placeholder", "Sexo");
     sexoInput.setAttribute("id","sexo")
-    sexoInput.classList.add("camposTextoDatosMascota");
+    sexoInput.classList.add("form-select");
     sexoInput.setAttribute("readonly","");
-    sexoInput.value = pet.sexo;
+    sexoInput.setAttribute("id","inputGroupSelect02")
+    if (pet.sexo.match("%embra%")) {
+      sexoInput.value = 2
+    }else if (pet.sexo.match("%acho%")) {
+      sexoInput.value = 1
+    }
     divContenedorSexo.appendChild(sexoInput);
     divContenedorSexo.appendChild(sexoLabel);
     divDatosMascota.appendChild(divContenedorSexo);
@@ -429,6 +433,13 @@ import {
 
       var nacimientoRecogida = document.getElementById("nacimiento").value.split("-");
       var nacimientoString = nacimientoRecogida[2]+"/"+nacimientoRecogida[1]+"/"+nacimientoRecogida[0];
+
+      var sexo = document.getElementById("sexo").value
+      if (sexo === 1) {
+        sexo = "Macho"
+      }else if (sexo === 2) {
+        sexo = "Hembra"
+      }
 
       const database = getDatabase();
       var mascotaRef = ref(database, `Mascotas/${pet.cod}`);
