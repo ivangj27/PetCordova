@@ -10,6 +10,7 @@ import {
 import { generarPaginaUs } from "./paginaUsuario.js";
 import { getUID, mostrarToast } from "./index.js";
 
+//función para mostra los datos de la cuenta de usuario.
 export function generarDatosCuenta() {
   const seccion = document.getElementById("contenido");
   const divs = seccion.querySelectorAll("div");
@@ -102,6 +103,8 @@ export function generarDatosCuenta() {
 })
 }
 
+
+// funcion para aplicar los cambios que quiera hacer el usuario con sus datos
 function confirmar(db, nombre, apellidos, dni, email, contrasena, sexo, confirmarContra) {
   var selectElement = sexo
   var selectedOption = selectElement.options[selectElement.selectedIndex];
@@ -111,6 +114,7 @@ function confirmar(db, nombre, apellidos, dni, email, contrasena, sexo, confirma
   }else if (contenidoOpcion == "Mujer"){
     sexo = "Mujer"
   }
+    //comprobamos si los campos estan vacios y si las contraseñas coinciden
     if (
     (nombre.value != "" ||
     apellidos.value != "" ||

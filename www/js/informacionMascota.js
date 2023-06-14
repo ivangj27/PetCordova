@@ -16,6 +16,8 @@ import {
 
 
   var nacimientoBD;
+
+  //función para mostrar la pantalla de los datos de la mascota
   export function cargarDatosMascota(pet){
     if (pet != null){
       if(document.getElementById("bloqueBusqueda")) {
@@ -63,6 +65,7 @@ import {
   }
   }
 
+  //función para mostrar cada campo de la pantalla (con los datos de la mascota)
   function mostrarDatos(pet) {
     const database = getDatabase();
 
@@ -231,6 +234,7 @@ import {
     sexoInput.appendChild(sexoDefault);
     sexoInput.appendChild(sexoMacho);
     sexoInput.appendChild(sexoHembra);
+    //miramos el sexo de la mascota para indicarlo en el Select
     if (pet.sexo.match(/Hembra/i)) {
       sexoInput.selectedIndex = 2
       console.log(sexoInput.selectedOptions.item)
@@ -255,6 +259,7 @@ import {
     imagenInput.classList.add("camposTextoDatosMascota");
     imagenInput.setAttribute("readonly","readonly");
 
+    //si el usuario pone una imagen en el InputFile, se pondrá en la parte superior
     imagenInput.addEventListener("change", function() {
       cambiarImagenArriba(imagenInput);
     })
@@ -266,6 +271,7 @@ import {
     ventanaPrincipal.appendChild(divDatosMascota);
 
     const db = getDatabase();
+    //si la mascota es del usuario, podrá editarla o eliminarla.
     get(ref(db, `users/${getUID()}`)).then((snapshot) => {
       // Obtiene el objeto de datos del usuario
       var usuario = snapshot.val();
@@ -279,6 +285,7 @@ import {
   appWindow.appendChild(ventanaPrincipal);
   }
 
+  //funcion para colocar la immagen del InputFile en la parte superior
   function cambiarImagenArriba(imagenInput){
     if (document.getElementsByClassName("botonAceptar")[0]){
       var img = document.getElementsByClassName("fotoDetalleMascota")[0]
@@ -303,6 +310,7 @@ import {
     }
   }
 
+  //funcion para mostrar los botones de 'editar' y 'eliminar' en el caso de que sea del dueño
   function mostrarBotones(ventanaPrincipal,pet, imagenInput, imagenMascota){
     // BOTONES
     const divBotones = document.createElement("div");
@@ -366,6 +374,7 @@ import {
     })
   }
 
+  //función para mandar la solicitud al dueño de la posible solicitud que hace el usuario activo
   function adoptarMascota(pet) {
       console.log(">> adopcion de "+pet.nombre)
       const db =getDatabase();
@@ -411,6 +420,7 @@ import {
       })
   }
 
+  //función para mostrar los botones 'aceptar' y 'cancelar' en el caso del que el usuario quiera editar la mascota
   function mostrarAceptaryCancelar(pet, imagenInput, imagenMascota) {
     const divBotonEditar = document.querySelector(".divBotonEditar");
     const divBotonEliminar = document.querySelector(".divBotonEliminar");
@@ -437,6 +447,7 @@ import {
       
       console.log("SE EJECUTA MODIFICAR");
 
+      //recogemos los datos de todos los campos y se lo aplicamos a la mascota
       var imagen = imagenInput.files[0];
       var imagenBD;
       try{
@@ -494,11 +505,13 @@ import {
         }
       })
     })
+    // si le da a cancelar, "recargamos" la página
     botonCancelar.addEventListener("click", () => {
         cargarDatosMascota(pet);
     })
   }
 
+  //función para añadir la imagen a la BD, ya que se guarda aparte y linkeamos el combre con "email_usuario"/"nombre_archivo"
   function subirImagen(archivo) {
     const database = getDatabase();
     get(ref(database, `users/${getUID()}`)).then((snapshot) => {

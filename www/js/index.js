@@ -37,6 +37,8 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth();
 var uid ="";
+
+//función para mostrar la primera página de la app, el inicio de sesión.
 window.onload = function () {
   console.log("toy probando el remember me");
   var username = window.localStorage.getItem("username");
@@ -206,7 +208,8 @@ function insertarNavBar() {
   const imagenCRUD = document.getElementById("iconoCRUD");
   imagenCRUD.setAttribute("style","color: white");
   const imagenLista = document.getElementById("iconoLista");
-
+  
+  //función para el icono de usuario, para mostrar la pantalla del usuario
   botonUsuario.addEventListener("click", function(e){
     imagenUsuario.src = "./assets/images/user_white.png"
     imagenCRUD.setAttribute("style","color: black")
@@ -214,6 +217,8 @@ function insertarNavBar() {
     generarPaginaUs();
     window.scrollTo(0,0);
   })
+
+  //función para el icono de la lista, para mostrar la lista de las mascotas de la BD
   botonLista.addEventListener("click", function(e){
     imagenUsuario.src = "./assets/images/user_black.png"
     imagenCRUD.setAttribute("style","color: black")
@@ -221,6 +226,8 @@ function insertarNavBar() {
     listaDOM();
     window.scrollTo(0,0);
   })
+
+  //función para el icono de la huella, que es para mostrar la pantalla para añadir una nueva mascota.
   botonCRUD.addEventListener("click", function(e){
     imagenUsuario.src = "./assets/images/user_black.png"
     imagenCRUD.setAttribute("style","color: white")
@@ -229,9 +236,13 @@ function insertarNavBar() {
     window.scrollTo(0,0);
   })
 }
+
+//función para establecer el UID del usuario (la PK de usuarios)
 function setUID(id){
   uid = id;
 }
+
+//función para coger el UID del usuario activo.
 export function getUID(){
   return uid;
 }

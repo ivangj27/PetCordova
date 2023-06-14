@@ -12,6 +12,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
 
 var mascotas = [];
+
+//función para cargar la pantalla de la lista de las Mascotas de la BD
 export function listaDOM() {
   console.log("INTENTANDO ACTUALIZAR EL DOM");
 
@@ -56,6 +58,8 @@ export function listaDOM() {
     },
     false
   );
+
+  //aplicamos filtro en la lista en el caso del que el usuario escriba algo en la búsqueda
   var inputBuscar = document.getElementById("inputBuscar");
   inputBuscar.addEventListener("input", function (event) {
     var busqueda = event.target.value.toLowerCase();
@@ -164,6 +168,8 @@ export function cargarLista() {
     false
   );
 }
+
+//función para coger el filtro de búsqueda y recargar la página con las mascotas correspondientes. Lo hace a través del nombre y de la raza
 function buscarMascotas(busqueda) {
   if (mascotas.length > 0) {
     mascotas.splice(0, mascotas.length);

@@ -12,6 +12,7 @@ import { getUID
 } from "./index.js";
 import { cargarDatosMascota } from "./informacionMascota.js";
 
+//función para mostrar la página de 'Mis mascotas'
 export function paginaMisMascotas() {
     
   document.addEventListener("backbutton",function(){
