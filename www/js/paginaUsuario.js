@@ -11,6 +11,8 @@ import {
   get,
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-database.js";
 import { paginaMisMascotas } from "./misMascotas.js";
+
+//función para mostrar la página de los botones del usuario
 export function generarPaginaUs() {
   const seccion = document.getElementById("contenido");
   const divs = seccion.querySelectorAll("div");
@@ -65,19 +67,23 @@ export function generarPaginaUs() {
     nombreUsuario.innerHTML = userName;
   });
 
+  //botón para cerrar sesión.
   botonCerrarSesion.addEventListener("click", () => {
     cerrarSesion();
   });
 
+  //botón para mostrar los datos del usuario
   botonDatos.addEventListener("click", () => {
     generarDatosCuenta();
   });
 
+  //botón para mostrar la página de las mascotas del usuario
   bMisMascotas.addEventListener("click", () => {
     paginaMisMascotas();
   })
 }
 
+//función para cerrar sesión y que cargue la pantalla de iniciar sesión
 function cerrarSesion() {
   const auth = getAuth();
   signOut(auth)

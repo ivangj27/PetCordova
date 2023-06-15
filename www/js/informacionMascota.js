@@ -16,6 +16,8 @@ import {
 
 
   var nacimientoBD;
+
+  //función para mostrar la pantalla de los datos de la mascota
   export function cargarDatosMascota(pet){
     if (pet != null){
       if(document.getElementById("bloqueBusqueda")) {
@@ -41,7 +43,7 @@ import {
         "</section>" +
       "</div>");
       mostrarDatos(pet);
-      document.addEventListener("backbutton", function(){listaDOM(role)}, false);
+      document.addEventListener("backbutton", function(){listaDOM()});
 
       const inputFecha = document.getElementById("nacimiento");
       const inputEdad = document.getElementById("edad");
@@ -63,6 +65,7 @@ import {
   }
   }
 
+  //función para mostrar cada campo de la pantalla (con los datos de la mascota)
   function mostrarDatos(pet) {
     const database = getDatabase();
 
@@ -207,18 +210,37 @@ import {
 
     // SEXO
     const divContenedorSexo = document.createElement("div");
-    divContenedorSexo.classList.add("inputContainer");
-    const sexoInput = document.createElement("input");
+    divContenedorSexo.classList.add("input-group");
+    divContenedorSexo.classList.add("mb-3");
+    const sexoInput = document.createElement("select");
+    const sexoDefault = document.createElement("option");
+    sexoDefault.setAttribute("value","")
+    sexoDefault.textContent = "Seleccione el Sexo";
+    const sexoHembra = document.createElement("option");
+    sexoHembra.setAttribute("value",2);
+    sexoHembra.textContent = "Hembra"
+    const sexoMacho = document.createElement("option");
+    sexoMacho.setAttribute("value",1);
+    sexoMacho.textContent = "Macho"
     const sexoLabel = document.createElement("label");
-    sexoLabel.classList.add("labelTituloCampos");
-    sexoLabel.setAttribute("for", "");
+    sexoLabel.classList.add("input-group-text");
+    sexoLabel.setAttribute("for", "inputGroupSelect02");
     sexoLabel.textContent = "Sexo";
-    sexoInput.setAttribute("type", "text");
-    sexoInput.setAttribute("placeholder", "a");
+    sexoInput.setAttribute("placeholder", "Sexo");
     sexoInput.setAttribute("id","sexo")
-    sexoInput.classList.add("camposTextoDatosMascota");
+    sexoInput.classList.add("form-select");
     sexoInput.setAttribute("readonly","");
-    sexoInput.value = pet.sexo;
+    sexoInput.setAttribute("id","inputGroupSelect02")
+    sexoInput.appendChild(sexoDefault);
+    sexoInput.appendChild(sexoMacho);
+    sexoInput.appendChild(sexoHembra);
+    //miramos el sexo de la mascota para indicarlo en el Select
+    if (pet.sexo.match(/Hembra/i)) {
+      sexoInput.selectedIndex = 2
+      console.log(sexoInput.selectedOptions.item)
+    }else if (pet.sexo.match(/Macho/i)) {
+      sexoInput.selectedIndex = 1
+    }
     divContenedorSexo.appendChild(sexoInput);
     divContenedorSexo.appendChild(sexoLabel);
     divDatosMascota.appendChild(divContenedorSexo);
@@ -237,6 +259,7 @@ import {
     imagenInput.classList.add("camposTextoDatosMascota");
     imagenInput.setAttribute("readonly","readonly");
 
+    //si el usuario pone una imagen en el InputFile, se pondrá en la parte superior
     imagenInput.addEventListener("change", function() {
       cambiarImagenArriba(imagenInput);
     })
@@ -248,6 +271,7 @@ import {
     ventanaPrincipal.appendChild(divDatosMascota);
 
     const db = getDatabase();
+    //si la mascota es del usuario, podrá editarla o eliminarla.
     get(ref(db, `users/${getUID()}`)).then((snapshot) => {
       // Obtiene el objeto de datos del usuario
       var usuario = snapshot.val();
@@ -262,6 +286,7 @@ import {
 
   }
 
+  //funcion para colocar la immagen del InputFile en la parte superior
   function cambiarImagenArriba(imagenInput){
     if (document.getElementsByClassName("botonAceptar")[0]){
       var img = document.getElementsByClassName("fotoDetalleMascota")[0]
@@ -287,6 +312,7 @@ import {
     }
   }
 
+  //funcion para mostrar los botones de 'editar' y 'eliminar' en el caso de que sea del dueño
   function mostrarBotones(ventanaPrincipal,pet, imagenInput, imagenMascota){
     // BOTONES
     const divBotones = document.createElement("div");
@@ -350,6 +376,7 @@ import {
     })
   }
 
+  //función para mandar la solicitud al dueño de la posible solicitud que hace el usuario activo
   function adoptarMascota(pet) {
       console.log(">> adopcion de "+pet.nombre)
       const db =getDatabase();
@@ -395,6 +422,7 @@ import {
       })
   }
 
+  //función para mostrar los botones 'aceptar' y 'cancelar' en el caso del que el usuario quiera editar la mascota
   function mostrarAceptaryCancelar(pet, imagenInput, imagenMascota) {
     const divBotonEditar = document.querySelector(".divBotonEditar");
     const divBotonEliminar = document.querySelector(".divBotonEliminar");
@@ -421,6 +449,7 @@ import {
       
       console.log("SE EJECUTA MODIFICAR");
 
+      //recogemos los datos de todos los campos y se lo aplicamos a la mascota
       var imagen = imagenInput.files[0];
       var imagenBD;
       try{
@@ -431,6 +460,15 @@ import {
 
       var nacimientoRecogida = document.getElementById("nacimiento").value.split("-");
       var nacimientoString = nacimientoRecogida[2]+"/"+nacimientoRecogida[1]+"/"+nacimientoRecogida[0];
+      var sexo = "";
+      var selectElement = document.getElementById("inputGroupSelect02");
+      var selectedOption = selectElement.options[selectElement.selectedIndex];
+      var contenidoOpcion = selectedOption.textContent;
+      if (contenidoOpcion == "Macho") {
+        sexo = "Macho"
+      }else if (sexo == "Hembra") {
+        sexo = "Hembra"
+      }
 
       const database = getDatabase();
       var mascotaRef = ref(database, `Mascotas/${pet.cod}`);
@@ -447,13 +485,13 @@ import {
                 imagen: imagenBD,
                 nombre: document.getElementById("nombre").value,
                 raza: document.getElementById("raza").value,
-                sexo: document.getElementById("sexo").value,
+                sexo: sexo,
                 dni: document.getElementById("dni").value,
                 nacimiento: nacimientoString,
               });
               pet.nombre = document.getElementById("nombre").value;
               pet.raza = document.getElementById("raza").value;
-              pet.sexo = document.getElementById("sexo").value;
+              pet.sexo = sexo;
               pet.dni = document.getElementById("dni").value;
               pet.nacimiento = nacimientoString;
               pet.imagen = imagenBD;
@@ -469,11 +507,13 @@ import {
         }
       })
     })
+    // si le da a cancelar, "recargamos" la página
     botonCancelar.addEventListener("click", () => {
         cargarDatosMascota(pet);
     })
   }
 
+  //función para añadir la imagen a la BD, ya que se guarda aparte y linkeamos el combre con "email_usuario"/"nombre_archivo"
   function subirImagen(archivo) {
     const database = getDatabase();
     get(ref(database, `users/${getUID()}`)).then((snapshot) => {
@@ -483,9 +523,6 @@ import {
       // Obtiene el valor del rol del usuario
       const email = userData.email;
       // Selecciona el archivo a subir
-  
-      console.log(archivo.name);
-      console.log(archivo.size);
       // Crea una referencia al archivo en Firebase Storage
       const storageRef = ref2(getStorage(), `${email}/` + archivo.name);
       // Sube el archivo a Firebase Storage

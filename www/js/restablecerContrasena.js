@@ -5,6 +5,7 @@ import {
 import { restablecerDOM } from "./index.js"
 import { mostrarToast } from "./index.js";
 
+//función para cargar la pantalla de 'Recuperar Contraseña'
 export function recuperacion(){
     const seccion = document.getElementById("contenido");
     const divs = seccion.querySelectorAll("div");
@@ -26,9 +27,11 @@ export function recuperacion(){
         "</div>"
     );
   document.getElementById("aceptar").addEventListener("click",enviar)
-  document.addEventListener("backbutton", function(){restablecerDOM()}, false);
+  document.addEventListener("backbutton", function(){restablecerDOM()});
 
 }
+
+//función para enviar el email al email introducido para cambiar la contraseña
 function enviar(){
     const auth=getAuth()
     console.log("Cambiando la contrasena");

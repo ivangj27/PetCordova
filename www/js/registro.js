@@ -10,6 +10,7 @@ import {
 
 import { restablecerDOM } from "./index.js";
 
+//función para cargar la página de registro de un usuario.
 export function paginaRegistro() {
   const seccion = document.getElementById("contenido");
   const divs = seccion.querySelectorAll("div");
@@ -41,11 +42,11 @@ export function paginaRegistro() {
         '<div id="emailHelp" class="form-text"></div>'+
      '</div>'+
      '<div class="inputContainerUsuario">'+
-        '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" aria-describedby="emailHelp" placeholder="a"></input>'+
+        '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" placeholder="a"></input>'+
         '<label class="labelTituloCampos" for="">CONTRASEÑA</label>'+
      '</div>'+
      '<div class="inputContainerUsuario">'+
-        '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" aria-describedby="emailHelp" placeholder="a"></input>'+
+        '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" placeholder="a"></input>'+
         '<label class="labelTituloCampos" for="">CONF. CONTRA</label>'+
      '</div>'+
      '<div class="input-group mb-3">' +
@@ -65,10 +66,10 @@ export function paginaRegistro() {
   );
   const registro = document.getElementById("registro");
   registro.addEventListener("click", prueba);
-  document.addEventListener("backbutton", function(){restablecerDOM()}, false);
+  document.addEventListener("backbutton", function(){restablecerDOM()});
 
 }
-
+//función para registrar el usuario en la BD
 function prueba() {
   const seccion = document.getElementById("contenido");
   const divs = seccion.getElementsByTagName("input");
@@ -89,7 +90,15 @@ function prueba() {
   const contrasena = datos[4];
   const confirmarContrasena = datos[5];
 
-  var sexo = document.getElementById("inputGroupSelect02").value; //ACABO DE AÑADIR ESTO SI NO VA NO SE COMO ES
+  var sexo = ""; 
+  var selectElement = document.getElementById("inputGroupSelect02");
+  var selectedOption = selectElement.options[selectElement.selectedIndex];
+  var contenidoOpcion = selectedOption.textContent;
+  if(contenidoOpcion == "Hombre") {
+    sexo = "Hombre"
+  }else if (contenidoOpcion == "Mujer"){
+    sexo = "Mujer"
+  } //ACABO DE AÑADIR ESTO SI NO VA NO SE COMO ES
   const aceptoTerminos = document.getElementById("exampleCheck1");
 
   //Validaciones
@@ -109,17 +118,10 @@ function prueba() {
     }
   }
 
-  if (aceptoTerminos.checked) {
+  if (aceptoTerminos.checked && contrasena === confirmarContrasena) {
     if (comprobarDNI(dni)) {
       //registro del usuario en firebase
       const auth = getAuth();
-      if(sexo == 1){
-        sexo = "Hombre"
-      }else if(sexo == 2){
-        sexo = "Mujer"
-      }else {
-        sexo = "Desconocido"
-      }
 
       createUserWithEmailAndPassword(auth, email, contrasena)
         .then((userCredential) => {
@@ -149,73 +151,7 @@ function prueba() {
   }
 }
 
-function registrar() {
-
-
-  const nombre = document.getElementById("nombre").value;
-  const apellidos = document.getElementById("apellidos").value;
-  const email = document.getElementById("email").value;
-  const dni = document.getElementById("dni").value;
-  const contrasena = document.getElementById("contrasena").value;
-  const confirmarContrasena = document.getElementById(
-    "confirmarContrasena"
-  ).value;
-  var sexo = document.getElementById("inputGroupSelect02").value; //ACABO DE AÑADIR ESTO SI NO VA NO SE COMO ES
-  const aceptoTerminos = document.getElementById("exampleCheck1");
-
-  //Validaciones
-  if (
-    nombre === "" ||
-    apellidos === "" ||
-    email === "" ||
-    contrasena === "" ||
-    confirmarContrasena === "" ||
-    sexo === "" ||
-    !aceptoTerminos
-  ) {
-    alert("Por favor, rellene todos los campos");
-  } else {
-    if (!contrasena === confirmarContrasena) {
-      alert("Las contraseñas no coinciden");
-    }
-  }
-
-  if (aceptoTerminos.checked) {
-    if (comprobarDNI(dni)) {
-      //registro del usuario en firebase
-      const auth = getAuth();
-      if(sexo == 1){
-        sexo = "Hombre"
-      }else if(sexo == 2){
-        sexo = "Mujer"
-      }
-
-      createUserWithEmailAndPassword(auth, email, contrasena)
-        .then((userCredential) => {
-          const user = userCredential.user;
-
-          set(ref(getDatabase(), "users/" + user.uid), {
-            username: email,
-            contrasena: contrasena,
-            nombre: nombre,
-            apellidos: apellidos,
-            dni: dni,
-            sexo: sexo,
-          });
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorMessage);
-        });
-        alert("Registro completado con éxito.")
-        window.scrollTo(0,0);
-        restablecerDOM();
-    }
-  } else {
-    alert("Debe aceptar los términos y condiciones");
-  }
-}
+//función para comprobar el DNI introducido, ya que tiene que ser REAL
 export function comprobarDNI(dni) {
   dni = dni.toUpperCase();
   const formatoDNI = /^[0-9]{8}[a-zA-Z]$/;

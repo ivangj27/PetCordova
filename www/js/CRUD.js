@@ -4,12 +4,12 @@ import {
   push,
   set,
   get,
-} from "https://www.gstatic.com/firebasejs/9.19.0/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/9.19.0/firebase-database.js"; //importamos las funciones de firebase para acceder a los datos
 import {
   getStorage,
   ref as ref2,
   uploadBytes,
-} from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
+} from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";//importamos una funcion específica para guardar las imágenes
 import { listaDOM } from "./listaInteractiva.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
 import { getUID } from "./index.js";
@@ -20,12 +20,13 @@ var nacimientoBD;
 var mascotas = [];
 var cod;
 
-export function actualizarDOM() {
+export function actualizarDOM() { // función para mostrar la primera página tras iniciar sesión
   var imagen = ""; 
 
   console.log("INTENTANDO ACTUALIZAR EL DOM");
 
-  const seccion = document.getElementById("contenido");
+  //vamos recogiendo los elementos para eliminar los contenidos en el caso de que exista.
+  const seccion = document.getElementById("contenido"); 
   const divs = seccion.querySelectorAll("div");
   const articles = seccion.querySelectorAll("article");
 
@@ -117,7 +118,7 @@ export function actualizarDOM() {
   const inputFecha = document.getElementById("nacimiento");
   const inputImagen = document.getElementById("inputImagen");
 
-
+  //con getDatabase() cogeremos la BD que hayamos configurado
   const database = getDatabase();
   var mascotasRef = ref(database, "Mascotas");
   if (mascotas.length > 0) {
@@ -128,13 +129,13 @@ export function actualizarDOM() {
       var mascota = childSnapshot.val();
       mascotas.push(mascota);
     });
-
+    //preparamos el cod Mascota para la posible insercción.
     mascotas.forEach((mascota) => {
       cod = (parseInt(mascota.cod) + 1).toString();
     });
   });
 
-
+  //parseamos la fecha a Date para ponerla en el DatePicker
   inputFecha.addEventListener("input", () => {
       console.log(inputFecha.value)
       var fechas = inputFecha.value.split("-");
@@ -149,19 +150,23 @@ export function actualizarDOM() {
       inputEdad.value = edadMascota;
 
   });
+  //si le da a 'Cancelar', le salta la lista de las mascotas
   bCancelar.addEventListener("click", function() {
     listaDOM();
   });
+  //si le da a 'aceptar', iniciará la función para guardar la Mascota en la BD
   bAnadir.addEventListener("click", function () {
     console.log(imagen.name)
     anadirMascota(imagen);
   });
-
+  //si el usuario pone una imagen en el InputFile, se pondrá en la parte superior (encima del nombre)
   inputImagen.addEventListener("change",function() {
     imagen = inputImagen.files[0];
     cambiarImagenArriba(inputImagen);
   });
 
+
+  //Al ser la primera pantalla, se comprueba si el usuario tiene solicitudes o notificaciones
   get(ref(database,`users/${getUID()}`)).then((snapshot) => {
     if(snapshot.exists()){
       var usuario_duenoBD = snapshot.val();
@@ -301,8 +306,8 @@ export function actualizarDOM() {
           [etiquetaAceptar, etiquetaCancelar]
       );
       }
-      if (snapshot.val().confirmacion != 0) {
-        if (snapshot.val().confirmacion === 1) {
+      if (snapshot.val().confirmacion != 0) { //con el 0 indicamos que el usuario no tiene notificaciones.
+        if (snapshot.val().confirmacion === 1) { //si el usuario tiene un 1, significa que ha sido rechazada.
           window.plugins.toast.showWithOptions(
             {
               message: "Solicitud Rechazada",
@@ -320,7 +325,7 @@ export function actualizarDOM() {
             sexo:usuario_duenoBD.sexo,
             solicitud:usuario_duenoBD.solicitud
           })
-        }else if (snapshot.val().confirmacion === 2){
+        }else if (snapshot.val().confirmacion === 2){ // si el usuario tiene un 2, significa que ha sico aceptada.
           window.plugins.toast.showWithOptions(
             {
               message: "Solicitud Aceptada",
@@ -328,6 +333,7 @@ export function actualizarDOM() {
               position: "bottom",
             },
           );
+          // le cambiamos la 'confirmación' a 0 para que no le salga todo el rato.
           set(ref(database, `users/${getUID()}`), {
             apellidos:usuario_duenoBD.apellidos,
             confirmacion:0,
@@ -344,6 +350,7 @@ export function actualizarDOM() {
   });
   }
 
+  //función para colocar la imagen que ponga el usuario en el InputFile encima del nombre
   function cambiarImagenArriba(imagenInput){
     if (document.getElementsByClassName("botonAceptar")[0]){
       var img = document.getElementsByClassName("fotoDetalleMascota")[0]
@@ -419,6 +426,7 @@ function alertDismissed() {
 }
 */
 
+//función para añadir la mascota en la BD, pasando como parametro el archivo del InputFile
 function anadirMascota(archivo) {
   console.log("SE EJECUTA ANADIR");
   const database = getDatabase();
@@ -427,7 +435,15 @@ function anadirMascota(archivo) {
   
   var nombre = document.getElementById("nombre").value;
   var raza = document.getElementById("raza").value;
-  var sexo = document.getElementById("inputGroupSelect02").value
+  var sexo = ""; 
+  var selectElement = document.getElementById("inputGroupSelect02");
+  var selectedOption = selectElement.options[selectElement.selectedIndex];
+  var contenidoOpcion = selectedOption.textContent;
+  if(contenidoOpcion == "Macho") {
+    sexo = "Macho"
+  }else if (contenidoOpcion == "Hembra"){
+    sexo = "Hembra"
+  }
   var dni = document.getElementById("dni").value;
   var nacimiento = nacimientoBD
 
@@ -461,7 +477,15 @@ function modificar() {
   var cod = document.getElementById("cod").value;
   var nombre = document.getElementById("nombre").value;
   var raza = document.getElementById("raza").value;
-  var sexo = document.getElementById("inputGroupSelect02").value
+  var sexo = ""; 
+  var selectElement = document.getElementById("inputGroupSelect02");
+  var selectedOption = selectElement.options[selectElement.selectedIndex];
+  var contenidoOpcion = selectedOption.textContent;
+  if(contenidoOpcion == "Macho") {
+    sexo = "Macho"
+  }else if (contenidoOpcion == "Hembra"){
+    sexo = "Hembra"
+  }
   var dni = document.getElementById("dni").value;
   var nacimiento = document.getElementById("nacimiento").value;
 
