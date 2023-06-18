@@ -45,10 +45,6 @@ export function generarDatosCuenta() {
         '<input class="camposTextoDatosMascota" name="contrasena" id="camposTextoUsuario" type="password" aria-describedby="emailHelp" placeholder="a"></input>'+
         '<label class="labelTituloCampos" for="">CONTRASEÑA</label>'+
      '</div>'+
-     '<div class="inputContainerUsuario">'+
-        '<input class="camposTextoDatosMascota" name="contrasenaConfirmar" id="camposTextoUsuario" type="password" aria-describedby="emailHelp" placeholder="a"></input>'+
-        '<label class="labelTituloCampos" for="">CONF. CONTRA</label>'+
-     '</div>'+
      '<div class="input-group mb-3">' +
       ' <select class="form-select" id="inputGroupSelect02" placeholder="Sexo">' +
       ' <option value="" disabled selected hidden>Seleccione su sexo</option>'+
@@ -78,10 +74,9 @@ export function generarDatosCuenta() {
   const dni = document.getElementsByName("dni").item(0);
   const email = document.getElementsByName("email").item(0);
   const contrasena = document.getElementsByName("contrasena").item(0);
-  const confirmarContra = document.getElementsByName("contrasenaConfirmar").item(0);
   var sexo = document.getElementById("inputGroupSelect02");
   buttonConfirmar.addEventListener("click", function(){
-    confirmar(db, nombre, apellidos, dni, email, contrasena, sexo, confirmarContra)
+    confirmar(db, nombre, apellidos, dni, email, contrasena, sexo)
   })
   document.addEventListener("backbutton", function(){generarPaginaUs()}, false);
 
@@ -95,7 +90,7 @@ export function generarDatosCuenta() {
     dni.value = usuario.dni;
     email.value = usuario.email;
     contrasena.value = usuario.contrasena;
-    if (usuario.sexo.includes("ujer")) {
+    if (usuario.sexo.includes("Mujer")) {
       sexo.selectedIndex = 2
     }else {
       sexo.selectedIndex = 1
@@ -105,7 +100,7 @@ export function generarDatosCuenta() {
 
 
 // funcion para aplicar los cambios que quiera hacer el usuario con sus datos
-function confirmar(db, nombre, apellidos, dni, email, contrasena, sexo, confirmarContra) {
+function confirmar(db, nombre, apellidos, dni, email, contrasena, sexo) {
   var selectElement = sexo
   var selectedOption = selectElement.options[selectElement.selectedIndex];
   var contenidoOpcion = selectedOption.textContent;
@@ -121,7 +116,7 @@ function confirmar(db, nombre, apellidos, dni, email, contrasena, sexo, confirma
     email.value != "" ||
     contrasena.value != "" ||
     confirmarContra.value != "" ||
-    sexo != "") && contrasena.value === confirmarContra.value)
+    sexo != ""))
     {
     get(ref(db, `users/${getUID()}`)).then((snapshot) => {
       var usuario = snapshot.val();
