@@ -75,19 +75,24 @@ export function actualizarDOM() { // función para mostrar la primera página tr
   '<input type="text" placeholder="a" readonly="" class="camposTextoDatosMascota" id="edad">' +
   '<label class="labelTituloCampos" for="">Edad</label>' +
   '</div>' +
-  '<div class="inputContainer">' +
-  '<input type="text" placeholder="a" class="camposTextoDatosMascota" id="raza">' +
-  '<label class="labelTituloCampos" for="">Raza Mascota</label>' +
-  '</div>' +
   '<div class="input-group mb-3">' +
-      ' <select class="form-select" id="inputGroupSelect02" placeholder="Sexo">' +
-      ' <option value="" disabled selected hidden>Seleccione su sexo</option>'+
-      ' <option value="1">Hombre</option>' +
-      ' <option value="2">Mujer</option>' +
-      " </select>" +
-      ' <label class="input-group-text" for="inputGroupSelect02">SEXO</label>' +
-  "</div>" +
- ' <div class="inputContainer">'+
+  '  <label class="input-group-text" for="inputGroupSelect01">Raza</label>' +
+  '  <select class="form-select" id="inputGroupSelect01">' +
+  '    <option selected>Choose...</option>' +
+  '    <option value="1">One</option>' +
+  '    <option value="2">Two</option>' +
+  '    <option value="3">Three</option>' +
+  '  </select>' +
+  '</div>'+
+  '<div class="input-group mb-3">' +
+  '  <label class="input-group-text" for="inputGroupSelect02">SEXO</label>' +
+  '  <select class="form-select" id="inputGroupSelect02" placeholder="Sexo">' +
+  '    <option value="" disabled selected hidden>Seleccione su sexo</option>' +
+  '    <option value="1">Hombre</option>' +
+  '    <option value="2">Mujer</option>' +
+  '  </select>' +
+  '</div>'+
+   ' <div class="inputContainer">'+
    '<input id="inputImagen" type="file" class="camposTextoDatosMascota"> '+
    '<label class="labelTituloCampos" for="">Imagen</label>' +
   '</div>'+

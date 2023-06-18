@@ -2312,7 +2312,7 @@ textarea.form-control-lg {
 .form-select {
   display: block;
   width: 100%;
-  padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+  padding: 0.375rem 0rem 0.375rem 0.75rem;
   -moz-padding-start: calc(0.75rem - 3px);
   font-size: 1rem;
   font-weight: 400;
@@ -2322,7 +2322,7 @@ textarea.form-control-lg {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
-  background-size: 16px 12px;
+  background-size: 12px 10px;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -2626,20 +2626,21 @@ textarea.form-control-lg {
 .input-group .btn:focus {
   z-index: 3;
 }
-
 .input-group-text {
   display: flex;
   align-items: center;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
+  padding: 0.1rem 0.4rem; /* Ajusta el padding horizontal según tus necesidades */
+  margin-top: 21px;
+  font-size: 0.75rem;
   font-weight: 400;
-  line-height: 1.5;
   color: #212529;
   text-align: center;
   white-space: nowrap;
-  background-color: #e9ecef;
+  background-color: #efe9ee;
   border: 1px solid #ced4da;
-  border-radius: 0.25rem;
+  border-radius: 0.1rem; /* Ajusta el border-radius según tus necesidades */
+  height: 2rem; /* Ajusta la altura según tus necesidades */
+
 }
 
 .input-group-lg > .form-control,

@@ -43,10 +43,8 @@ import {
         "</section>" +
       "</div>");
       mostrarDatos(pet);
-      document.addEventListener("backbutton", function(){listaDOM()});
-
-
   }
+  document.addEventListener("backbutton", function(){listaDOM()});
   }
 
   //función para mostrar cada campo de la pantalla (con los datos de la mascota)

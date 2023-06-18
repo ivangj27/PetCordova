@@ -212,8 +212,8 @@ function buscarMascotas(busqueda) {
 
       const petPhoto = document.createElement("img");
       const storageRef = ref2(getStorage(), "/" + pet.imagen);
-      petPhoto.width = "170";
-      petPhoto.height = "170";
+      petPhoto.width = "120";
+      petPhoto.height = "120";
 
       getDownloadURL(storageRef)
         .then((url) => {
