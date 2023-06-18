@@ -6,7 +6,7 @@ import {
   ref,
   get,
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-database.js";
-
+  
 import { generarPaginaUs } from "./paginaUsuario.js";
 import { getUID, mostrarToast } from "./index.js";
 

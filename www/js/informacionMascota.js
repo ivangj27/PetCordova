@@ -45,23 +45,7 @@ import {
       mostrarDatos(pet);
       document.addEventListener("backbutton", function(){listaDOM()});
 
-      const inputFecha = document.getElementById("nacimiento");
-      const inputEdad = document.getElementById("edad");
 
-      inputFecha.addEventListener("input", () => {
-        console.log(inputFecha.value)
-        var fechas = inputFecha.value.split("-");
-        console.log(fechas)
-        nacimientoBD = fechas[2]+"/"+fechas[1]+"/"+fechas[0];
-        console.log(nacimientoBD)
-        var cumple_date = new Date(inputFecha.value);
-        var edadDiff = Date.now() - cumple_date.getTime();
-        var edadDate = new Date(edadDiff);
-        const edadMascota = Math.abs(edadDate.getUTCFullYear() - 1970);
-  
-        inputEdad.value = edadMascota;
-  
-    });
   }
   }
 
@@ -88,10 +72,10 @@ import {
             imagenMascota.src = url;
           })
           .catch((error) => {
-            imagenMascota.src = 'img/icono_perro.png'
+            imagenMascota.src = './img/icono_perro.png'
           });
     }catch(error) {
-      imagenMascota.src = 'img/icono_perro.png'
+      imagenMascota.src = './img/icono_perro.png'
     }
     ventanaPrincipal.appendChild(imagenMascota);
 
@@ -190,6 +174,22 @@ import {
     divContenedorEdad.appendChild(edadLabel);
     divDatosMascota.appendChild(divContenedorEdad);
 
+    fechaNacimientoInput.addEventListener("input", () => {
+      console.log(fechaNacimientoInput.value)
+      var fechas = fechaNacimientoInput.value.split("-");
+      console.log(fechas)
+      nacimientoBD = fechas[2]+"/"+fechas[1]+"/"+fechas[0];
+      console.log(nacimientoBD)
+      var cumple_date = new Date(fechaNacimientoInput.value);
+      var edadDiff = Date.now() - cumple_date.getTime();
+      var edadDate = new Date(edadDiff);
+      const edadMascota = Math.abs(edadDate.getUTCFullYear() - 1970);
+
+      edadInput.value = edadMascota;
+
+  });
+
+
     // RAZA
     const divContenedorRaza = document.createElement("div");
     divContenedorRaza.classList.add("inputContainer");
@@ -266,7 +266,35 @@ import {
     divContenedorImagen.appendChild(imagenInput);
     divContenedorImagen.appendChild(imagenLabel);
     divDatosMascota.appendChild(divContenedorImagen);
+    
+    // INFORMACION CONTACTO USUARIO_DUEÑO
+    const divContenedorContacto = document.createElement("div");
+    divContenedorContacto.classList.add("inputContainer");
+    const contactoInput = document.createElement("input");
+    const contactoLabel = document.createElement("label");
+    contactoLabel.classList.add("labelTituloCampos");
+    contactoLabel.setAttribute("for","");
+    contactoLabel.textContent = "CONTACTO";
+    contactoInput.setAttribute("type", "text");
+    contactoInput.setAttribute("id","contactoMascota");
+    contactoInput.classList.add("camposTextoDatosMascota");
+    contactoInput.setAttribute("readonly","");
+    contactoInput.value = "NaN"
 
+    get(ref(getDatabase(), 'users')).then((snapshot) => {
+      var usuarios = Object.values(snapshot.val());
+      for (var usuario in usuarios) {
+         var usuarioObj = usuarios[usuario]
+         if (usuarioObj.dni == pet.dni) {
+            console.log(">> usuario encontrado"+usuarioObj.dni + " / "+pet.dni + " / "+usuarioObj.tlf)
+            contactoInput.value = usuarioObj.tlf;
+         }
+       }
+    });
+
+    divContenedorContacto.appendChild(contactoInput);
+    divContenedorContacto.appendChild(contactoLabel);
+    divDatosMascota.appendChild(divContenedorContacto);
 
     ventanaPrincipal.appendChild(divDatosMascota);
 
@@ -275,8 +303,10 @@ import {
     get(ref(db, `users/${getUID()}`)).then((snapshot) => {
       // Obtiene el objeto de datos del usuario
       var usuario = snapshot.val();
-      if (usuario.dni == pet.dni) {
+
+      if (usuario.dni == pet.dni || usuario.admin === true) {
         console.log(">> Mascota del Usuario");
+
         mostrarBotones(ventanaPrincipal, pet, imagenInput, imagenMascota);
       }
   

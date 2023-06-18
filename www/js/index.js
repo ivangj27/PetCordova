@@ -21,6 +21,7 @@ import { paginaRegistro } from "./registro.js";
 import { recuperacion } from "./restablecerContrasena.js";
 import { generarPaginaUs } from "./paginaUsuario.js";
 import { cargarLista, listaDOM } from "./listaInteractiva.js";
+import { cargarPantallaAdmin } from "./pantallaAdmin.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCBXo6m6nAiY8r3Oo35MT-Tp3rLrJpN0nA",
@@ -63,7 +64,6 @@ function restablecerVariables() {
   const botonInicio = document.getElementById("inicio");
   const botonPass = document.getElementById("resetPass");
   document.getElementById("resetPass").addEventListener("click", dialogConfirm);
-
   console.log("iniciado");
 
   // Listeners de los botones de inicio y registro
@@ -88,14 +88,25 @@ function iniciarSesion() {
       console.log("Sesión iniciada correctamente");
       auth.onAuthStateChanged((user) => {
         if (user) {
-          console.log(user)
-          // User logged in already or has just logged in.
           var id = user.uid;
+          console.log(user)
           setUID(id)
           recordarDatos();
-          insertarNavBar();
-          actualizarDOM();
-          mostrarToast("Inicio de sesión correcto");
+          get(ref(database, `users/${id}`)).then((snapshot) => {
+            var comprobarUsuario = snapshot.val();
+            console.log(comprobarUsuario.admin)
+            if (comprobarUsuario.admin === true) {
+                // PANTALLA ADMIN
+                cargarPantallaAdmin(database);
+                insertarNavBar(comprobarUsuario);
+            }else if (comprobarUsuario.admin === false) {
+              //PANTALLA USUARIO
+              actualizarDOM();
+              insertarNavBar(comprobarUsuario);
+            }
+            mostrarToast("Inicio de sesión correcto");
+          });
+          
         }
       });
     })
@@ -181,60 +192,85 @@ export function restablecerDOM() {
 }
 
 //Inserta la barra de navegación inferior en la app
-function insertarNavBar() {
+function insertarNavBar(comprobarUsuario) {
   const seccion = document.getElementById("contenido");
-  seccion.insertAdjacentHTML(
-    "afterend",
-    '<footer id="navegacion">' +
-    '<nav class="navbar fixed-bottom navbar-light justify-content-center navbar-custom ">' +
-        '<div class="container" id="barraNavContent">' +
-            '<a class="navbar-brand" id="botonLista">' +
-                '<i class="fas fa-search" id="iconoLista"></i>' +
-            '</a>' +
-            '<a class="navbar-brand" id="botonCRUD">' +
-                '<i class="fa-solid fa-paw" id="iconoCRUD"></i>'+
-            '</a>' +
-            '<a class="navbar-brand" id="botonUsuario">' +
-                '<img src="./assets/images/user_black.png" alt="Usuario" id="iconoUsuario" width="30" height="24">' +
-            '</a>' +
-        '</div>' +
-    '</nav>' +
-'</footer>'
-  );
-  const botonLista = document.getElementById("botonLista");
-  const botonUsuario = document.getElementById("botonUsuario");
-  const botonCRUD = document.getElementById("botonCRUD");
-  const imagenUsuario = document.getElementById("iconoUsuario");
-  const imagenCRUD = document.getElementById("iconoCRUD");
-  imagenCRUD.setAttribute("style","color: white");
-  const imagenLista = document.getElementById("iconoLista");
-  
-  //función para el icono de usuario, para mostrar la pantalla del usuario
-  botonUsuario.addEventListener("click", function(e){
-    imagenUsuario.src = "./assets/images/user_white.png"
-    imagenCRUD.setAttribute("style","color: black")
-    imagenLista.setAttribute("style","color: black")
-    generarPaginaUs();
-    window.scrollTo(0,0);
-  })
+  if (comprobarUsuario.admin === false) {
+    seccion.insertAdjacentHTML(
+      "afterend",
+      '<footer id="navegacion">' +
+      '<nav class="navbar fixed-bottom navbar-light justify-content-center navbar-custom ">' +
+          '<div class="container" id="barraNavContent">' +
+              '<a class="navbar-brand" id="botonLista">' +
+                  '<i class="fas fa-search" id="iconoLista"></i>' +
+              '</a>' +
+              '<a class="navbar-brand" id="botonCRUD">' +
+                  '<i class="fa-solid fa-paw" id="iconoCRUD"></i>'+
+              '</a>' +
+              '<a class="navbar-brand" id="botonUsuario">' +
+                  '<img src="./assets/images/user_black.png" alt="Usuario" id="iconoUsuario" width="30" height="24">' +
+              '</a>' +
+          '</div>' +
+      '</nav>' +
+      '</footer>'
+    );
+    const botonLista = document.getElementById("botonLista");
+    const botonUsuario = document.getElementById("botonUsuario");
+    const botonCRUD = document.getElementById("botonCRUD");
+    const imagenUsuario = document.getElementById("iconoUsuario");
+    const imagenCRUD = document.getElementById("iconoCRUD");
+    imagenCRUD.setAttribute("style","color: white");
+    const imagenLista = document.getElementById("iconoLista");
+    
+    //función para el icono de usuario, para mostrar la pantalla del usuario
+    botonUsuario.addEventListener("click", function(e){
+      imagenUsuario.src = "./assets/images/user_white.png"
+      imagenCRUD.setAttribute("style","color: black")
+      imagenLista.setAttribute("style","color: black")
+      generarPaginaUs();
+      window.scrollTo(0,0);
+    })
 
-  //función para el icono de la lista, para mostrar la lista de las mascotas de la BD
-  botonLista.addEventListener("click", function(e){
-    imagenUsuario.src = "./assets/images/user_black.png"
-    imagenCRUD.setAttribute("style","color: black")
-    imagenLista.setAttribute("style","color: white")
-    listaDOM();
-    window.scrollTo(0,0);
-  })
+    //función para el icono de la lista, para mostrar la lista de las mascotas de la BD
+    botonLista.addEventListener("click", function(e){
+      imagenUsuario.src = "./assets/images/user_black.png"
+      imagenCRUD.setAttribute("style","color: black")
+      imagenLista.setAttribute("style","color: white")
+      listaDOM();
+      window.scrollTo(0,0);
+    })
 
-  //función para el icono de la huella, que es para mostrar la pantalla para añadir una nueva mascota.
-  botonCRUD.addEventListener("click", function(e){
-    imagenUsuario.src = "./assets/images/user_black.png"
-    imagenCRUD.setAttribute("style","color: white")
-    imagenLista.setAttribute("style","color: black")
-    actualizarDOM();
-    window.scrollTo(0,0);
-  })
+    //función para el icono de la huella, que es para mostrar la pantalla para añadir una nueva mascota.
+    botonCRUD.addEventListener("click", function(e){
+      imagenUsuario.src = "./assets/images/user_black.png"
+      imagenCRUD.setAttribute("style","color: white")
+      imagenLista.setAttribute("style","color: black")
+      actualizarDOM();
+      window.scrollTo(0,0);
+    })
+
+  }else if (comprobarUsuario.admin === true) {
+    seccion.insertAdjacentHTML(
+      "afterend",
+      '<footer id="navegacion">' +
+      '<nav class="navbar fixed-bottom navbar-light justify-content-center navbar-custom ">' +
+          '<div class="container" id="barraNavContentAdmin">' +
+              '<a class="navbar-brand" id="botonAdmin">' +
+                  '<i class="fa-solid fa-paw" id="iconoCRUD"></i>'+
+              '</a>' +
+          '</div>' +
+      '</nav>' +
+      '</footer>'
+    );
+
+    const botonAdmin = document.getElementById("botonAdmin")
+    const iconoAdmin = document.getElementById("iconoCRUD");
+    iconoAdmin.setAttribute("style","color: white")
+    
+    botonAdmin.addEventListener("click",function(){
+      cargarPantallaAdmin(database);
+      window.scrollTo(0,0);
+    });
+  }
 }
 
 //función para establecer el UID del usuario (la PK de usuarios)

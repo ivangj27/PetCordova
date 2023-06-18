@@ -9,6 +9,7 @@ import {
   getStorage,
   ref as ref2,
   uploadBytes,
+  getDownloadURL,
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";//importamos una funcion específica para guardar las imágenes
 import { listaDOM } from "./listaInteractiva.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
@@ -55,7 +56,7 @@ export function actualizarDOM() { // función para mostrar la primera página tr
   seccion.insertAdjacentHTML(
     "afterbegin",
     '<div><section id="infoMascota"><article class="ventanaDatosMascota">' +
-  '<img class="fotoDetalleMascota" src="img/icono_perro.png" width="170" height="200">' +
+  '<img class="fotoDetalleMascota" src="" width="170" height="200">' +
   '<div class="divDatosMascota">' +
   '<div class="inputContainer">' +
   '<input type="text" class="camposTextoDatosMascota" id="nombre" placeholder="a">' +
@@ -112,6 +113,10 @@ export function actualizarDOM() { // función para mostrar la primera página tr
     }
   }*/
 
+  const fotoMascota = document.getElementsByClassName("fotoDetalleMascota").item(0);
+  getDownloadURL(ref2(getStorage(),"default/icono_perro.png")).then((url) => {
+    fotoMascota.src = url;
+  });
   const bAnadir = document.getElementById("botonAceptar");
   const bCancelar = document.getElementById("botonCancelar");
   const inputEdad = document.getElementById("edad");

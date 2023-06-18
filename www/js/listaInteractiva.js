@@ -116,10 +116,14 @@ export function cargarLista() {
           })
           .catch((error) => {
             console.error("Error al obtener la URL de descarga:", error);
-            petPhoto.src = 'img/icono_perro.png'
+            getDownloadURL(ref2(getStorage(),"default/icono_perro.png")).then((url) => {
+              petPhoto.src = url;
+            });
           });
         }catch(error) {
-          petPhoto.src = 'img/icono_perro.png'
+          getDownloadURL(ref2(getStorage(),"default/icono_perro.png")).then((url) => {
+            petPhoto.src = url;
+          });
         }
         petPhotoFrame.appendChild(petPhoto);
 
