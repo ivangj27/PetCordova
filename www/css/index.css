@@ -257,6 +257,12 @@ h1 {
     margin-bottom: 50px;
     border-radius:50%;
   }
+  #imagenAdmin{
+    width: 100px;
+    position: relative;
+    margin-bottom: 50px;
+    margin-left: 2%;
+  }
   #nombreUsuario{
     margin-bottom: 40px;
   }
@@ -270,4 +276,10 @@ h1 {
   }
   #barraNavContent{
     margin: 0 10px 0 10px;
+  }
+  #barraNavContentAdmin{
+    margin: 0 10px 0 10px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
   }

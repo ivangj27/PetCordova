@@ -72,10 +72,10 @@ import {
             imagenMascota.src = url;
           })
           .catch((error) => {
-            imagenMascota.src = 'img/icono_perro.png'
+            imagenMascota.src = './img/icono_perro.png'
           });
     }catch(error) {
-      imagenMascota.src = 'img/icono_perro.png'
+      imagenMascota.src = './img/icono_perro.png'
     }
     ventanaPrincipal.appendChild(imagenMascota);
 
@@ -304,7 +304,7 @@ import {
       // Obtiene el objeto de datos del usuario
       var usuario = snapshot.val();
 
-      if (usuario.dni == pet.dni) {
+      if (usuario.dni == pet.dni || usuario.admin === true) {
         console.log(">> Mascota del Usuario");
 
         mostrarBotones(ventanaPrincipal, pet, imagenInput, imagenMascota);
