@@ -442,7 +442,9 @@ import {
               email: usuario_dueno.email,
               nombre:usuario_dueno.nombre,
               sexo:usuario_dueno.sexo,
-              solicitud:dni_sol +"/"+pet.cod
+              solicitud:dni_sol +"/"+pet.cod,
+              admin:usuario_dueno.admin,
+              tlf:usuario_dueno.tlf
             })
             console.log("SOLICITUD ENVIDADA")
           }

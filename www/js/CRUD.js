@@ -203,7 +203,8 @@ export function actualizarDOM() { // función para mostrar la primera página tr
                         nacimiento:petBD.nacimiento,
                         nombre:petBD.nombre,
                         raza:petBD.raza,
-                        sexo:petBD.sexo
+                        sexo:petBD.sexo,
+                        imagen:petBD.imagen
                       })
                     }
                   });
@@ -239,6 +240,7 @@ export function actualizarDOM() { // función para mostrar la primera página tr
                               var usuario = snapshot.val();
       
                               set(ref(database, `users/${uid_solicitante}`), {
+                                admin:usuario.admin,
                                 apellidos:usuario.apellidos,
                                 confirmacion:2,
                                 contrasena:usuario.contrasena,
@@ -246,7 +248,8 @@ export function actualizarDOM() { // función para mostrar la primera página tr
                                 email:usuario.email,
                                 nombre:usuario.nombre,
                                 sexo:usuario.sexo,
-                                solicitud:usuario.solicitud
+                                solicitud:usuario.solicitud,
+                                tlf:usuario.tlf
                               })
                             }
                           });
@@ -256,6 +259,7 @@ export function actualizarDOM() { // función para mostrar la primera página tr
                   });
                   // QUITAR SOLICITUD DUEÑO_ANTERIOR PARA QUE NO LE SALGA LA NOTIFICACION
                   set(ref(database,`users/${getUID()}`), {
+                    admin:usuario_duenoBD.admin,
                     apellidos:usuario_duenoBD.apellidos,
                     confirmacion:usuario_duenoBD.confirmacion,
                     contrasena:usuario_duenoBD.contrasena,
@@ -263,7 +267,8 @@ export function actualizarDOM() { // función para mostrar la primera página tr
                     email:usuario_duenoBD.email,
                     nombre:usuario_duenoBD.nombre,
                     sexo:usuario_duenoBD.sexo,
-                    solicitud:""
+                    solicitud:"",
+                    tlf:usuario_duenoBD.tlf
                   })
 
                   
@@ -271,6 +276,7 @@ export function actualizarDOM() { // función para mostrar la primera página tr
                   // Se hizo clic en el botón Cancelar
                   // MODIFICAR USUARIO_DUEÑO LA SOLICITUD EN ""
                   set(ref(database,`users/${getUID()}`), {
+                    admin:usuario_duenoBD.admin,
                     apellidos:usuario_duenoBD.apellidos,
                     confirmacion:usuario_duenoBD.confirmacion,
                     contrasena:usuario_duenoBD.contrasena,
@@ -278,7 +284,8 @@ export function actualizarDOM() { // función para mostrar la primera página tr
                     email:usuario_duenoBD.email,
                     nombre:usuario_duenoBD.nombre,
                     sexo:usuario_duenoBD.sexo,
-                    solicitud:""
+                    solicitud:"",
+                    tlf:usuario_duenoBD.tlf
                   })
                   // HACER LLEGAR AL USUARIO QUE LA SOLICITUD HA SIDO RECHAZADA
                   get(ref(database,"users")).then((snapshot) => {
@@ -295,6 +302,7 @@ export function actualizarDOM() { // función para mostrar la primera página tr
                               var usuario = snapshot.val();
       
                               set(ref(database, `users/${uid_solicitante}`), {
+                                admin:usuario.admin,
                                 apellidos:usuario.apellidos,
                                 confirmacion:1,
                                 contrasena:usuario.contrasena,
@@ -302,7 +310,8 @@ export function actualizarDOM() { // función para mostrar la primera página tr
                                 email:usuario.email,
                                 nombre:usuario.nombre,
                                 sexo:usuario.sexo,
-                                solicitud:usuario.solicitud
+                                solicitud:usuario.solicitud,
+                                tlf:usuario.tlf
                               })
                             }
                           });
@@ -326,6 +335,7 @@ export function actualizarDOM() { // función para mostrar la primera página tr
             },
           );
           set(ref(database, `users/${getUID()}`), {
+            admin:usuario_duenoBD.admin,
             apellidos:usuario_duenoBD.apellidos,
             confirmacion:0,
             contrasena:usuario_duenoBD.contrasena,
@@ -333,7 +343,8 @@ export function actualizarDOM() { // función para mostrar la primera página tr
             email:usuario_duenoBD.email,
             nombre:usuario_duenoBD.nombre,
             sexo:usuario_duenoBD.sexo,
-            solicitud:usuario_duenoBD.solicitud
+            solicitud:usuario_duenoBD.solicitud,
+            tlf:usuario_duenoBD.tlf
           })
         }else if (snapshot.val().confirmacion === 2){ // si el usuario tiene un 2, significa que ha sico aceptada.
           window.plugins.toast.showWithOptions(
@@ -345,6 +356,7 @@ export function actualizarDOM() { // función para mostrar la primera página tr
           );
           // le cambiamos la 'confirmación' a 0 para que no le salga todo el rato.
           set(ref(database, `users/${getUID()}`), {
+            admin:usuario_duenoBD.admin,
             apellidos:usuario_duenoBD.apellidos,
             confirmacion:0,
             contrasena:usuario_duenoBD.contrasena,
@@ -352,7 +364,8 @@ export function actualizarDOM() { // función para mostrar la primera página tr
             email:usuario_duenoBD.email,
             nombre:usuario_duenoBD.nombre,
             sexo:usuario_duenoBD.sexo,
-            solicitud:usuario_duenoBD.solicitud
+            solicitud:usuario_duenoBD.solicitud,
+            tlf:usuario_duenoBD.tlf
           })
         }
       }

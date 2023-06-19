@@ -136,7 +136,8 @@ function prueba() {
             sexo: sexo,
             confirmacion:0,
             solicitud:"",
-            admin:false
+            admin:false,
+            tlf:123456
           });
           restablecerDOM();
         })
