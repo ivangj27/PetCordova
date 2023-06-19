@@ -13,6 +13,7 @@ import {
   } from "./index.js";
 import { generarDatosCuenta } from "./datosCuenta.js";
 import { cargarLista } from "./listaInteractiva.js";
+import { listaUsuarios } from "./listaUsuarios.js";
 
   export function cargarPantallaAdmin(database) {
     const db = database;
@@ -52,7 +53,7 @@ import { cargarLista } from "./listaInteractiva.js";
           "</div>" +
           '<div class="list-group">' +
           '<button type="button" class="list-group-item list-group-item-action" id="botonDatos">' +
-          "Datos de mi cuenta" +
+          "MIS DATOS" +
           "</button>" +
           '<button id="mascotas" type="button" class="list-group-item list-group-item-action" aria-current="true">' +
           "MASCOTAS" +
@@ -106,7 +107,7 @@ import { cargarLista } from "./listaInteractiva.js";
         cargarLista();
       });
       botonUsuarios.addEventListener("click", function(){
-
+        listaUsuarios();
       });
       botonCerrarSesion.addEventListener("click", function() {
         cerrarSesion();

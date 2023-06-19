@@ -128,7 +128,9 @@ function confirmar(db, nombre, apellidos, dni, email, contrasena, sexo) {
         contrasena: contrasena.value,
         sexo: sexo,
         solicitud:usuario.solicitud,
-        confirmacion:usuario.confirmacion
+        confirmacion:usuario.confirmacion,
+        admin:usuario.admin,
+        tlf:usuario.tlf
       });
       mostrarToast("Cambios realizados correctamente")
     generarPaginaUs();

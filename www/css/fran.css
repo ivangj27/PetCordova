@@ -99,7 +99,7 @@ br{
     margin-bottom: 12px;
 }
 
-#mascotasList{
+#mascotasList, #usuariosList{
     margin: 1rem auto;
     width:100%;
     max-width:960px;
@@ -128,7 +128,7 @@ br{
     margin-bottom: 20px;
 }
 
-.elementoListaAnimales{
+.elementoListaAnimales, .elementoListaUsuarios{
     background:#fff;
     border-radius:5px;
     border:1px solid #ccc;
@@ -334,6 +334,16 @@ br{
     background-color: red;
     margin:5px;
     width: 100%;
+    height: 100%;
+  }
+  .botonEliminarUsuario{
+    background-color: red;
+    font-weight: 400;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 7px;
+    width: 30%;
     height: 100%;
   }
 

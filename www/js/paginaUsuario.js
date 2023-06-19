@@ -66,7 +66,6 @@ export function generarPaginaUs() {
     const userName = userData.nombre;
     nombreUsuario.innerHTML = userName;
   });
-
   //botón para cerrar sesión.
   botonCerrarSesion.addEventListener("click", () => {
     cerrarSesion();

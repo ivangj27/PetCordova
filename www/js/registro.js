@@ -135,7 +135,8 @@ function prueba() {
             dni: dni,
             sexo: sexo,
             confirmacion:0,
-            solicitud:""
+            solicitud:"",
+            admin:false
           });
           restablecerDOM();
         })
