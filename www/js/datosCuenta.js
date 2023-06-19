@@ -9,6 +9,7 @@ import {
   
 import { generarPaginaUs } from "./paginaUsuario.js";
 import { getUID, mostrarToast } from "./index.js";
+import { cargarPantallaAdmin } from "./pantallaAdmin.js";
 
 //función para mostra los datos de la cuenta de usuario.
 export function generarDatosCuenta() {
@@ -61,9 +62,7 @@ export function generarDatosCuenta() {
       "</div>"
   );
   const buttonConfirmar = document.getElementById("registro");
-  document.addEventListener("backbutton",function(){
-    generarPaginaUs()
-  })
+  
   //inserta los datos del user en los campos correspondientes
 
   const auth = getAuth();
@@ -83,7 +82,14 @@ export function generarDatosCuenta() {
   get(ref(db, `users/${getUID()}`)).then((snapshot) => {
     // Obtiene el objeto de datos del usuario
     var usuario = snapshot.val();
-
+    document.addEventListener("backbutton",function(){
+      if(usuario.admin === true){
+        cargarPantallaAdmin(db)
+      }else{
+        generarPaginaUs()
+      }
+      
+    },false)
     nombre.value = usuario.nombre;
     apellidos.value = usuario.apellidos;
     dni.value = usuario.dni;

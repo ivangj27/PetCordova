@@ -11,7 +11,7 @@ import {
 import { getUID
 } from "./index.js";
 import { cargarDatosMascota } from "./informacionMascota.js";
-
+import { generarPaginaUs } from "./paginaUsuario.js";
 //función para mostrar la página de 'Mis mascotas'
 export function paginaMisMascotas() {
     

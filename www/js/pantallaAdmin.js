@@ -36,7 +36,6 @@ import { listaUsuarios } from "./listaUsuarios.js";
       document.getElementById("divMascotasList").remove();
     }
   
-  
     // Me cargo todos los divs de la section
     divs.forEach((div) => {
       div.remove();
@@ -72,6 +71,7 @@ import { listaUsuarios } from "./listaUsuarios.js";
       const botonMascotas = document.getElementById("mascotas");
       const botonUsuarios = document.getElementById("usuarios");
       const botonCerrarSesion = document.getElementById("cerrarSesion");
+      
       get(ref(db,`users/${getUID()}`)).then((snapshot) => {
       if(snapshot.exists()){
         const usuario = snapshot.val();

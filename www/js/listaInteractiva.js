@@ -3,14 +3,14 @@ import {
   ref,
   get,
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-database.js";
-import { actualizarDOM } from "./CRUD.js";
 import { cargarDatosMascota } from "./informacionMascota.js";
 import {
   getStorage,
   ref as ref2,
   getDownloadURL,
 } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
-
+import { cargarPantallaAdmin } from "./pantallaAdmin.js";
+import { actualizarDOM } from "./CRUD.js";
 var mascotas = [];
 
 //función para cargar la pantalla de la lista de las Mascotas de la BD
@@ -54,7 +54,16 @@ export function listaDOM() {
   document.addEventListener(
     "backbutton",
     function () {
-      actualizarDOM();
+      var db = getDatabase()
+      get(ref(db, `users/${getUID()}`)).then((snapshot) => {
+        // Obtiene el objeto de datos del usuario
+        var usuario = snapshot.val();
+          if(usuario.admin === true){
+            cargarPantallaAdmin(db)
+          }else{
+            actualizarDOM()
+          }
+          })
     },
     false
   );
@@ -164,13 +173,6 @@ export function cargarLista() {
     .catch(function (error) {
       console.error(error);
     });
-  document.addEventListener(
-    "backbutton",
-    function () {
-      actualizarDOM();
-    },
-    false
-  );
 }
 
 //función para coger el filtro de búsqueda y recargar la página con las mascotas correspondientes. Lo hace a través del nombre y de la raza

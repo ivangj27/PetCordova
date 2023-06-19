@@ -4,6 +4,7 @@ import {
     get,
   } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-database.js";
 import { cargarDatosUsuario } from "./informacionUsuarioAdmin.js";
+import { cargarPantallaAdmin } from "./pantallaAdmin.js";
 
   var usuarios = [];
 
@@ -141,7 +142,7 @@ import { cargarDatosUsuario } from "./informacionUsuarioAdmin.js";
     document.addEventListener(
       "backbutton",
       function () {
-        actualizarDOM();
+        cargarPantallaAdmin(database);
       },
       false
     );
