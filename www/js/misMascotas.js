@@ -69,10 +69,16 @@ export function paginaMisMascotas() {
 
       // Filtrar las mascotas que coinciden con la búsqueda
       const mascotasFiltradas = mascotas.filter((pet) => {
-        return pet.dni.toLowerCase().includes(dniUsuario);
+        console.log(pet.dni)
+        console.log("DNI DE USUARIO: "+dniUsuario)
+        return pet.dni === dniUsuario; // Realiza la comparación sin toLowerCase()
       });
+      console.log("mascotasFiltradas: ", mascotasFiltradas);
+      console.log("mascotas: ", mascotas);
+      console.log("intenta generar")
 
       mascotasFiltradas.forEach((pet) => {
+        console.log("genera")
         // Crear un elemento para mostrar la mascota y agregar el resultado al contenedor
         const listItem = document.createElement("article");
         listItem.classList.add("elementoListaAnimales");
