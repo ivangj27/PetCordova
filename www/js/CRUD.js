@@ -77,7 +77,7 @@ export function actualizarDOM() { // función para mostrar la primera página tr
   '</div>' +
   '<div class="input-group mb-3">' +
   '  <label class="input-group-text" for="inputGroupSelect02">RAZA</label>' +
-  '  <select class="form-select" id="inputGroupSelect02" placeholder="Raza">' +
+  '  <select class="form-select" id="raza" placeholder="Raza">' +
   '    <option value="" disabled selected hidden>Seleccione una raza</option>' +
   '    <option value="Affenpinscher">Affenpinscher</option>' +
   '    <option value="Akita Inu">Akita Inu</option>' +
@@ -182,8 +182,8 @@ export function actualizarDOM() { // función para mostrar la primera página tr
   '  <label class="input-group-text" for="inputGroupSelect02">SEXO</label>' +
   '  <select class="form-select" id="inputGroupSelect02" placeholder="Sexo">' +
   '    <option value="" disabled selected hidden>Seleccione su sexo</option>' +
-  '    <option value="1">Hombre</option>' +
-  '    <option value="2">Mujer</option>' +
+  '    <option value="1">Macho</option>' +
+  '    <option value="2">Hembra</option>' +
   '  </select>' +
   '</div>'+
    ' <div class="inputContainer">'+
@@ -555,10 +555,10 @@ function anadirMascota(archivo) {
   var sexo = ""; 
   var selectElement = document.getElementById("inputGroupSelect02");
   var selectedOption = selectElement.options[selectElement.selectedIndex];
-  var contenidoOpcion = selectedOption.textContent;
-  if(contenidoOpcion == "Macho") {
+  var contenidoOpcion = document.getElementById("inputGroupSelect02").value;
+  if(contenidoOpcion == 1) {
     sexo = "Macho"
-  }else if (contenidoOpcion == "Hembra"){
+  }else if (contenidoOpcion == 2){
     sexo = "Hembra"
   }
   var dni = document.getElementById("dni").value;
