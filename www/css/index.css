@@ -45,7 +45,7 @@
 .slider {
   position: absolute;
   cursor: pointer;
-  top: 0;
+  top: 5px;
   left: 0;
   right: 0;
   bottom: 0;
@@ -241,6 +241,7 @@ h1 {
     box-sizing: border-box;
   }
   .fa-eye{
+    border-radius: 10px; /* Agrega esta línea */
     position: absolute;
     top: 35%;
     right: 18%;
