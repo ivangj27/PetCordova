@@ -12,6 +12,7 @@ import {
     getStorage,
     ref as ref2,
     getDownloadURL,
+    uploadBytes,
   } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
 
 
@@ -384,6 +385,7 @@ import {
               .then(() => {
                 console.log("Documento eliminado exitosamente.");
                 listaDOM();
+                window.scrollTo(0,0)
               })
               .catch((error) => {
                 console.error("Error eliminando el documento: ", error);
@@ -446,7 +448,7 @@ import {
               admin:usuario_dueno.admin,
               tlf:usuario_dueno.tlf
             })
-            console.log("SOLICITUD ENVIDADA")
+            mostrarToast("Solicitud enviada")
           }
         });
       })

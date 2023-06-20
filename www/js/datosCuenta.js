@@ -139,7 +139,13 @@ function confirmar(db, nombre, apellidos, dni, email, contrasena, sexo) {
         tlf:usuario.tlf
       });
       mostrarToast("Cambios realizados correctamente")
-    generarPaginaUs();
+      if(usuario.admin === true){
+        cargarPantallaAdmin(getDatabase())
+        window.scrollTo(0,0)
+      }else{
+        generarPaginaUs();
+        window.scrollTo(0,0)
+      }
     })
 
   }else{

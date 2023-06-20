@@ -90,18 +90,19 @@ import { cargarPantallaAdmin } from "./pantallaAdmin.js";
           listItem.appendChild(userPhotoFrame);
 
           const userPhoto = document.createElement("img");
-          userPhoto.width = "110";
-          userPhoto.height = "110";
+          userPhoto.width = "50";
+          userPhoto.height = "50";
           userPhoto.src = "./assets/images/admin.png"
           
           userPhotoFrame.appendChild(userPhoto);
 
           // Create the pet info element
           const userInfo = document.createElement("div");
+          userInfo.classList.add("cajaTextoListaUsuarios")
           listItem.appendChild(userInfo);
 
           // Create the pet name element
-          const userName = document.createElement("h3");
+          const userName = document.createElement("h4");
           userName.textContent = user.nombre;
           userInfo.appendChild(userName);
 
