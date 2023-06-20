@@ -275,10 +275,16 @@ export function actualizarDOM() { // función para mostrar la primera página tr
     if(snapshot.exists()){
       var usuario_duenoBD = snapshot.val();
       if(snapshot.val().solicitud.length != 0) {
+        var nombreMascota = "";
         var dni_dueno = snapshot.val().dni;
         var dni_solicitante = snapshot.val().solicitud.substring(0,9);
         var cod_pet = snapshot.val().solicitud.substring(10,snapshot.val().solicitud.length+1);
-        var mensaje = "Solicitud de "+dni_solicitante+ " para el codMascota "+cod_pet;
+        get(ref(database,`Mascotas/${cod_pet}`)).then((snapshot) => {
+          if(snapshot.val().nombre){
+            console.log(snapshot.val().nombre)
+            nombreMascota = snapshot.val().nombre
+          }
+          var mensaje = "Solicitud de "+dni_solicitante+ " para adopción de "+nombreMascota;
         var titulo = "SOLICITUD";
         var etiquetaAceptar = "Aceptar";
         var etiquetaCancelar = "Cancelar";
@@ -418,6 +424,8 @@ export function actualizarDOM() { // función para mostrar la primera página tr
           titulo,
           [etiquetaAceptar, etiquetaCancelar]
       );
+        })
+        
       }
       if (snapshot.val().confirmacion != 0) { //con el 0 indicamos que el usuario no tiene notificaciones.
         if (snapshot.val().confirmacion === 1) { //si el usuario tiene un 1, significa que ha sido rechazada.

@@ -79,7 +79,17 @@ import {
     ventanaPrincipal.appendChild(imagenMascota);
 
     //boton Adoptar
-    if (pet.adoptado != true) {
+    get(ref(database, `users/${getUID()}`)).then((snapshot) => {
+
+      var email = snapshot.val().email;
+        var imagen = imagenInput.files[0];
+        var imagenBD;
+        try{
+          imagenBD = email+"/"+imagen.name
+        }catch(error){
+          imagenBD = pet.imagen
+        }
+    if (pet.adoptado != true && snapshot.val().dni != pet.dni) {
       const divBotonAdoptar = document.createElement("div");
       divBotonAdoptar.classList.add("divBotonAdoptar");
       const botonAdoptar = document.createElement("button");
@@ -89,7 +99,7 @@ import {
       ventanaPrincipal.appendChild(divBotonAdoptar);
       botonAdoptar.addEventListener("click", function(){adoptarMascota(pet)})
     }
-
+  })
     const divDatosMascota = document.createElement("div");
     divDatosMascota.classList.add("divDatosMascota");
     const separacion = document.createElement("br");
