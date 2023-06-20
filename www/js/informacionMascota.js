@@ -44,8 +44,8 @@ import {
       "</div>");
       mostrarDatos(pet);
   }
-  document.addEventListener("backbutton", function(){listaDOM()});
   }
+  document.addEventListener("backbutton", function(){listaDOM()});
 
   //función para mostrar cada campo de la pantalla (con los datos de la mascota)
   function mostrarDatos(pet) {
@@ -185,7 +185,7 @@ import {
 
       edadInput.value = edadMascota;
 
-  });
+    });
 
 
     // RAZA
@@ -493,10 +493,10 @@ import {
       var sexo = "";
       var selectElement = document.getElementById("inputGroupSelect02");
       var selectedOption = selectElement.options[selectElement.selectedIndex];
-      var contenidoOpcion = selectedOption.textContent;
-      if (contenidoOpcion == "Macho") {
+      var contenidoOpcion = document.getElementById("inputGroupSelect02").value;
+      if (contenidoOpcion == 1) {
         sexo = "Macho"
-      }else if (sexo == "Hembra") {
+      }else if (contenidoOpcion == 2) {
         sexo = "Hembra"
       }
 

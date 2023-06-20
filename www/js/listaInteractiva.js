@@ -205,6 +205,7 @@ function buscarMascotas(busqueda) {
       // Crear un elemento para mostrar la mascota y agregar el resultado al contenedor
       const listItem = document.createElement("article");
       listItem.classList.add("elementoListaAnimales");
+      listItem.addEventListener("click", (event) => {cargarDatosMascota(pet)})
 
       const petPhotoFrame = document.createElement("button");
       petPhotoFrame.id = "fotoListaAnimales";
