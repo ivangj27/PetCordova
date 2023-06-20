@@ -167,6 +167,9 @@ export function restablecerDOM() {
   seccion.insertAdjacentHTML(
     "afterbegin",
     '<div>' +
+    '<div>'+
+        '<img src="./img/animalia icon.png" width="150px" style="margin-bottom: 30px; margin-left: 15px;">'+
+    '</div>'+
   '<div class="input-group mb-3">' +
   '<input type="text" id="email" class="form-control" placeholder="Usuario" aria-label="Username">' +
   '</div>' +
