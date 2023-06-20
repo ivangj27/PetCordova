@@ -12,6 +12,7 @@ import {
     getStorage,
     ref as ref2,
     getDownloadURL,
+    uploadBytes
   } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-storage.js";
 
 
@@ -480,13 +481,7 @@ import {
       console.log("SE EJECUTA MODIFICAR");
 
       //recogemos los datos de todos los campos y se lo aplicamos a la mascota
-      var imagen = imagenInput.files[0];
-      var imagenBD;
-      try{
-        imagenBD = email+"/"+imagen.name
-      }catch(error){
-        imagenBD = pet.imagen
-      }
+      
 
       var nacimientoRecogida = document.getElementById("nacimiento").value.split("-");
       var nacimientoString = nacimientoRecogida[2]+"/"+nacimientoRecogida[1]+"/"+nacimientoRecogida[0];
@@ -506,7 +501,13 @@ import {
       get(ref(database, `users/${getUID()}`)).then((snapshot) => {
         if (snapshot.exists()) {
           var email = snapshot.val().email;
-
+          var imagen = imagenInput.files[0];
+          var imagenBD;
+          try{
+            imagenBD = email+"/"+imagen.name
+          }catch(error){
+            imagenBD = pet.imagen
+          }
           get(mascotaRef).then((snapshot) => {
             if(snapshot.exists()) {
               set(mascotaRef, {
