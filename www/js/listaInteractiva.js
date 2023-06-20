@@ -85,7 +85,9 @@ export function listaDOM() {
 export function cargarLista() {
   console.log("Prueba Fran");
   const database = getDatabase();
-
+  if (document.getElementById("imagenAdmin")){
+    document.getElementById("imagenAdmin").remove();
+  }
   var mascotasRef = ref(database, "Mascotas");
 
   // lista de objetos de JavaScript

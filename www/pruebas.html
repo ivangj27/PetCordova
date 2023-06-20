@@ -20,17 +20,63 @@
 
 <body>
   <section class="app text-center" id="contenido">
-    <header style="text-align: center"><img id="imagenUs" src="./assets/images/rottweiler-ejemplo.jpg"></header>
     <div>
-        <h1 id="nombreUsuario">Paquito</h1>
+      <section id="infoMascota">
+        <article class="ventanaDatosMascota">
+          <img class="fotoDetalleMascota" src="" width="170" height="200">
+          <div class="divDatosMascota">
+            <div class="inputContainer">
+              <input type="text" class="camposTextoDatosMascota" id="nombre" placeholder="a">
+              <label class="labelTituloCampos" for="">Nombre Mascota</label>
+            </div>
+            <div class="inputContainer">
+              <input class="camposTextoDatosMascota" type="text" id="dni" placeholder="a">
+              <label class="labelTituloCampos" for="">DNI Dueño</label>
+            </div>
+            <br>
+            <div class="inputContainer">
+              <input class="camposTextoDatosMascota" type="date" id="nacimiento" placeholder="a">
+              <label class="labelTituloCampos" for="">Fecha Nacimiento</label>
+            </div>
+            <div class="inputContainer">
+              <input type="text" placeholder="a" readonly="" class="camposTextoDatosMascota" id="edad">
+              <label class="labelTituloCampos" for="">Edad</label>
+            </div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect02">RAZA</label>
+              <select class="form-select" id="raza" placeholder="Raza">
+                <option value="" disabled selected hidden>Seleccione una raza</option>
+                <option value="Affenpinscher">Affenpinscher</option>
+                <option value="Akita Inu">Akita Inu</option>
+                <option value="Alaskan Malamute">Alaskan Malamute</option>
+                <!-- Resto de las opciones de raza -->
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect02">SEXO</label>
+              <select class="form-select" id="inputGroupSelect02" placeholder="Sexo">
+                <option value="" disabled selected hidden>Seleccione su sexo</option>
+                <option value="1">Macho</option>
+                <option value="2">Hembra</option>
+              </select>
+            </div>
+            <div class="inputContainer">
+              <input id="inputImagen" type="file" class="camposTextoDatosMascota">
+              <label class="labelTituloCampos" for="">Imagen</label>
+            </div>
+          </div>
+          <div class="divBotones">
+            <div class="divBotonAceptar">
+              <button class="botonAceptar" id="botonAceptar">ACEPTAR MASCOTA</button>
+            </div>
+            <div class="divBotonCancelar">
+              <button class="botonCancelar" id="botonCancelar">CANCELAR MASCOTA</button>
+            </div>
+          </div>
+        </article>
+      </section>
     </div>
-    <div class="list-group">
-        <button type="button" class="list-group-item list-group-item-action" aria-current="true">
-          Mis mascotas
-        </button>
-        <button type="button" class="list-group-item list-group-item-action">Datos de mi cuenta</button>
-        <button type="button" class="list-group-item list-group-item-action" id="cerrarSesion">Cerrar sesión<img id="imagenSalir" src="assets/images/leave.png"></button>
-      </div>
+    
   </section>
   <footer id="navegacion">
     <nav class="navbar fixed-bottom navbar-light justify-content-center navbar-custom ">

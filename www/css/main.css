@@ -2630,7 +2630,9 @@ textarea.form-control-lg {
   display: flex;
   align-items: center;
   padding: 0.1rem 0.4rem; /* Ajusta el padding horizontal según tus necesidades */
-  margin-top: 21px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin-top: 20px;
   font-size: 0.75rem;
   font-weight: 400;
   color: #212529;
